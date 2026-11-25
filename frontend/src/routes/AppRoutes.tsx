@@ -7,12 +7,14 @@ import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
 import { ProfilePage } from '../pages/ProfilePage';
 import { AssistanceBrowsePage } from '../pages/AssistanceBrowsePage';
+import { BusinessHubPage } from '../pages/BusinessHubPage';
 import { AssistanceRequestPage } from '../pages/AssistanceRequestPage';
 import { MyRequestsPage } from '../pages/MyRequestsPage';
 import { DonorDashboardPage } from '../pages/DonorDashboardPage';
 import { MyDonationsPage } from '../pages/MyDonationsPage';
 import { NetworkPage } from '../pages/NetworkPage';
 import { MessagesPage } from '../pages/MessagesPage';
+import { NotificationsPage } from '../pages/NotificationsPage';
 import { AdminDashboardPage } from '../pages/AdminDashboardPage';
 import { ProtectedRoute } from './ProtectedRoute';
 import { AdminRoute } from './AdminRoute';
@@ -25,6 +27,7 @@ export const AppRoutes: React.FC = () => {
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="initiatives" element={<AssistanceBrowsePage />} />
+        <Route path="business-hub" element={<BusinessHubPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
 
@@ -37,6 +40,7 @@ export const AppRoutes: React.FC = () => {
           <Route path="my-donations" element={<MyDonationsPage />} />
           <Route path="network" element={<NetworkPage />} />
           <Route path="messages" element={<MessagesPage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
         </Route>
 
         {/* Admin Exclusive Routes */}

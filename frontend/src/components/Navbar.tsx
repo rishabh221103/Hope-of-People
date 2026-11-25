@@ -16,7 +16,10 @@ import {
   Home,
   Users,
   MessageSquare,
+  Briefcase,
+  Bell,
 } from 'lucide-react';
+import { NotificationDropdown } from './NotificationDropdown';
 import { connectionService } from '../services/connectionService';
 import { messageService } from '../services/messageService';
 
@@ -107,6 +110,10 @@ export const Navbar: React.FC = () => {
             </Link>
             <Link to="/about" className={`nav-link ${isActive('/about') ? 'active' : ''}`}>
               About
+            </Link>
+            <Link to="/business-hub" className={`nav-link ${isActive('/business-hub') ? 'active' : ''}`}>
+              <Briefcase size={16} style={{ display: 'inline', marginRight: 4 }} />
+              Business Hub
             </Link>
 
             {/* Donor Links */}
@@ -243,6 +250,7 @@ export const Navbar: React.FC = () => {
           <div className="navbar-desktop-auth">
             {isAuthenticated ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <NotificationDropdown />
                 <Link to="/profile" className="btn btn-outline btn-sm">
                   <User size={15} />
                   <span>{user?.fullName || 'Profile'}</span>
@@ -298,6 +306,14 @@ export const Navbar: React.FC = () => {
           >
             <Info size={18} />
             <span>About HOP</span>
+          </Link>
+          <Link
+            to="/business-hub"
+            className={`nav-link ${isActive('/business-hub') ? 'active' : ''}`}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <Briefcase size={18} />
+            <span>Business Hub</span>
           </Link>
 
           {/* Donor Links */}
@@ -414,6 +430,18 @@ export const Navbar: React.FC = () => {
                   {unreadMessages} new
                 </span>
               )}
+            </Link>
+          )}
+
+          {/* Authenticated Notifications Link in Drawer */}
+          {isAuthenticated && (
+            <Link
+              to="/notifications"
+              className={`nav-link ${isActive('/notifications') ? 'active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Bell size={18} />
+              <span>Notifications</span>
             </Link>
           )}
 
