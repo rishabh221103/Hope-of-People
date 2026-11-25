@@ -8,6 +8,7 @@ import com.hop.assistance.entity.AssistanceRequest;
 import com.hop.assistance.repository.AssistanceRequestRepository;
 import com.hop.common.enums.RequestStatus;
 import com.hop.common.exception.ResourceNotFoundException;
+import com.hop.notification.service.NotificationService;
 import com.hop.user.dto.UserProfileResponse;
 import com.hop.user.entity.Role;
 import com.hop.user.entity.User;
@@ -32,6 +33,7 @@ public class AdminService {
 
     private final UserRepository userRepository;
     private final AssistanceRequestRepository assistanceRequestRepository;
+    private final NotificationService notificationService;
 
     @Transactional(readOnly = true)
     public Page<UserProfileResponse> getAllUsers(int page, int size) {
@@ -80,6 +82,20 @@ public class AdminService {
 
         AssistanceRequest saved = assistanceRequestRepository.save(assistanceRequest);
         log.info("Assistance request ID {} status updated to: {}", saved.getId(), saved.getStatus());
+
+        if (saved.getUser() != null) {
+            boolean approved = RequestStatus.APPROVED.name().equalsIgnoreCase(saved.getStatus());
+            notificationService.createNotification(
+                    saved.getUser(),
+                    approved ? "Assistance Request Approved!" : "Assistance Request Status Updated",
+                    approved ? "Your request '" + saved.getTitle() + "' was approved and is now live on the public feed."
+                            : "Your request '" + saved.getTitle() + "' was marked as " + saved.getStatus().toLowerCase() + ".",
+                    "REQUEST_" + saved.getStatus(),
+                    saved.getId(),
+                    "/my-requests"
+            );
+        }
+
         return mapToAssistanceResponse(saved);
     }
 

@@ -9,6 +9,7 @@ import com.hop.common.exception.BadRequestException;
 import com.hop.common.exception.ResourceNotFoundException;
 import com.hop.connection.entity.UserConnection;
 import com.hop.connection.repository.UserConnectionRepository;
+import com.hop.notification.service.NotificationService;
 import com.hop.user.entity.User;
 import com.hop.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class ChatService {
     private final ChatMessageRepository chatRepository;
     private final UserRepository userRepository;
     private final UserConnectionRepository connectionRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public ChatMessageResponse sendMessage(String senderEmail, SendMessageRequest request) {
@@ -60,6 +62,19 @@ public class ChatService {
 
         ChatMessage saved = chatRepository.save(message);
         log.info("Chat message sent: from user {} to user {}", sender.getId(), recipient.getId());
+
+        String snippet = request.getContent().trim();
+        if (snippet.length() > 60) {
+            snippet = snippet.substring(0, 57) + "...";
+        }
+        notificationService.createNotification(
+                recipient,
+                "New Message from " + sender.getFullName(),
+                snippet,
+                "DIRECT_MESSAGE",
+                sender.getId(),
+                "/messages"
+        );
 
         return mapToResponse(saved, sender.getId());
     }

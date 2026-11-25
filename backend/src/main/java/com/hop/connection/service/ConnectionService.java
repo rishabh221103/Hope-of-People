@@ -7,6 +7,7 @@ import com.hop.connection.dto.ConnectionResponse;
 import com.hop.connection.dto.ConnectionStatusResponse;
 import com.hop.connection.entity.UserConnection;
 import com.hop.connection.repository.UserConnectionRepository;
+import com.hop.notification.service.NotificationService;
 import com.hop.user.entity.User;
 import com.hop.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class ConnectionService {
 
     private final UserConnectionRepository connectionRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public ConnectionStatusResponse sendConnectionRequest(String requesterEmail, Long receiverId) {
@@ -53,6 +55,14 @@ public class ConnectionService {
                     existing.setStatus("ACCEPTED");
                     existing.setUpdatedAt(Instant.now());
                     UserConnection accepted = connectionRepository.save(existing);
+                    notificationService.createNotification(
+                            existing.getRequester(),
+                            "Connection Accepted",
+                            requester.getFullName() + " connected with you.",
+                            "CONNECTION_ACCEPTED",
+                            requester.getId(),
+                            "/network"
+                    );
                     return ConnectionStatusResponse.builder()
                             .targetUserId(receiverId)
                             .connectionId(accepted.getId())
@@ -86,6 +96,15 @@ public class ConnectionService {
         UserConnection saved = connectionRepository.save(connection);
         log.info("Connection request sent: from user {} to user {}", requester.getId(), receiver.getId());
 
+        notificationService.createNotification(
+                receiver,
+                "New Connection Request",
+                requester.getFullName() + " sent you a connection request.",
+                "CONNECTION_REQUEST",
+                requester.getId(),
+                "/network"
+        );
+
         return ConnectionStatusResponse.builder()
                 .targetUserId(receiverId)
                 .connectionId(saved.getId())
@@ -115,6 +134,15 @@ public class ConnectionService {
         connection.setUpdatedAt(Instant.now());
         UserConnection updated = connectionRepository.save(connection);
         log.info("Connection request accepted: connection ID {}", connectionId);
+
+        notificationService.createNotification(
+                connection.getRequester(),
+                "Connection Accepted",
+                user.getFullName() + " accepted your connection request.",
+                "CONNECTION_ACCEPTED",
+                user.getId(),
+                "/network"
+        );
 
         return mapToResponse(updated);
     }

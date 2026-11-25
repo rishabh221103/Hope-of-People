@@ -47,6 +47,8 @@ public class SecurityConfig {
                                 "/api/v1/auth/**",
                                 "/api/v1/assistance/public",
                                 "/api/v1/stories/active",
+                                "/api/v1/business-hub/campaigns",
+                                "/api/v1/business-hub/campaigns/*",
                                 "/api/v1/documents/download/**",
                                 "/api/v1/documents/request/**",
                                 "/api/v1/donations/request/**",

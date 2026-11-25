@@ -9,6 +9,7 @@ import com.hop.donation.dto.CreateDonationRequest;
 import com.hop.donation.dto.DonationResponse;
 import com.hop.donation.entity.Donation;
 import com.hop.donation.repository.DonationRepository;
+import com.hop.notification.service.NotificationService;
 import com.hop.user.entity.User;
 import com.hop.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class DonationService {
     private final DonationRepository donationRepository;
     private final AssistanceRequestRepository assistanceRequestRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public DonationResponse processDonation(String donorEmail, CreateDonationRequest request) {
@@ -86,6 +88,18 @@ public class DonationService {
 
         Donation saved = donationRepository.save(donation);
         log.info("Donation processed successfully with ID {} and transaction reference {}", saved.getId(), transactionRef);
+
+        if (assistanceRequest.getUser() != null) {
+            notificationService.createNotification(
+                    assistanceRequest.getUser(),
+                    "Donation Received!",
+                    donor.getFullName() + " contributed $" + request.getAmount() + " towards: " + assistanceRequest.getTitle(),
+                    "DONATION_RECEIVED",
+                    assistanceRequest.getId(),
+                    "/my-requests"
+            );
+        }
+
         return mapToResponse(saved);
     }
 

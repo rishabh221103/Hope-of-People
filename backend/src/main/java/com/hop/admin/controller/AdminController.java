@@ -45,7 +45,7 @@ public class AdminController {
         return ResponseEntity.ok(ApiResponse.success("Assistance review queue retrieved successfully.", requests));
     }
 
-    @PatchMapping("/assistance/{id}/review")
+    @RequestMapping(value = "/assistance/{id}/review", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<ApiResponse<AssistanceResponse>> reviewAssistanceRequest(
             @PathVariable Long id,
             @Valid @RequestBody ReviewAssistanceRequest request) {
