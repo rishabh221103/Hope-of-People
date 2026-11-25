@@ -50,6 +50,21 @@ public class AssistanceController {
         return ResponseEntity.ok(ApiResponse.success("Approved initiatives retrieved successfully.", approvedRequests));
     }
 
+    @GetMapping("/nearby")
+    public ResponseEntity<ApiResponse<List<AssistanceResponse>>> getNearbyInitiatives(
+            @RequestParam(required = false) Double latitude,
+            @RequestParam(required = false) Double longitude,
+            @RequestParam(defaultValue = "25.0") Double radiusKm,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String postalCode,
+            @RequestParam(required = false) String category,
+            @AuthenticationPrincipal UserPrincipal currentUser) {
+        String viewerEmail = (currentUser != null) ? currentUser.getUsername() : null;
+        List<AssistanceResponse> nearby = assistanceService.getNearbyInitiatives(
+                latitude, longitude, radiusKm, city, postalCode, category, viewerEmail);
+        return ResponseEntity.ok(ApiResponse.success("Nearby assistance initiatives retrieved successfully.", nearby));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<AssistanceResponse>> getRequestById(
             @PathVariable Long id,

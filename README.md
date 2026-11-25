@@ -119,6 +119,14 @@ HOP/
    - Performance tuning, database query optimization, and logging configuration.
    - Containerization and CI/CD workflow automation.
 
+6. **Recent Specification Phases (Functional Roadmap)**
+   - **Phase 18:** Dignity & Privacy Protocols (Anonymous toggle, consent checkboxes, category restructuring)
+   - **Phase 19:** User Connect System (Mutual aid connections, discover community directory)
+   - **Phase 20:** Direct Messaging System (Real-time private chat, unread counters, role badges)
+   - **Phase 21:** Business Hub & Micro-Grants (Equipment lists, roadmap milestones, mentor backing)
+   - **Phase 22:** Real-Time Notification Center (Navbar dropdown bell, activity stream, 1-click navigation)
+   - **Phase 23:** Geographic Proximity Matching (Haversine spatial algorithm, "Causes Near Me" radius filter)
+
 ---
 
 ## 5. Security & Contribution Guidelines

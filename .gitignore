@@ -122,3 +122,23 @@ nbdist/
 ehthumbs.db
 Thumbs.db
 Desktop.ini
+
+# Uploaded user documents and media
+/backend/uploads/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Frontend dependencies
+/frontend/node_modules/
+
+/frontend/dist/
+
+# Backend build files
+/backend/target/
+
+# IDE files
+.idea/
+.vscode/

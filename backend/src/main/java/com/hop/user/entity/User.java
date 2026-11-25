@@ -35,6 +35,25 @@ public class User {
     @Column(length = 20)
     private String phone;
 
+    @Column(length = 100)
+    private String city;
+
+    @Column(length = 100)
+    private String state;
+
+    @Column(name = "postal_code", length = 30)
+    private String postalCode;
+
+    @Builder.Default
+    @Column(length = 100)
+    private String country = "USA";
+
+    @Column
+    private Double latitude;
+
+    @Column
+    private Double longitude;
+
     @Builder.Default
     @Column(nullable = false, length = 30)
     private String status = "ACTIVE";

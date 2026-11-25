@@ -29,6 +29,13 @@ public class AssistanceResponse {
     private Boolean isAnonymous;
     private Boolean consentGiven;
     private Boolean isDirectDonorOrAdmin;
+    private String city;
+    private String state;
+    private String postalCode;
+    private String country;
+    private Double latitude;
+    private Double longitude;
+    private Double distanceKm;
     private Instant createdAt;
     private Instant updatedAt;
     private List<DocumentResponse> documents;

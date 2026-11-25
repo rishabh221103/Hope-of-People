@@ -38,4 +38,16 @@ public class CreateAssistanceRequest {
     private Boolean isAnonymous;
 
     private Boolean consentGiven;
+
+    private String city;
+
+    private String state;
+
+    private String postalCode;
+
+    private String country;
+
+    private Double latitude;
+
+    private Double longitude;
 }

@@ -73,6 +73,25 @@ public class AssistanceRequest {
     @Column(name = "story_urgency_tag", length = 100)
     private String storyUrgencyTag;
 
+    @Column(length = 100)
+    private String city;
+
+    @Column(length = 100)
+    private String state;
+
+    @Column(name = "postal_code", length = 30)
+    private String postalCode;
+
+    @Builder.Default
+    @Column(length = 100)
+    private String country = "USA";
+
+    @Column
+    private Double latitude;
+
+    @Column
+    private Double longitude;
+
     @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
 

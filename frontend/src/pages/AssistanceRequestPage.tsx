@@ -17,6 +17,8 @@ import {
   Shield,
   EyeOff,
   Lock,
+  MapPin,
+  Crosshair,
 } from 'lucide-react';
 
 export const AssistanceRequestPage: React.FC = () => {
@@ -31,6 +33,37 @@ export const AssistanceRequestPage: React.FC = () => {
   const [priority, setPriority] = useState<'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT'>('MEDIUM');
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [consentGiven, setConsentGiven] = useState(true);
+
+  // Geographic Location States
+  const [city, setCity] = useState('');
+  const [stateName, setStateName] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [latitude, setLatitude] = useState<number | undefined>(undefined);
+  const [longitude, setLongitude] = useState<number | undefined>(undefined);
+  const [locDetecting, setLocDetecting] = useState(false);
+  const [locDetectedMsg, setLocDetectedMsg] = useState<string | null>(null);
+
+  const handleDetectLocation = () => {
+    if (!navigator.geolocation) {
+      setLocDetectedMsg('Geolocation not supported by your browser.');
+      return;
+    }
+    setLocDetecting(true);
+    setLocDetectedMsg(null);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setLatitude(pos.coords.latitude);
+        setLongitude(pos.coords.longitude);
+        setLocDetecting(false);
+        setLocDetectedMsg(`GPS Coordinates pinned: ${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`);
+      },
+      () => {
+        setLocDetecting(false);
+        setLocDetectedMsg('Could not detect GPS coordinates. You can type your City and State below.');
+      },
+      { timeout: 8000 }
+    );
+  };
 
   // Dedicated Media States
   const [photoFiles, setPhotoFiles] = useState<File[]>([]);
@@ -117,6 +150,11 @@ export const AssistanceRequestPage: React.FC = () => {
         priority,
         isAnonymous,
         consentGiven,
+        city: city.trim() || undefined,
+        state: stateName.trim() || undefined,
+        postalCode: postalCode.trim() || undefined,
+        latitude,
+        longitude,
       });
 
       // Combine all files to upload
@@ -316,6 +354,80 @@ export const AssistanceRequestPage: React.FC = () => {
               onChange={(e) => setDescription(e.target.value)}
               className="form-control"
             />
+          </div>
+
+          {/* GEOGRAPHIC LOCATION SECTION */}
+          <div
+            style={{
+              border: '1px solid #e2e8f0',
+              borderRadius: '12px',
+              padding: '1.25rem',
+              marginBottom: '1.5rem',
+              background: '#f8fafc',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <MapPin size={20} color="#2563eb" />
+                <label style={{ fontSize: '1rem', fontWeight: 700, margin: 0, color: '#0f172a' }}>
+                  Location & Geographic Matching (Optional)
+                </label>
+              </div>
+              <button
+                type="button"
+                onClick={handleDetectLocation}
+                disabled={locDetecting}
+                className="btn btn-outline btn-sm"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', color: '#2563eb', borderColor: '#2563eb' }}
+              >
+                <Crosshair size={13} />
+                <span>{locDetecting ? 'Detecting GPS...' : 'Auto-Pin My GPS Location'}</span>
+              </button>
+            </div>
+            <p style={{ fontSize: '0.825rem', color: '#64748b', margin: '0 0 1rem' }}>
+              Adding your city and neighborhood enables nearby donors to discover your cause through the <strong>Causes Near Me</strong> localized search algorithm.
+            </p>
+
+            {locDetectedMsg && (
+              <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#059669', marginBottom: '0.75rem' }}>
+                ✓ {locDetectedMsg}
+              </div>
+            )}
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
+              <div className="form-group" style={{ margin: 0 }}>
+                <label className="form-label" style={{ fontSize: '0.82rem', fontWeight: 600 }}>City</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Chicago"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  className="form-control"
+                />
+              </div>
+
+              <div className="form-group" style={{ margin: 0 }}>
+                <label className="form-label" style={{ fontSize: '0.82rem', fontWeight: 600 }}>State / Province</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Illinois"
+                  value={stateName}
+                  onChange={(e) => setStateName(e.target.value)}
+                  className="form-control"
+                />
+              </div>
+
+              <div className="form-group" style={{ margin: 0 }}>
+                <label className="form-label" style={{ fontSize: '0.82rem', fontWeight: 600 }}>Postal / ZIP Code</label>
+                <input
+                  type="text"
+                  placeholder="e.g. 60601"
+                  value={postalCode}
+                  onChange={(e) => setPostalCode(e.target.value)}
+                  className="form-control"
+                />
+              </div>
+            </div>
           </div>
 
           {/* MEDIA SECTION 1: PHOTO UPLOAD */}

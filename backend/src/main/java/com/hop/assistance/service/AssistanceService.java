@@ -68,6 +68,12 @@ public class AssistanceService {
                 .priority(priority)
                 .isAnonymous(isAnonymous)
                 .consentGiven(consentGiven)
+                .city(request.getCity() != null ? request.getCity().trim() : null)
+                .state(request.getState() != null ? request.getState().trim() : null)
+                .postalCode(request.getPostalCode() != null ? request.getPostalCode().trim() : null)
+                .country(request.getCountry() != null ? request.getCountry().trim() : "USA")
+                .latitude(request.getLatitude())
+                .longitude(request.getLongitude())
                 .build();
 
         AssistanceRequest saved = assistanceRequestRepository.save(assistanceRequest);
@@ -118,7 +124,82 @@ public class AssistanceService {
         return mapToResponse(request, viewer);
     }
 
+    @Transactional(readOnly = true)
+    public List<AssistanceResponse> getNearbyInitiatives(
+            Double latitude, Double longitude, Double radiusKm, String city, String postalCode, String category, String viewerEmail) {
+        
+        User viewer = (viewerEmail != null) ? userRepository.findByEmail(viewerEmail).orElse(null) : null;
+
+        // Fallback to viewer profile coordinates if coordinates not provided
+        if ((latitude == null || longitude == null) && viewer != null && viewer.getLatitude() != null && viewer.getLongitude() != null) {
+            latitude = viewer.getLatitude();
+            longitude = viewer.getLongitude();
+        }
+
+        double radius = (radiusKm != null && radiusKm > 0) ? radiusKm : 25.0;
+        List<String> visibleStatuses = List.of(RequestStatus.APPROVED.name(), RequestStatus.PENDING.name());
+
+        if (latitude != null && longitude != null) {
+            double uLat = latitude;
+            double uLon = longitude;
+            List<AssistanceRequest> results = assistanceRequestRepository.findNearbyInitiatives(
+                    uLat, uLon, radius, (category != null && !category.trim().isEmpty()) ? category.trim() : null);
+
+            return results.stream()
+                    .map(req -> {
+                        Double dist = (req.getLatitude() != null && req.getLongitude() != null)
+                                ? calculateHaversineDistance(uLat, uLon, req.getLatitude(), req.getLongitude())
+                                : null;
+                        return mapToResponse(req, viewer, dist);
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        // Fallback: search by city if supplied
+        if (city != null && !city.trim().isEmpty()) {
+            return assistanceRequestRepository
+                    .findByIsUrgentStoryFalseAndStatusInAndCityIgnoreCaseOrderByCreatedAtDesc(visibleStatuses, city.trim())
+                    .stream()
+                    .filter(req -> category == null || category.trim().isEmpty() || category.equalsIgnoreCase(req.getCategory()))
+                    .map(req -> mapToResponse(req, viewer, null))
+                    .collect(Collectors.toList());
+        }
+
+        // Fallback: search by postal code if supplied
+        if (postalCode != null && !postalCode.trim().isEmpty()) {
+            return assistanceRequestRepository
+                    .findByIsUrgentStoryFalseAndStatusInAndPostalCodeOrderByCreatedAtDesc(visibleStatuses, postalCode.trim())
+                    .stream()
+                    .filter(req -> category == null || category.trim().isEmpty() || category.equalsIgnoreCase(req.getCategory()))
+                    .map(req -> mapToResponse(req, viewer, null))
+                    .collect(Collectors.toList());
+        }
+
+        // If no location parameters, return approved requests
+        return assistanceRequestRepository.findByIsUrgentStoryFalseAndStatusInOrderByCreatedAtDesc(visibleStatuses, PageRequest.of(0, 20))
+                .getContent()
+                .stream()
+                .filter(req -> category == null || category.trim().isEmpty() || category.equalsIgnoreCase(req.getCategory()))
+                .map(req -> mapToResponse(req, viewer, null))
+                .collect(Collectors.toList());
+    }
+
+    public static double calculateHaversineDistance(double lat1, double lon1, double lat2, double lon2) {
+        final int R = 6371; // Earth radius in km
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                   Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                   Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return Math.round(R * c * 10.0) / 10.0;
+    }
+
     private AssistanceResponse mapToResponse(AssistanceRequest entity, User viewer) {
+        return mapToResponse(entity, viewer, null);
+    }
+
+    private AssistanceResponse mapToResponse(AssistanceRequest entity, User viewer, Double distanceKm) {
         User beneficiary = entity.getUser();
         Long beneficiaryId = (beneficiary != null) ? beneficiary.getId() : null;
         String realFullName = (beneficiary != null) ? beneficiary.getFirstName() + " " + beneficiary.getLastName() : "Anonymous";
@@ -174,6 +255,13 @@ public class AssistanceService {
                 .isAnonymous(isAnonymous)
                 .consentGiven(Boolean.TRUE.equals(entity.getConsentGiven()))
                 .isDirectDonorOrAdmin(isAuthorizedViewer)
+                .city(entity.getCity())
+                .state(entity.getState())
+                .postalCode(entity.getPostalCode())
+                .country(entity.getCountry())
+                .latitude(entity.getLatitude())
+                .longitude(entity.getLongitude())
+                .distanceKm(distanceKm)
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .documents(documents)

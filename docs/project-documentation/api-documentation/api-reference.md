@@ -56,6 +56,7 @@ The following REST endpoints are fully implemented, secured via Spring Security,
 | `POST` | `/api/v1/assistance` | Submit an assistance application with financial goal | Bearer JWT | `ROLE_USER` | `[ACTIVE]` |
 | `GET` | `/api/v1/assistance/my-requests` | Retrieve current user's submitted applications | Bearer JWT | `ROLE_USER` | `[ACTIVE]` |
 | `GET` | `/api/v1/assistance/public` | Browse public approved initiatives (paginated) | Public (No) | None | `[ACTIVE]` |
+| `GET` | `/api/v1/assistance/nearby` | Discover initiatives using Haversine proximity radius, city, or zip | Public (No) | None | `[ACTIVE]` |
 | `GET` | `/api/v1/assistance/{id}` | Retrieve details for a specific assistance ticket | Bearer JWT | Any authenticated user | `[ACTIVE]` |
 | `POST` | `/api/v1/documents/upload/{requestId}` | Upload & attach verification document to request | Bearer JWT | Owner or `ROLE_ADMIN` | `[ACTIVE]` |
 | `GET` | `/api/v1/documents/request/{requestId}` | List all supporting documents for request | Bearer JWT | Owner or `ROLE_ADMIN` | `[ACTIVE]` |
@@ -219,6 +220,33 @@ The following REST endpoints are fully implemented, secured via Spring Security,
 | `GET` | `/api/v1/messages/conversations` | List active conversations and connected partners | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
 | `GET` | `/api/v1/messages/unread-count` | Get global unread message count | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
 | `PUT` | `/api/v1/messages/read/{otherUserId}` | Mark incoming messages from user as read | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+
+---
+
+### 3.9 Business Hub & Micro-Grants Endpoints (`/api/v1/business-hub`) — *Phase 21*
+
+| Method | Endpoint | Purpose | Auth Required | Required Role | Status |
+|---|---|---|---|---|---|
+| `POST` | `/api/v1/business-hub/campaigns` | Submit new micro-grant venture proposal | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `GET` | `/api/v1/business-hub/campaigns` | Browse ventures with optional `?industry=` filter | No | Public | `[ACTIVE]` |
+| `GET` | `/api/v1/business-hub/campaigns/{id}` | Retrieve venture details, roadmap & backers | No | Public | `[ACTIVE]` |
+| `GET` | `/api/v1/business-hub/campaigns/my` | Retrieve ventures created by current user | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `PATCH` | `/api/v1/business-hub/campaigns/{id}/approve` | Admin moderation approval of venture | Yes (Bearer) | `ROLE_ADMIN` | `[ACTIVE]` |
+| `POST` | `/api/v1/business-hub/campaigns/{id}/milestones` | Add execution roadmap milestone | Yes (Bearer) | Founder / Admin | `[ACTIVE]` |
+| `PUT` | `/api/v1/business-hub/milestones/{id}/complete` | Mark execution milestone as completed | Yes (Bearer) | Founder / Admin | `[ACTIVE]` |
+| `POST` | `/api/v1/business-hub/campaigns/{id}/fund` | Back venture with micro-grant and/or mentorship | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+
+---
+
+### 3.10 In-App Notifications Endpoints (`/api/v1/notifications`) — *Phase 22*
+
+| Method | Endpoint | Purpose | Auth Required | Required Role | Status |
+|---|---|---|---|---|---|
+| `GET` | `/api/v1/notifications` | Retrieve recent 20 in-app notifications | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `GET` | `/api/v1/notifications/unread-count` | Retrieve unread notification count | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `PUT / PATCH` | `/api/v1/notifications/{id}/read` | Mark specific notification as read | Yes (Bearer) | Recipient | `[ACTIVE]` |
+| `POST` | `/api/v1/notifications/mark-all-read` | Mark all notifications as read for current user | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `DELETE` | `/api/v1/notifications/{id}` | Delete / dismiss an individual notification | Yes (Bearer) | Recipient | `[ACTIVE]` |
 
 ---
 

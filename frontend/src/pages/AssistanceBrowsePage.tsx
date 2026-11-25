@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { assistanceService, AssistanceRequestItem, DocumentItem } from '../services/assistanceService';
-import { Heart, Search, CheckCircle, Image as ImageIcon, Video as VideoIcon, Shield } from 'lucide-react';
+import { Heart, Search, CheckCircle, Image as ImageIcon, Video as VideoIcon, Shield, MapPin, Navigation, Crosshair } from 'lucide-react';
 import { DonationModal } from '../components/DonationModal';
 import { MediaViewerModal } from '../components/MediaViewerModal';
 import { ConnectButton } from '../components/ConnectButton';
@@ -24,6 +24,14 @@ export const AssistanceBrowsePage: React.FC = () => {
   const [donationSuccess, setDonationSuccess] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Geographic Proximity State
+  const [nearMeActive, setNearMeActive] = useState(false);
+  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [radiusKm, setRadiusKm] = useState<number>(25);
+  const [searchCity, setSearchCity] = useState('');
+  const [geoLoading, setGeoLoading] = useState(false);
+  const [geoMessage, setGeoMessage] = useState<string | null>(null);
+
   const openMediaModal = (item: AssistanceRequestItem, type: 'photo' | 'video') => {
     setActiveMedia({
       type,
@@ -40,6 +48,8 @@ export const AssistanceBrowsePage: React.FC = () => {
 
   const loadRequests = () => {
     setIsLoading(true);
+    setNearMeActive(false);
+    setGeoMessage(null);
     assistanceService
       .getPublicRequests()
       .then((data) => {
@@ -48,6 +58,64 @@ export const AssistanceBrowsePage: React.FC = () => {
       })
       .catch((err) => console.error('Failed to load assistance requests', err))
       .finally(() => setIsLoading(false));
+  };
+
+  const fetchNearby = (lat?: number, lng?: number, radius?: number, city?: string) => {
+    setIsLoading(true);
+    assistanceService
+      .getNearbyRequests({
+        latitude: lat,
+        longitude: lng,
+        radiusKm: radius ?? radiusKm,
+        city: city ?? (searchCity.trim() ? searchCity.trim() : undefined),
+        category: selectedCategory !== 'ALL' ? selectedCategory : undefined,
+      })
+      .then((data) => {
+        setRequests(data);
+        setFilteredRequests(data);
+        setNearMeActive(true);
+      })
+      .catch((err) => console.error('Failed to load nearby requests', err))
+      .finally(() => setIsLoading(false));
+  };
+
+  const handleUseMyLocation = () => {
+    if (!navigator.geolocation) {
+      setGeoMessage('Geolocation is not supported by your browser.');
+      return;
+    }
+    setGeoLoading(true);
+    setGeoMessage(null);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const coords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        setUserLocation(coords);
+        setGeoLoading(false);
+        setGeoMessage(`Showing causes within ${radiusKm} km of your detected location.`);
+        fetchNearby(coords.lat, coords.lng, radiusKm);
+      },
+      () => {
+        setGeoLoading(false);
+        setGeoMessage('Unable to access location. You can search by City below instead.');
+      },
+      { timeout: 10000 }
+    );
+  };
+
+  const handleCitySearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchCity.trim()) return;
+    setUserLocation(null);
+    setGeoMessage(`Showing causes in "${searchCity.trim()}".`);
+    fetchNearby(undefined, undefined, undefined, searchCity.trim());
+  };
+
+  const handleRadiusChange = (newRadius: number) => {
+    setRadiusKm(newRadius);
+    if (userLocation) {
+      setGeoMessage(`Showing causes within ${newRadius} km of your detected location.`);
+      fetchNearby(userLocation.lat, userLocation.lng, newRadius);
+    }
   };
 
   useEffect(() => {
@@ -86,7 +154,7 @@ export const AssistanceBrowsePage: React.FC = () => {
       )}
 
       {/* Filter & Search Bar */}
-      <div className="card filter-toolbar" style={{ padding: '1.25rem', marginBottom: '2rem' }}>
+      <div className="card filter-toolbar" style={{ padding: '1.25rem', marginBottom: '1.25rem' }}>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
           <div style={{ flex: '1 1 260px', display: 'flex', alignItems: 'center', position: 'relative' }}>
             <Search size={18} color="var(--text-muted)" style={{ position: 'absolute', left: 12 }} />
@@ -112,6 +180,139 @@ export const AssistanceBrowsePage: React.FC = () => {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* Geographic "Causes Near Me" Proximity Bar */}
+      <div
+        className="card"
+        style={{
+          padding: '1rem 1.25rem',
+          marginBottom: '2rem',
+          backgroundColor: nearMeActive ? '#eff6ff' : '#ffffff',
+          borderColor: nearMeActive ? '#3b82f6' : '#e2e8f0',
+          transition: 'all 0.2s',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+            <div
+              style={{
+                backgroundColor: nearMeActive ? '#2563eb' : '#f1f5f9',
+                color: nearMeActive ? '#ffffff' : '#64748b',
+                padding: '0.45rem',
+                borderRadius: '8px',
+                display: 'flex',
+              }}
+            >
+              <MapPin size={18} />
+            </div>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>
+                  Causes Near Me (Geographic Matching)
+                </span>
+                {nearMeActive && (
+                  <span style={{ backgroundColor: '#dbeafe', color: '#1d4ed8', fontSize: '0.72rem', fontWeight: 700, padding: '0.15rem 0.45rem', borderRadius: '9999px' }}>
+                    Active Filter
+                  </span>
+                )}
+              </div>
+              <p style={{ margin: 0, fontSize: '0.78rem', color: '#64748b' }}>
+                Discover grassroots causes happening in your neighborhood, city, or radius.
+              </p>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              onClick={handleUseMyLocation}
+              disabled={geoLoading}
+              className="btn btn-sm btn-outline"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', borderColor: '#2563eb', color: '#2563eb' }}
+            >
+              <Crosshair size={14} />
+              <span>{geoLoading ? 'Detecting...' : 'Use My GPS Location'}</span>
+            </button>
+
+            {/* City search input */}
+            <form onSubmit={handleCitySearch} style={{ display: 'inline-flex', gap: '0.35rem' }}>
+              <input
+                type="text"
+                placeholder="Or enter city (e.g. Chicago)..."
+                value={searchCity}
+                onChange={(e) => setSearchCity(e.target.value)}
+                style={{
+                  padding: '0.3rem 0.65rem',
+                  fontSize: '0.82rem',
+                  borderRadius: '6px',
+                  border: '1px solid #cbd5e1',
+                  minWidth: '150px',
+                }}
+              />
+              <button type="submit" className="btn btn-sm btn-secondary" style={{ padding: '0.3rem 0.65rem', fontSize: '0.82rem' }}>
+                Find
+              </button>
+            </form>
+
+            {nearMeActive && (
+              <button
+                type="button"
+                onClick={loadRequests}
+                className="btn btn-sm"
+                style={{ background: '#f1f5f9', color: '#475569', border: '1px solid #cbd5e1' }}
+              >
+                Reset to All
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Proximity Radius Pills & Feedback when active */}
+        {nearMeActive && (
+          <div
+            style={{
+              marginTop: '0.85rem',
+              paddingTop: '0.85rem',
+              borderTop: '1px solid #dbeafe',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '0.5rem',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '0.78rem', color: '#1e40af', fontWeight: 600 }}>Radius:</span>
+              {[5, 10, 25, 50, 100].map((r) => (
+                <button
+                  key={r}
+                  type="button"
+                  onClick={() => handleRadiusChange(r)}
+                  style={{
+                    padding: '0.15rem 0.55rem',
+                    borderRadius: '9999px',
+                    border: '1px solid',
+                    borderColor: radiusKm === r ? '#2563eb' : '#93c5fd',
+                    backgroundColor: radiusKm === r ? '#2563eb' : '#ffffff',
+                    color: radiusKm === r ? '#ffffff' : '#1e40af',
+                    fontSize: '0.74rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {r} km
+                </button>
+              ))}
+            </div>
+
+            {geoMessage && (
+              <span style={{ fontSize: '0.78rem', color: '#1e40af', fontWeight: 500 }}>
+                {geoMessage}
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Initiative Cards Grid */}
@@ -172,6 +373,54 @@ export const AssistanceBrowsePage: React.FC = () => {
                     )}
                   </div>
                 ) : null}
+
+                {/* Location & Proximity Distance Badge */}
+                {(item.city || item.distanceKm != null) && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.45rem',
+                      marginBottom: '0.65rem',
+                      flexWrap: 'wrap',
+                    }}
+                  >
+                    {item.city && (
+                      <span
+                        style={{
+                          fontSize: '0.78rem',
+                          color: '#475569',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '3px',
+                        }}
+                      >
+                        <MapPin size={13} color="#2563eb" />
+                        <span>{item.city}{item.state ? `, ${item.state}` : ''}</span>
+                      </span>
+                    )}
+                    {item.distanceKm != null && (
+                      <span
+                        style={{
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          backgroundColor: '#ecfdf5',
+                          color: '#059669',
+                          padding: '0.15rem 0.5rem',
+                          borderRadius: '9999px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '3px',
+                          border: '1px solid #a7f3d0',
+                        }}
+                      >
+                        <Navigation size={10} />
+                        <span>{item.distanceKm} km away</span>
+                      </span>
+                    )}
+                  </div>
+                )}
+
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: '1.25rem', flex: 1 }}>
                   {item.description}
                 </p>
