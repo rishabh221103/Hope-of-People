@@ -1,0 +1,124 @@
+# =============================================================================
+# HOP Project - .gitignore
+# Covers Java, Maven, Spring Boot, React, Node.js, IDEs, OS, and Secrets
+# =============================================================================
+
+# --- Environment & Credentials (NEVER commit secrets, keys, or passwords) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pkcs12
+*.pfx
+*.p12
+*.cer
+*.crt
+*.jks
+credentials.json
+secrets.properties
+secrets.yaml
+secrets.yml
+
+# --- Compiled Java & Build Artifacts ---
+*.class
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# --- Maven ---
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# --- Gradle (if used) ---
+.gradle/
+build/
+!src/**/build/
+
+# --- Database Data Directories ---
+database/pg_data/
+*.db
+*.sqlite
+
+# --- Spring Boot & Application Outputs ---
+*.log
+logs/
+application-local.properties
+application-local.yml
+application-local.yaml
+application-secret.properties
+application-secret.yml
+application-secret.yaml
+
+# --- Node.js & React Dependencies & Build Output ---
+node_modules/
+dist/
+build/
+.npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-store
+.eslintcache
+.stylelintcache
+
+# --- Test Coverage ---
+coverage/
+*.lcov
+.nyc_output/
+
+# --- IntelliJ IDEA ---
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# --- Visual Studio Code ---
+.vscode/
+*.code-workspace
+
+# --- Eclipse ---
+.apt_generated
+.apt_generated_tests
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+
+# --- NetBeans ---
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# --- Database & Local Storage ---
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.sql.bak
+
+# --- Operating System Files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,972 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [6 0 R 8 0 R 10 0 R 12 0 R 14 0 R 16 0 R 18 0 R 20 0 R 22 0 R 24 0 R 26 0 R 28 0 R] /Count 12 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 7 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
+endobj
+7 0 obj
+<< /Length 4109 >>
+stream
+0.100 0.220 0.400 rg 50.00 633.00 512.00 80.00 re f
+BT /F2 19 Tf 1.000 1.000 1.000 rg 66.00 681.00 Td (HOP PROJECT MASTER DOCUMENTATION) Tj ET
+BT /F1 11 Tf 0.850 0.900 0.980 rg 66.00 659.00 Td (Complete Architectural Blueprint, Workflow Tracking & Phase History) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 600.00 Td (Document Control & Metadata) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 596.00 m 562.00 596.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 582.00 Td (Project Name:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 582.00 Td (HOP \(Hands-On Platform\)) Tj ET
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 568.00 Td (Document Version:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 568.00 Td (2.1.0 \(Master Release\)) Tj ET
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 554.00 Td (Last Updated:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 554.00 Td (2026-11-19) Tj ET
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 540.00 Td (Architecture Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 540.00 Td (Phases 01 - 15 [COMPLETED] | Phase 16 & 17 [NEXT: FINAL DOCS & DEPLOYMENT]) Tj ET
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 526.00 Td (System Classification:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 526.00 Td (Enterprise Web Application \(Full-Stack\)) Tj ET
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 512.00 Td (Document ID:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 512.00 Td (HOP-DOC-MASTER-001) Tj ET
+0.120 0.280 0.480 rg 50.00 460.00 512.00 24.00 re f
+BT /F2 13 Tf 1.000 1.000 1.000 rg 58.00 466.00 Td (1. Project Introduction & System Objectives) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 448.00 Td (The HOP \(Hands-On Platform\) project is an enterprise-grade digital coordination system designed to) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 435.00 Td (facilitate seamless, transparent, and auditable assistance workflows between beneficiaries,) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 422.00 Td (administrators, and donors. Built on modern software engineering standards, HOP enforces strict domain) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 409.00 Td (separation, stateless token authentication, and version-controlled data persistence.) Tj ET
+BT /F2 10.5 Tf 0.200 0.200 0.300 rg 50.00 389.00 Td (Core System Objectives) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 375.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 375.00 Td (Scalable Multi-Tier Architecture: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 237.60 375.00 Td (Decoupled React Single-Page Application \(SPA\) communicating over stateless REST with Java 21 / Spring) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 362.00 Td (Boot 3.x.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 347.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 347.00 Td (Strict Role-Based Security \(RBAC\): ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 242.80 347.00 Td (Granular authorization ensuring Users, Donors, Assistants, and Admins operate with least privilege.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 332.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 332.00 Td (Auditable Data Governance: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 201.20 332.00 Td (PostgreSQL relational engine managed via deterministic, forward-only Flyway database migrations.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 317.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 317.00 Td (Continuous Documentation: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 196.00 317.00 Td (Mandatory phase reporting, workflow status tracking, and centralized master PDF compilation after every) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 304.00 Td (milestone.) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 756.00 m 562.00 756.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 760.00 Td (HOP Project - Master Architecture & Workflow Documentation) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 497.00 760.00 Td (Confidential) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 42.00 m 562.00 42.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 30.00 Td (Generated: 2026-11-19 | Version 1.0.0 | System-Wide Technical Record) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 507.00 30.00 Td (Page 1 of 12) Tj ET
+
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 9 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
+endobj
+9 0 obj
+<< /Length 6407 >>
+stream
+0.120 0.280 0.480 rg 50.00 710.00 512.00 24.00 re f
+BT /F2 13 Tf 1.000 1.000 1.000 rg 58.00 716.00 Td (2. Technology Stack & Dependency Architecture) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 698.00 Td (The HOP technical architecture utilizes modern LTS runtimes, industry-standard frameworks, and) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 685.00 Td (resilient tooling across all tiers.) Tj ET
+0.200 0.350 0.550 rg 50.00 659.00 512.00 15.00 re f
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 54.00 662.00 Td (Tier / Component) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 182.00 662.00 Td (Technology / Framework) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 310.00 662.00 Td (Target Version) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 438.00 662.00 Td (Purpose) Tj ET
+0.970 0.970 0.980 rg 50.00 643.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 643.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 646.00 Td (Frontend Client) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 646.00 Td (React / TypeScript) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 646.00 Td (18+ / Vite) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 646.00 Td (Single-Page Application ) Tj ET
+0.970 0.970 0.980 rg 50.00 627.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 627.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 630.00 Td (Backend Service) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 630.00 Td (Java / Spring Boot) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 630.00 Td (Java 21 / 3.x) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 630.00 Td (RESTful API Engine & Bus) Tj ET
+0.970 0.970 0.980 rg 50.00 611.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 611.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 614.00 Td (Security Gateway) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 614.00 Td (Spring Security / JWT) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 614.00 Td (Stateless) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 614.00 Td (Role-based access contro) Tj ET
+0.970 0.970 0.980 rg 50.00 595.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 595.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 598.00 Td (Persistence / ORM) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 598.00 Td (Spring Data JPA) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 598.00 Td (Hibernate 6+) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 598.00 Td (Object-relational mappin) Tj ET
+0.970 0.970 0.980 rg 50.00 579.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 579.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 582.00 Td (Relational Database) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 582.00 Td (PostgreSQL) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 582.00 Td (16+) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 582.00 Td (ACID relational store \(h) Tj ET
+0.970 0.970 0.980 rg 50.00 563.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 563.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 566.00 Td (Database Migrations) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 566.00 Td (Flyway Migration Engine) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 566.00 Td (Community) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 566.00 Td (Automated, version-contr) Tj ET
+0.970 0.970 0.980 rg 50.00 547.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 547.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 550.00 Td (Build Tool \(Backend\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 550.00 Td (Apache Maven) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 550.00 Td (3.9+) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 550.00 Td (Dependency resolution & ) Tj ET
+0.970 0.970 0.980 rg 50.00 531.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 531.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 534.00 Td (Build Tool \(Frontend\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 534.00 Td (Vite / npm / pnpm) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 534.00 Td (Node.js 20+) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 534.00 Td (Frontend bundling, HMR, ) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 505.00 Td (Audited Maven Dependencies \(backend/pom.xml\)) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 501.00 m 562.00 501.00 l S
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 487.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 487.00 Td (spring-boot-starter-webmvc: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 206.40 487.00 Td (Provides REST controllers, JSON serialization \(Jackson\), and MVC handlers.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 472.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 472.00 Td (spring-boot-starter-data-jpa: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 216.80 472.00 Td (Provides JPA repository abstractions, EntityManager, and Hibernate ORM.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 457.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 457.00 Td (spring-boot-starter-security: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 216.80 457.00 Td (Enforces HTTP filter security chain, password hashing, and authorization.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 442.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 442.00 Td (spring-boot-starter-validation: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 227.20 442.00 Td (Enforces JSR-380 Bean Validation \(@NotNull, @Email, @Size\) on DTO payloads.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 427.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 427.00 Td (org.postgresql:postgresql: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 201.20 427.00 Td (Native JDBC driver for high-performance PostgreSQL socket communication.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 412.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 412.00 Td (org.projectlombok:lombok: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 196.00 412.00 Td (Annotation processor reducing boilerplate accessors, builders, and constructors.) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 756.00 m 562.00 756.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 760.00 Td (HOP Project - Master Architecture & Workflow Documentation) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 497.00 760.00 Td (Confidential) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 42.00 m 562.00 42.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 30.00 Td (Generated: 2026-11-19 | Version 1.0.0 | System-Wide Technical Record) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 507.00 30.00 Td (Page 2 of 12) Tj ET
+
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 11 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
+endobj
+11 0 obj
+<< /Length 4431 >>
+stream
+0.120 0.280 0.480 rg 50.00 710.00 512.00 24.00 re f
+BT /F2 13 Tf 1.000 1.000 1.000 rg 58.00 716.00 Td (3. Complete Project Directory Structure) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 698.00 Td (The HOP project maintains an isolated, domain-driven structure ensuring clean separation between) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 685.00 Td (frontend, backend, database migrations, and project documentation.) Tj ET
+0.940 0.950 0.960 rg 50.00 377.00 512.00 294.00 re f
+0.820 0.850 0.880 RG 50.00 377.00 512.00 294.00 re S
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 659.00 Td (HOP/) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 648.00 Td (|-- frontend/                      # Client SPA \(React / Vite\)) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 637.00 Td (|   |-- public/                    # Static public assets) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 626.00 Td (|   |-- src/                       # Source components, pages, hooks, services, conte) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 615.00 Td (|   `-- README.md                  # Frontend conventions & roadmap) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 604.00 Td (|-- backend/                       # RESTful Application Service \(Java 21 / Spring Bo) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 593.00 Td (|   |-- src/main/java/com/hop/     # Domain packages: auth, user, assistance, admin) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 582.00 Td (|   |   |-- config/                # Global beans, CORS, OpenAPI) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 571.00 Td (|   |   |-- security/              # SecurityFilterChain, JWT providers, user details) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 560.00 Td (|   |   `-- common/                # Shared exceptions, ApiResponse envelope, enums) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 549.00 Td (|   |-- src/main/resources/        # application.properties & db assets) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 538.00 Td (|   |-- src/test/java/com/hop/     # Unit and integration test suites) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 527.00 Td (|   |-- pom.xml                    # Maven dependency & plugin definitions) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 516.00 Td (|   `-- README.md                  # Backend architecture documentation) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 505.00 Td (|-- database/                      # Version-controlled database assets) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 494.00 Td (|   `-- migrations/                # Flyway versioned SQL scripts \(V1__initial_schema) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 483.00 Td (|-- docs/                          # Technical and master documentation) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 472.00 Td (|   `-- project-documentation/     # Central tracking repository) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 461.00 Td (|       |-- HOP_Project_Master_Documentation.pdf # Master compiled PDF record) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 450.00 Td (|       |-- workflow/              # Workflow diagram & tracker) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 439.00 Td (|       |-- phase-reports/         # Detailed 18-point milestone reports) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 428.00 Td (|       |-- architecture/          # Multi-tier system interaction diagrams) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 417.00 Td (|       |-- database/              # Schema models, table catalogs & ERD) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 406.00 Td (|       `-- api-documentation/     # REST contracts, payload schemas & error envelope) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 395.00 Td (|-- .gitignore                     # Multi-layer enterprise git exclusion rules) Tj ET
+BT /F3 7.8 Tf 0.100 0.150 0.250 rg 58.00 384.00 Td (`-- README.md                      # Project root architectural summary) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 756.00 m 562.00 756.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 760.00 Td (HOP Project - Master Architecture & Workflow Documentation) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 497.00 760.00 Td (Confidential) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 42.00 m 562.00 42.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 30.00 Td (Generated: 2026-11-19 | Version 1.0.0 | System-Wide Technical Record) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 507.00 30.00 Td (Page 3 of 12) Tj ET
+
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 13 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
+endobj
+13 0 obj
+<< /Length 8788 >>
+stream
+0.120 0.280 0.480 rg 50.00 710.00 512.00 24.00 re f
+BT /F2 13 Tf 1.000 1.000 1.000 rg 58.00 716.00 Td (4. Development Workflow & Phase Status Tracker) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 698.00 Td (The mandatory workflow diagram tracks the project lifecycle across 17 distinct engineering phases from) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 685.00 Td (initial audit through production deployment.) Tj ET
+0.200 0.350 0.550 rg 50.00 659.00 512.00 15.00 re f
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 54.00 662.00 Td (Phase #) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 182.00 662.00 Td (Workflow Phase Name) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 310.00 662.00 Td (Current Status) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 438.00 662.00 Td (Phase Deliverable) Tj ET
+0.970 0.970 0.980 rg 50.00 643.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 643.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 646.00 Td (Phase 01) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 646.00 Td (Project Audit) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 646.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 646.00 Td (Workspace inspection & b) Tj ET
+0.970 0.970 0.980 rg 50.00 627.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 627.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 630.00 Td (Phase 02) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 630.00 Td (Architecture Verificatio) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 630.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 630.00 Td (Root, frontend, backend,) Tj ET
+0.970 0.970 0.980 rg 50.00 611.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 611.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 614.00 Td (Phase 03) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 614.00 Td (Dependency Verification) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 614.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 614.00 Td (Flyway, H2 test, Postgre) Tj ET
+0.970 0.970 0.980 rg 50.00 595.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 595.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 598.00 Td (Phase 04) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 598.00 Td (Database Validation) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 598.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 598.00 Td (V1__initial_schema.sql &) Tj ET
+0.970 0.970 0.980 rg 50.00 579.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 579.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 582.00 Td (Phase 05) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 582.00 Td (Backend Foundation) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 582.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 582.00 Td (ApiResponse, GlobalExcep) Tj ET
+0.970 0.970 0.980 rg 50.00 563.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 563.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 566.00 Td (Phase 06) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 566.00 Td (Authentication & Authori) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 566.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 566.00 Td (JWT stateless filter & l) Tj ET
+0.970 0.970 0.980 rg 50.00 547.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 547.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 550.00 Td (Phase 07) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 550.00 Td (User Management) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 550.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 550.00 Td (Profile CRUD, password u) Tj ET
+0.970 0.970 0.980 rg 50.00 531.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 531.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 534.00 Td (Phase 08) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 534.00 Td (Assistance Request Mgmt) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 534.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 534.00 Td (Ticket creation, trackin) Tj ET
+0.970 0.970 0.980 rg 50.00 515.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 515.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 518.00 Td (Phase 09) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 518.00 Td (Document Management) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 518.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 518.00 Td (Secure document upload &) Tj ET
+0.970 0.970 0.980 rg 50.00 499.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 499.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 502.00 Td (Phase 10) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 502.00 Td (Admin Management) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 502.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 502.00 Td (Moderation, audit logs, ) Tj ET
+0.970 0.970 0.980 rg 50.00 483.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 483.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 486.00 Td (Phase 11) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 486.00 Td (Donor & Donation Mgmt) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 486.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 486.00 Td (Donation processing & fu) Tj ET
+0.970 0.970 0.980 rg 50.00 467.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 467.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 470.00 Td (Phase 12) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 470.00 Td (Frontend Development) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 470.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 470.00 Td (React SPA, UI components) Tj ET
+0.970 0.970 0.980 rg 50.00 451.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 451.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 454.00 Td (Phase 13) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 454.00 Td (Backend-Frontend Integra) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 454.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 454.00 Td (REST clients, auth inter) Tj ET
+0.970 0.970 0.980 rg 50.00 435.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 435.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 438.00 Td (Phase 14) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 438.00 Td (Complete Application Tes) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 438.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 438.00 Td (Unit, integration, E2E v) Tj ET
+0.970 0.970 0.980 rg 50.00 419.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 419.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 422.00 Td (Phase 15) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 422.00 Td (Optimization) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 422.00 Td ([COMPLETED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 422.00 Td (Index tuning, query opti) Tj ET
+0.970 0.970 0.980 rg 50.00 403.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 403.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 406.00 Td (Phase 16) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 406.00 Td (Final Documentation) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 406.00 Td ([IN PROGRESS]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 406.00 Td (Master PDF, API catalogs) Tj ET
+0.970 0.970 0.980 rg 50.00 387.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 387.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 390.00 Td (Phase 17) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 390.00 Td (Deployment Preparation) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 390.00 Td ([NOT STARTED]) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 390.00 Td (Dockerization, CI/CD, pr) Tj ET
+BT /F2 10.5 Tf 0.200 0.200 0.300 rg 50.00 367.00 Td (Phase Completion Policy) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 353.00 Td (A phase can only be marked COMPLETED when implementation is finished, all relevant automated tests) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 340.00 Td (pass, test metrics are recorded, the 18-point phase report is filed, the workflow diagram is updated,) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 327.00 Td (and this Master PDF is recompiled. Unimplemented features must never be documented as completed.) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 756.00 m 562.00 756.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 760.00 Td (HOP Project - Master Architecture & Workflow Documentation) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 497.00 760.00 Td (Confidential) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 42.00 m 562.00 42.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 30.00 Td (Generated: 2026-11-19 | Version 1.0.0 | System-Wide Technical Record) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 507.00 30.00 Td (Page 4 of 12) Tj ET
+
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 15 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
+endobj
+15 0 obj
+<< /Length 3993 >>
+stream
+0.120 0.280 0.480 rg 50.00 710.00 512.00 24.00 re f
+BT /F2 13 Tf 1.000 1.000 1.000 rg 58.00 716.00 Td (5. Technical Architecture & Component Interaction) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 698.00 Td (The HOP system architecture is built on unidirectional data flow and strict layer boundaries:) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 682.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 682.00 Td (1. Client Tier \(React SPA\): ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 206.40 682.00 Td (Handles UI state, collects inputs, manages client-side routing, and issues authenticated HTTPS REST) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 669.00 Td (requests storing JWT in memory.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 654.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 654.00 Td (2. Security Gateway Filter: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 206.40 654.00 Td (Intercepts incoming requests, validates Bearer JWT tokens, extracts claims and authorities, and binds) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 641.00 Td (them to Spring's SecurityContext.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 626.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 626.00 Td (3. REST Controller Layer: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 196.00 626.00 Td (Validates incoming DTO request bodies \(@Valid\) and dispatches calls to domain service methods. Wraps) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 613.00 Td (output in standardized ApiResponse<T>.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 598.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 598.00 Td (4. Service Layer \(Business Logic\): ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 242.80 598.00 Td (Executes business rules, manages transactional boundaries \(@Transactional\), checks permissions, and) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 585.00 Td (coordinates between repositories.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 570.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 570.00 Td (5. Data Access Layer \(Spring Data JPA\): ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 268.80 570.00 Td (Abstracts SQL persistence through JPA interfaces, leveraging Hibernate 6+ for entity mapping and query) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 557.00 Td (execution.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 542.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 542.00 Td (6. Relational Database Tier \(PostgreSQL\): ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 279.20 542.00 Td (Executes queries against hop_db. All schema structures are created and maintained via automated Flyway) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 529.00 Td (migrations.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 506.00 Td (Standardized Response Envelope \(ApiResponse<T>\)) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 502.00 m 562.00 502.00 l S
+0.940 0.950 0.960 rg 50.00 405.00 512.00 85.00 re f
+0.820 0.850 0.880 RG 50.00 405.00 512.00 85.00 re S
+BT /F3 8 Tf 0.100 0.150 0.250 rg 58.00 478.00 Td ({) Tj ET
+BT /F3 8 Tf 0.100 0.150 0.250 rg 58.00 467.00 Td (  "success": true,) Tj ET
+BT /F3 8 Tf 0.100 0.150 0.250 rg 58.00 456.00 Td (  "statusCode": 200,) Tj ET
+BT /F3 8 Tf 0.100 0.150 0.250 rg 58.00 445.00 Td (  "message": "Operation executed successfully.",) Tj ET
+BT /F3 8 Tf 0.100 0.150 0.250 rg 58.00 434.00 Td (  "data": { ... },) Tj ET
+BT /F3 8 Tf 0.100 0.150 0.250 rg 58.00 423.00 Td (  "timestamp": "2026-11-19T13:30:00Z") Tj ET
+BT /F3 8 Tf 0.100 0.150 0.250 rg 58.00 412.00 Td (}) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 756.00 m 562.00 756.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 760.00 Td (HOP Project - Master Architecture & Workflow Documentation) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 497.00 760.00 Td (Confidential) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 42.00 m 562.00 42.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 30.00 Td (Generated: 2026-11-19 | Version 1.0.0 | System-Wide Technical Record) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 507.00 30.00 Td (Page 5 of 12) Tj ET
+
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 17 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
+endobj
+17 0 obj
+<< /Length 5047 >>
+stream
+0.120 0.280 0.480 rg 50.00 710.00 512.00 24.00 re f
+BT /F2 13 Tf 1.000 1.000 1.000 rg 58.00 716.00 Td (6. Database Architecture & Relational Schema) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 698.00 Td (Target Database: hop_db \(PostgreSQL 16+\). Managed strictly via forward-only Flyway migrations. No) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 685.00 Td (direct DDL execution allowed in production.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 661.00 Td (Core Tables Specification) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 657.00 m 562.00 657.00 l S
+0.200 0.350 0.550 rg 50.00 633.00 512.00 15.00 re f
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 54.00 636.00 Td (Table Name) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 182.00 636.00 Td (Primary Key) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 310.00 636.00 Td (Foreign Keys) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 438.00 636.00 Td (Description) Tj ET
+0.970 0.970 0.980 rg 50.00 617.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 617.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 620.00 Td (users) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 620.00 Td (id \(BIGSERIAL\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 620.00 Td (None) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 620.00 Td (User credentials, profil) Tj ET
+0.970 0.970 0.980 rg 50.00 601.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 601.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 604.00 Td (roles) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 604.00 Td (id \(SERIAL\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 604.00 Td (None) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 604.00 Td (RBAC roles \(ROLE_USER, R) Tj ET
+0.970 0.970 0.980 rg 50.00 585.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 585.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 588.00 Td (user_roles) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 588.00 Td (\(user_id, role_id\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 588.00 Td (user_id, role_id) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 588.00 Td (Many-to-many user to rol) Tj ET
+0.970 0.970 0.980 rg 50.00 569.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 569.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 572.00 Td (assistance_requests) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 572.00 Td (id \(BIGSERIAL\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 572.00 Td (user_id) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 572.00 Td (Assistance applications,) Tj ET
+0.970 0.970 0.980 rg 50.00 553.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 553.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 556.00 Td (assistance_documents) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 556.00 Td (id \(BIGSERIAL\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 556.00 Td (request_id) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 556.00 Td (Uploaded verification fi) Tj ET
+0.970 0.970 0.980 rg 50.00 537.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 537.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 540.00 Td (donations) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 182.00 540.00 Td (id \(BIGSERIAL\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 310.00 540.00 Td (request_id, donor_id) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 438.00 540.00 Td (Donation transactions, g) Tj ET
+BT /F2 10.5 Tf 0.200 0.200 0.300 rg 50.00 517.00 Td (Data Integrity & Security Constraints) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 503.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 503.00 Td (Unique Constraints: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 164.80 503.00 Td (users\(email\) and donations\(transaction_ref\) are strictly unique.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 488.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 488.00 Td (Audit Timestamping: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 164.80 488.00 Td (All domain entities include created_at and updated_at with automatic timezone tracking.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 473.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 473.00 Td (Password Security: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 159.60 473.00 Td (Plaintext passwords never enter database or logs; hashed using BCrypt \(cost factor 12\).) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 458.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 458.00 Td (Credential Protection: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 180.40 458.00 Td (Database credentials must never be committed to documentation or version control.) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 756.00 m 562.00 756.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 760.00 Td (HOP Project - Master Architecture & Workflow Documentation) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 497.00 760.00 Td (Confidential) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 42.00 m 562.00 42.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 30.00 Td (Generated: 2026-11-19 | Version 1.0.0 | System-Wide Technical Record) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 507.00 30.00 Td (Page 6 of 12) Tj ET
+
+endstream
+endobj
+18 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 19 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
+endobj
+19 0 obj
+<< /Length 7006 >>
+stream
+0.120 0.280 0.480 rg 50.00 710.00 512.00 24.00 re f
+BT /F2 13 Tf 1.000 1.000 1.000 rg 58.00 716.00 Td (7. API Reference & Contract Specifications) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 698.00 Td (All API endpoints follow RESTful conventions under the /api/v1 prefix. Responses are delivered as) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 685.00 Td (UTF-8 JSON envelopes.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 661.00 Td (Active & Verified Endpoint Catalog \(Phases 06 - 11\)) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 657.00 m 562.00 657.00 l S
+0.200 0.350 0.550 rg 50.00 633.00 512.00 15.00 re f
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 54.00 636.00 Td (HTTP) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 99.00 636.00 Td (Endpoint) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 259.00 636.00 Td (Auth Required) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 344.00 636.00 Td (Role) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 454.00 636.00 Td (Status) Tj ET
+0.970 0.970 0.980 rg 50.00 617.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 617.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 620.00 Td (POST) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 99.00 620.00 Td (/api/v1/auth/register) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 259.00 620.00 Td (No \(Public\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 344.00 620.00 Td (None) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 454.00 620.00 Td ([ACTIVE]) Tj ET
+0.970 0.970 0.980 rg 50.00 601.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 601.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 604.00 Td (POST) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 99.00 604.00 Td (/api/v1/auth/login) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 259.00 604.00 Td (No \(Public\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 344.00 604.00 Td (None) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 454.00 604.00 Td ([ACTIVE]) Tj ET
+0.970 0.970 0.980 rg 50.00 585.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 585.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 588.00 Td (GET) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 99.00 588.00 Td (/api/v1/auth/me) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 259.00 588.00 Td (Yes \(Bearer\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 344.00 588.00 Td (Any) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 454.00 588.00 Td ([ACTIVE]) Tj ET
+0.970 0.970 0.980 rg 50.00 569.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 569.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 572.00 Td (GET) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 99.00 572.00 Td (/api/v1/users/profile) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 259.00 572.00 Td (Yes \(Bearer\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 344.00 572.00 Td (USER, ADMIN) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 454.00 572.00 Td ([ACTIVE]) Tj ET
+0.970 0.970 0.980 rg 50.00 553.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 553.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 556.00 Td (PUT) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 99.00 556.00 Td (/api/v1/users/profile) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 259.00 556.00 Td (Yes \(Bearer\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 344.00 556.00 Td (USER, ADMIN) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 454.00 556.00 Td ([ACTIVE]) Tj ET
+0.970 0.970 0.980 rg 50.00 537.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 537.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 540.00 Td (POST) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 99.00 540.00 Td (/api/v1/assistance) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 259.00 540.00 Td (Yes \(Bearer\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 344.00 540.00 Td (ROLE_USER) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 454.00 540.00 Td ([ACTIVE]) Tj ET
+0.970 0.970 0.980 rg 50.00 521.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 521.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 524.00 Td (GET) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 99.00 524.00 Td (/api/v1/assistance/my-requests) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 259.00 524.00 Td (Yes \(Bearer\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 344.00 524.00 Td (ROLE_USER) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 454.00 524.00 Td ([ACTIVE]) Tj ET
+0.970 0.970 0.980 rg 50.00 505.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 505.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 508.00 Td (GET) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 99.00 508.00 Td (/api/v1/admin/users) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 259.00 508.00 Td (Yes \(Bearer\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 344.00 508.00 Td (ROLE_ADMIN) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 454.00 508.00 Td ([ACTIVE]) Tj ET
+0.970 0.970 0.980 rg 50.00 489.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 489.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 492.00 Td (PATCH) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 99.00 492.00 Td (/api/v1/admin/assistance/{id}/) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 259.00 492.00 Td (Yes \(Bearer\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 344.00 492.00 Td (ROLE_ADMIN) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 454.00 492.00 Td ([ACTIVE]) Tj ET
+0.970 0.970 0.980 rg 50.00 473.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 473.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 476.00 Td (POST) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 99.00 476.00 Td (/api/v1/donations) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 259.00 476.00 Td (Yes \(Bearer\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 344.00 476.00 Td (DONOR, USER) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 454.00 476.00 Td ([ACTIVE]) Tj ET
+0.970 0.970 0.980 rg 50.00 457.00 512.00 15.00 re f
+0.880 0.880 0.900 RG 50.00 457.00 512.00 15.00 re S
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 54.00 460.00 Td (GET) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 99.00 460.00 Td (/api/v1/donations/my-donations) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 259.00 460.00 Td (Yes \(Bearer\)) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 344.00 460.00 Td (DONOR, USER) Tj ET
+BT /F1 8.5 Tf 0.150 0.150 0.150 rg 454.00 460.00 Td ([ACTIVE]) Tj ET
+BT /F2 10.5 Tf 0.200 0.200 0.300 rg 50.00 437.00 Td (Status Note on Active Endpoints) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 423.00 Td (All core backend domain endpoints across Authentication, User Profile, Assistance Requests, Document) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 410.00 Td (Uploads, Admin Moderation, and Donations are fully implemented, verified, and passing automated test) Tj ET
+BT /F1 9.5 Tf 0.150 0.150 0.150 rg 50.00 397.00 Td (suites.) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 756.00 m 562.00 756.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 760.00 Td (HOP Project - Master Architecture & Workflow Documentation) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 497.00 760.00 Td (Confidential) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 42.00 m 562.00 42.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 30.00 Td (Generated: 2026-11-19 | Version 1.0.0 | System-Wide Technical Record) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 507.00 30.00 Td (Page 7 of 12) Tj ET
+
+endstream
+endobj
+20 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 21 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
+endobj
+21 0 obj
+<< /Length 7571 >>
+stream
+0.120 0.280 0.480 rg 50.00 710.00 512.00 24.00 re f
+BT /F2 13 Tf 1.000 1.000 1.000 rg 58.00 716.00 Td (8. Complete Phase-Wise Development History) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 690.00 Td (Phase 01: Project Scaffolding & Initial Directory Structure Setup) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 686.00 m 562.00 686.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 672.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 672.00 Td ([COMPLETED] on 2026-11-17) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 658.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 658.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 658.00 Td (Establish root project topology, React frontend skeleton, Spring Boot package structure, database) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 645.00 Td (migrations folder, gitignore, and foundational documentation.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 630.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 630.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 630.00 Td (Created frontend and backend directories, domain packages \(auth, user, assistance, admin, config,) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 617.00 Td (security, common\), .gitignore, and 3 README files.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 602.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 602.00 Td (Testing Performed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 159.60 602.00 Td (PowerShell automated directory assertion script \(returned ALL_DIRECTORIES_VERIFIED\) and file inventory) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 589.00 Td (verification.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 574.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 574.00 Td (Modifications & Deletions: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 201.20 574.00 Td (Zero existing files modified or deleted. Root workspace started clean.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 541.00 Td (Phase 02: Backend Scaffolding Audit & Documentation Framework Setup) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 537.00 m 562.00 537.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 523.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 523.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 509.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 509.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 509.00 Td (Inspect backend initialization, audit dependencies, establish central documentation structure and Master) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 496.00 Td (PDF.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 481.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 481.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 481.00 Td (Audited Spring Boot dependencies, identified Hibernate ddl-auto risks, created) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 468.00 Td (docs/project-documentation/ hierarchy, workflow diagram, phase reports, and compiled Master PDF.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 437.00 Td (Phase 03: Dependency Verification & Build Hardening) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 433.00 m 562.00 433.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 419.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 419.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 405.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 405.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 405.00 Td (Verify Maven dependencies in backend/pom.xml, add Flyway PostgreSQL migration driver and H2 test driver.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 390.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 390.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 390.00 Td (Added flyway-core \(12.4.0\), flyway-database-postgresql \(12.4.0\), and h2 \(2.4.240 test scope\). Executed) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 377.00 Td (mvn compile and test verifying clean resolution on Java 21.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 346.00 Td (Phase 04: Database Validation & Flyway Migration Baseline) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 342.00 m 562.00 342.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 328.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 328.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 314.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 314.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 314.00 Td (Author V1__initial_schema.sql, transition application.properties to ddl-auto=validate, configure test) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 301.00 Td (properties.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 286.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 286.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 286.00 Td (Created V1__initial_schema.sql \(roles, users, user_roles, assistance_requests, assistance_documents,) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 273.00 Td (donations\) with indexes and seed roles. Added application-test.properties for hermetic test execution.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 242.00 Td (Phase 05: Backend Foundation & Common Infrastructure) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 238.00 m 562.00 238.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 224.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 224.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 210.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 210.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 210.00 Td (Establish uniform response envelopes, global exception handling, domain enums, and CORS configuration.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 195.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 195.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 195.00 Td (Implemented ApiResponse<T>, ApiErrorResponse, GlobalExceptionHandler \(@RestControllerAdvice\), custom) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 182.00 Td (exceptions, RoleType, RequestStatus, PriorityLevel, and WebConfig \(CORS for localhost:3000/5173\).) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 169.00 Td (Verified with clean compilation and test execution.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 138.00 Td (Phase 06: Authentication & Authorization \(RBAC & JWT\)) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 134.00 m 562.00 134.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 120.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 120.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 106.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 106.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 106.00 Td (Implement stateless JWT authentication, User & Role JPA entities, repositories, Spring Security filter) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 93.00 Td (chain, and Auth REST endpoints.) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 756.00 m 562.00 756.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 760.00 Td (HOP Project - Master Architecture & Workflow Documentation) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 497.00 760.00 Td (Confidential) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 42.00 m 562.00 42.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 30.00 Td (Generated: 2026-11-19 | Version 1.0.0 | System-Wide Technical Record) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 507.00 30.00 Td (Page 8 of 12) Tj ET
+
+endstream
+endobj
+22 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 23 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
+endobj
+23 0 obj
+<< /Length 7922 >>
+stream
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 738.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 738.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 738.00 Td (Added JJWT 0.12.6 and Jackson dependencies. Created User and Role entities, UserRepository,) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 725.00 Td (RoleRepository. Configured SecurityFilterChain, JwtTokenProvider, JwtAuthenticationFilter,) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 712.00 Td (JwtAuthenticationEntryPoint, and CustomUserDetailsService. Implemented AuthService and AuthController) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 699.00 Td (with /api/v1/auth/register, /login, /me. All 27 classes compiled and tested cleanly.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 668.00 Td (Phase 07: User Management) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 664.00 m 562.00 664.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 650.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 650.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 636.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 636.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 636.00 Td (Implement secure profile inspection, personal detail updates, and BCrypt password change.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 621.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 621.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 621.00 Td (Created UserProfileResponse, UpdateProfileRequest, ChangePasswordRequest DTOs. Implemented UserService) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 608.00 Td (with current-password validation and re-use prevention. Implemented UserController with GET) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 595.00 Td (/api/v1/users/profile, PUT /api/v1/users/profile, and PUT /api/v1/users/password. All 32 classes compiled) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 582.00 Td (and tested cleanly.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 551.00 Td (Phase 08: Assistance Request Management) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 547.00 m 562.00 547.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 533.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 533.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 519.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 519.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 519.00 Td (Implement AssistanceRequest entity, repository, application submission, user ticket queries, and public) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 506.00 Td (initiative browse.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 491.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 491.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 491.00 Td (Created AssistanceRequest JPA entity, AssistanceRequestRepository with pagination and status/category) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 478.00 Td (filters. Implemented CreateAssistanceRequest and AssistanceResponse DTOs. Built AssistanceService and) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 465.00 Td (AssistanceController \(/api/v1/assistance\). Updated SecurityConfig permitting public browse. All 38) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 452.00 Td (classes compiled and tested cleanly.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 421.00 Td (Phase 09: Document Management) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 417.00 m 562.00 417.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 403.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 403.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 389.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 389.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 389.00 Td (Implement AssistanceDocument entity, repository, file storage service, upload validation, and secure) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 376.00 Td (file streaming.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 361.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 361.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 361.00 Td (Created AssistanceDocument entity and repository. Built FileStorageService with path traversal defense,) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 348.00 Td (file format verification \(PDF, images\), and unique UUID-based naming. Built DocumentService and) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 335.00 Td (DocumentController \(/api/v1/documents\) with strict ownership checks. Configured multipart limits. All 44) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 322.00 Td (classes compiled and tested cleanly.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 291.00 Td (Phase 10: Admin Management) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 287.00 m 562.00 287.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 273.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 273.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 259.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 259.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 259.00 Td (Implement administrative user inspection, account status moderation, assistance ticket review queue, and) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 246.00 Td (system metrics.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 231.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 231.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 231.00 Td (Created UserStatusUpdateRequest, ReviewAssistanceRequest, AdminMetricsResponse DTOs. Built AdminService) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 218.00 Td (and AdminController \(/api/v1/admin\) with ROLE_ADMIN security guards. Implemented user moderation,) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 205.00 Td (approval/rejection workflows, and platform metrics queries. All 49 classes compiled and tested cleanly.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 174.00 Td (Phase 11: Donor & Donation Management) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 170.00 m 562.00 170.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 156.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 156.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 142.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 142.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 142.00 Td (Implement Donation JPA entity, contribution processing, atomic funds incrementing, automatic ticket) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 129.00 Td (fulfillment transitions, and donor history.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 114.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 114.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 114.00 Td (Created Donation entity mapped to Flyway V1 donations table. Built DonationRepository,) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 101.00 Td (CreateDonationRequest, and DonationResponse DTOs. Implemented DonationService with @Transactional atomic) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 88.00 Td (balance updates and status progression to FULFILLED when targets are reached. Implemented) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 75.00 Td (DonationController with endpoints /api/v1/donations. All 55 classes compiled and tested cleanly.) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 756.00 m 562.00 756.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 760.00 Td (HOP Project - Master Architecture & Workflow Documentation) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 497.00 760.00 Td (Confidential) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 42.00 m 562.00 42.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 30.00 Td (Generated: 2026-11-19 | Version 1.0.0 | System-Wide Technical Record) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 507.00 30.00 Td (Page 9 of 12) Tj ET
+
+endstream
+endobj
+24 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 25 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
+endobj
+25 0 obj
+<< /Length 7810 >>
+stream
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 730.00 Td (Phase 12: Frontend Development) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 726.00 m 562.00 726.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 712.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 712.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 698.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 698.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 698.00 Td (Scaffold React 18 + TypeScript + Vite Single Page Application, CSS design system, AuthContext, route) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 685.00 Td (guards, and functional UI views.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 670.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 670.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 670.00 Td (Created frontend package topology with Vite and TypeScript. Built responsive CSS design tokens) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 657.00 Td (\(main.css\), API client layer with JWT envelope handling, AuthContext, ProtectedRoute, AdminRoute, and) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 644.00 Td (views: HomePage, AssistanceBrowsePage, AssistanceRequestPage, MyRequestsPage, LoginPage, RegisterPage,) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 631.00 Td (ProfilePage, DonationModal, and AdminDashboardPage. Production build verified \(tsc && vite build\).) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 600.00 Td (Phase 13: Backend-Frontend Integration) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 596.00 m 562.00 596.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 582.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 582.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 568.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 568.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 568.00 Td (Integrate React frontend with Spring Boot backend, synchronize DTO payload schemas, configure CORS and) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 555.00 Td (security permits, and validate complete end-to-end user journeys.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 540.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 540.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 540.00 Td (Audited WebConfig and SecurityConfig permitting public donation references. Aligned all TypeScript) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 527.00 Td (interfaces with backend DTOs \(firstName/lastName, targetAmount, raisedAmount, transactionRef\).) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 514.00 Td (Implemented MockMvc EndToEndIntegrationTest executing full user lifecycle \(Register -> Login -> Profile) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 501.00 Td (Edit -> Assistance Submit -> Admin Review & Approval -> Public Browse -> Donor Contribution -> Automatic) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 488.00 Td (Fulfillment -> Metrics Check\). All integration tests passed with 0 errors.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 457.00 Td (Phase 14: Complete Application Testing) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 453.00 m 562.00 453.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 439.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 439.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 425.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 425.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 425.00 Td (Execute comprehensive multi-layer test suite covering security barriers, RBAC authorization blocks,) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 412.00 Td (input validation rules, and business logic constraints.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 397.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 397.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 397.00 Td (Created SecurityAccessControlTest and ValidationAndBusinessLogicTest. Validated 401 Unauthorized on) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 384.00 Td (unauthenticated requests, 403 Forbidden on role violations for admin endpoints, 400 Bad Request on) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 371.00 Td (invalid emails, short passwords, duplicate registrations, and invalid donation thresholds. Full suite of) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 358.00 Td (11 tests passed with 0 failures \(BUILD SUCCESS\).) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 327.00 Td (Phase 15: Optimization) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 323.00 m 562.00 323.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 309.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 309.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 295.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 295.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 295.00 Td (Perform database indexing audit, create Flyway V2 migration, configure HikariCP high-throughput) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 282.00 Td (connection pool, and disable OpenEntityManagerInView.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 267.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 267.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 267.00 Td (Authored V2__optimization_indexes.sql provisioning composite and foreign key indexes for donations,) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 254.00 Td (assistance requests, and documents. Configured 20 maximum connections in HikariCP pool. Disabled) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 241.00 Td (open-in-view in Spring JPA properties. Verified 11 automated tests continue passing cleanly with zero) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 228.00 Td (startup warnings.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 197.00 Td (Phase 16: Final Documentation Review) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 193.00 m 562.00 193.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 179.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 179.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 165.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 165.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 165.00 Td (Perform exhaustive documentation audit across all project modules, synchronize technical specifications) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 152.00 Td (with the production codebase, and ensure master documentation accuracy.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 137.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 137.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 137.00 Td (Audited central documentation directory, verified code-documentation alignment across JWT/RBAC security,) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 124.00 Td (DTO contracts, and database indexes. Generated comprehensive 18-point audit reports for all phases.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 93.00 Td (Phase 17: Deployment Preparation) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 89.00 m 562.00 89.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 75.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 75.00 Td ([COMPLETED] on 2026-11-19) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 756.00 m 562.00 756.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 760.00 Td (HOP Project - Master Architecture & Workflow Documentation) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 497.00 760.00 Td (Confidential) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 42.00 m 562.00 42.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 30.00 Td (Generated: 2026-11-19 | Version 1.0.0 | System-Wide Technical Record) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 507.00 30.00 Td (Page 10 of 12) Tj ET
+
+endstream
+endobj
+26 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 27 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
+endobj
+27 0 obj
+<< /Length 3026 >>
+stream
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 738.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 738.00 Td (Objectives: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 123.20 738.00 Td (Containerize full-stack system using multi-stage Docker builds, orchestrate container services with) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 725.00 Td (Docker Compose, and establish production deployment readiness.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 710.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 710.00 Td (Work Completed: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 144.00 710.00 Td (Authored backend multi-stage Dockerfile \(Eclipse Temurin JDK/JRE 21\), frontend multi-stage Dockerfile) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 697.00 Td (\(Node 20 / Nginx alpine\), and root docker-compose.yml orchestrating PostgreSQL 16, Spring Boot backend,) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 684.00 Td (and React frontend with volume mounts and health checks.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 653.00 Td (Mobile Phone Responsiveness Enhancement) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 649.00 m 562.00 649.00 l S
+BT /F2 9 Tf 0.150 0.150 0.250 rg 60.00 635.00 Td (Status:) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 210.00 635.00 Td ([VERIFIED & ACTIVE]) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 621.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 621.00 Td (Mobile Navigation: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 159.60 621.00 Td (Engineered responsive hamburger toggle menu \(< 860px\) with slide-down drawer, touch-friendly tap) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 608.00 Td (targets, and animated background dimming.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 593.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 593.00 Td (Fluid Layouts & Typography: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 206.40 593.00 Td (Applied clamp-based scaling for hero banners, collapsed multi-column grids \(grid-2, grid-3, grid-4\) into) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 580.00 Td (single columns on phones, and styled horizontally scrollable tab toolbars.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 565.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 565.00 Td (Touch-Optimized Modals: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 185.60 565.00 Td (Enforced 16px input fonts preventing iOS Safari auto-zoom, 44px minimum touch targets, and) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 552.00 Td (viewport-constrained responsive modals for photo/video previews and donations.) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 756.00 m 562.00 756.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 760.00 Td (HOP Project - Master Architecture & Workflow Documentation) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 497.00 760.00 Td (Confidential) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 42.00 m 562.00 42.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 30.00 Td (Generated: 2026-11-19 | Version 1.0.0 | System-Wide Technical Record) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 507.00 30.00 Td (Page 11 of 12) Tj ET
+
+endstream
+endobj
+28 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 29 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> >>
+endobj
+29 0 obj
+<< /Length 3918 >>
+stream
+0.120 0.280 0.480 rg 50.00 710.00 512.00 24.00 re f
+BT /F2 13 Tf 1.000 1.000 1.000 rg 58.00 716.00 Td (9. Setup Instructions & Deployment Readiness) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 690.00 Td (Setup & Execution Instructions) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 686.00 m 562.00 686.00 l S
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 672.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 672.00 Td (Prerequisites: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 138.80 672.00 Td (Java 21 JDK, Maven 3.9+, Node.js 20+, PostgreSQL 16+ or Docker.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 657.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 657.00 Td (Docker Orchestration: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 175.20 657.00 Td (Execute 'docker-compose up --build -d' to deploy full stack \(PostgreSQL, Backend API, Frontend UI\).) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 642.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 642.00 Td (Backend Build Check: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 170.00 642.00 Td (Run 'mvn clean compile' inside backend/ directory to compile class files.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 627.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 627.00 Td (Backend Test Suite Check: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 196.00 627.00 Td (Run 'mvn test' inside backend/ directory to execute isolated test suites \(11 tests, BUILD SUCCESS\).) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 612.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 612.00 Td (Frontend Build Check: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 175.20 612.00 Td (Run 'npm run build' inside frontend/ directory to execute TypeScript check and Vite bundle.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 597.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 597.00 Td (Documentation Regeneration: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 206.40 597.00 Td (Run 'python docs/project-documentation/generate_master_pdf.py' to rebuild Master PDF.) Tj ET
+BT /F2 12 Tf 0.120 0.280 0.480 rg 50.00 574.00 Td (Final Project Status: All 17 Phases Completed) Tj ET
+0.80 w 0.200 0.400 0.650 RG 50.00 570.00 m 562.00 570.00 l S
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 556.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 556.00 Td (Database Migrations: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 170.00 556.00 Td (Flyway V1 schema and V2 optimization indexes fully applied and validated.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 541.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 541.00 Td (Backend API: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 128.40 541.00 Td (55 Java classes delivering complete Auth, Users, Assistance, Documents, Admin, and Donations REST) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 528.00 Td (services.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 513.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 513.00 Td (Frontend SPA: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 133.60 513.00 Td (React 18 + TypeScript + Vite modern responsive UI with client route guards and seamless proxy) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 66.00 500.00 Td (integration.) Tj ET
+BT /F2 9 Tf 0.120 0.280 0.480 rg 54.00 485.00 Td (•) Tj ET
+BT /F2 9 Tf 0.100 0.100 0.100 rg 66.00 485.00 Td (Containerization: ) Tj ET
+BT /F1 9 Tf 0.200 0.200 0.200 rg 154.40 485.00 Td (Multi-stage Dockerfiles and docker-compose orchestration ready for production deployment.) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 756.00 m 562.00 756.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 760.00 Td (HOP Project - Master Architecture & Workflow Documentation) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 497.00 760.00 Td (Confidential) Tj ET
+0.50 w 0.75 0.75 0.75 RG 50.00 42.00 m 562.00 42.00 l S
+BT /F1 8 Tf 0.40 0.40 0.40 rg 50.00 30.00 Td (Generated: 2026-11-19 | Version 1.0.0 | System-Wide Technical Record) Tj ET
+BT /F1 8 Tf 0.40 0.40 0.40 rg 507.00 30.00 Td (Page 12 of 12) Tj ET
+
+endstream
+endobj
+xref
+0 30
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000192 00000 n 
+0000000262 00000 n 
+0000000337 00000 n 
+0000000405 00000 n 
+0000000551 00000 n 
+0000004712 00000 n 
+0000004858 00000 n 
+0000011317 00000 n 
+0000011465 00000 n 
+0000015949 00000 n 
+0000016097 00000 n 
+0000024938 00000 n 
+0000025086 00000 n 
+0000029132 00000 n 
+0000029280 00000 n 
+0000034380 00000 n 
+0000034528 00000 n 
+0000041587 00000 n 
+0000041735 00000 n 
+0000049359 00000 n 
+0000049507 00000 n 
+0000057482 00000 n 
+0000057630 00000 n 
+0000065493 00000 n 
+0000065641 00000 n 
+0000068720 00000 n 
+0000068868 00000 n 
+trailer
+<< /Size 30 /Root 1 0 R >>
+startxref
+72839
+%%EOF
