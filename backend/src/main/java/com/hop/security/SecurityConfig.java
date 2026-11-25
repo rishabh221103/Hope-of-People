@@ -53,11 +53,14 @@ public class SecurityConfig {
                                 "/api/v1/documents/download/**",
                                 "/api/v1/documents/request/**",
                                 "/api/v1/donations/request/**",
+                                "/api/v1/reels/video/**",
                                 "/error",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/reels", "/api/v1/reels/*", "/api/v1/reels/user/*").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/reels/*/view").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )

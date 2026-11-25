@@ -126,6 +126,7 @@ HOP/
    - **Phase 21:** Business Hub & Micro-Grants (Equipment lists, roadmap milestones, mentor backing)
    - **Phase 22:** Real-Time Notification Center (Navbar dropdown bell, activity stream, 1-click navigation)
    - **Phase 23:** Geographic Proximity Matching (Haversine spatial algorithm, "Causes Near Me" radius filter)
+   - **Phase 24:** Multimedia Short-Video Reels Feed ("HOP Reels" vertical video feed, impact proof, direct donate CTA)
 
 ---
 

@@ -15,6 +15,7 @@ import { MyDonationsPage } from '../pages/MyDonationsPage';
 import { NetworkPage } from '../pages/NetworkPage';
 import { MessagesPage } from '../pages/MessagesPage';
 import { NotificationsPage } from '../pages/NotificationsPage';
+import { ReelsPage } from '../pages/ReelsPage';
 import { AdminDashboardPage } from '../pages/AdminDashboardPage';
 import { ProtectedRoute } from './ProtectedRoute';
 import { AdminRoute } from './AdminRoute';
@@ -27,6 +28,7 @@ export const AppRoutes: React.FC = () => {
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="initiatives" element={<AssistanceBrowsePage />} />
+        <Route path="reels" element={<ReelsPage />} />
         <Route path="business-hub" element={<BusinessHubPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />

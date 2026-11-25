@@ -250,6 +250,22 @@ The following REST endpoints are fully implemented, secured via Spring Security,
 
 ---
 
+### 3.11 Multimedia Short-Video Reels Endpoints (`/api/v1/reels`) — *Phase 24*
+
+| Method | Endpoint | Purpose | Auth Required | Required Role | Status |
+|---|---|---|---|---|---|
+| `GET` | `/api/v1/reels` | Retrieve chronologically ordered reels feed | No | Public | `[ACTIVE]` |
+| `GET` | `/api/v1/reels/{id}` | Retrieve individual reel details & metadata | No | Public | `[ACTIVE]` |
+| `GET` | `/api/v1/reels/user/{userId}` | Retrieve all reels published by specific creator | No | Public | `[ACTIVE]` |
+| `POST` | `/api/v1/reels` | Publish new reel via JSON payload & video link | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `POST` | `/api/v1/reels/upload` | Upload video file directly (`multipart/form-data`) | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `GET` | `/api/v1/reels/video/{filename}` | Stream inline video file (`video/mp4`, `webm`) | No | Public | `[ACTIVE]` |
+| `POST` | `/api/v1/reels/{id}/like` | Toggle like/unlike on a reel (triggers notification) | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `POST` | `/api/v1/reels/{id}/view` | Record video playback view count | No | Public | `[ACTIVE]` |
+| `DELETE` | `/api/v1/reels/{id}` | Delete an owned reel (or as admin) | Yes (Bearer) | Creator / Admin | `[ACTIVE]` |
+
+---
+
 ## 4. Standard HTTP Status Codes
 
 - `200 OK` — Successful operation.
