@@ -1,7 +1,15 @@
 # =============================================================================
 # HOP Project - .gitignore
-# Covers Java, Maven, Spring Boot, React, Node.js, IDEs, OS, and Secrets
+# Covers Java, Maven, Spring Boot, React, Node.js, Scratch, IDEs, OS, and Secrets
 # =============================================================================
+
+# --- Temporary & Scratch Workspace ---
+scratch/
+/scratch/
+*.tmp
+*.bak
+*.swp
+*~
 
 # --- Environment & Credentials (NEVER commit secrets, keys, or passwords) ---
 .env
@@ -31,6 +39,7 @@ secrets.yml
 
 # --- Maven ---
 target/
+/backend/target/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -40,16 +49,21 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
+.locks/
+*.lock
 
 # --- Gradle (if used) ---
 .gradle/
 build/
 !src/**/build/
 
-# --- Database Data Directories ---
+# --- Database Data Directories & Local Storage ---
 database/pg_data/
 *.db
 *.sqlite
+*.sqlite3
+*.dump
+*.sql.bak
 
 # --- Spring Boot & Application Outputs ---
 *.log
@@ -61,21 +75,29 @@ application-secret.properties
 application-secret.yml
 application-secret.yaml
 
+# --- Uploaded User Documents, Avatars & Media ---
+uploads/
+/backend/uploads/
+backend/uploads/**
+
 # --- Node.js & React Dependencies & Build Output ---
 node_modules/
+/frontend/node_modules/
 dist/
-build/
-.npm
+/frontend/dist/
+.vite/
+/frontend/.vite/
+.npm/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-.pnpm-store
+.pnpm-store/
 .eslintcache
 .stylelintcache
 
-# --- Test Coverage ---
+# --- Test Coverage & Verification ---
 coverage/
 *.lcov
 .nyc_output/
@@ -106,13 +128,6 @@ nbbuild/
 nbdist/
 .nb-gradle/
 
-# --- Database & Local Storage ---
-*.db
-*.sqlite
-*.sqlite3
-*.dump
-*.sql.bak
-
 # --- Operating System Files ---
 .DS_Store
 .DS_Store?
@@ -122,23 +137,7 @@ nbdist/
 ehthumbs.db
 Thumbs.db
 Desktop.ini
+[Dd]esktop.ini
+$RECYCLE.BIN/
 
-# Uploaded user documents and media
-/backend/uploads/
 
-# Environment variables
-.env
-.env.*
-!.env.example
-
-# Frontend dependencies
-/frontend/node_modules/
-
-/frontend/dist/
-
-# Backend build files
-/backend/target/
-
-# IDE files
-.idea/
-.vscode/
