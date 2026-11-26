@@ -570,6 +570,60 @@ def build_master_documentation(output_pdf_path):
     doc.add_bullet("Work Completed:", "Authored backend multi-stage Dockerfile (Eclipse Temurin JDK/JRE 21), frontend multi-stage Dockerfile (Node 20 / Nginx alpine), and root docker-compose.yml orchestrating PostgreSQL 16, Spring Boot backend, and React frontend with volume mounts and health checks.")
     doc.y -= 8
 
+    doc.add_h2("Phase 18: Dignity, Privacy & Structured Categories")
+    doc.add_key_value("Status", "[COMPLETED] on 2026-11-25")
+    doc.add_bullet("Objectives:", "Implement anonymous giving toggles, structured subcategories across Health, Education, Micro-grants, and dignity-first UI.")
+    doc.add_bullet("Work Completed:", "Enhanced AssistanceRequest with isAnonymous flag, Category taxonomy, and privacy guards across public API and frontend views.")
+    doc.y -= 8
+
+    doc.add_h2("Phase 19: User Connect System")
+    doc.add_key_value("Status", "[COMPLETED] on 2026-11-25")
+    doc.add_bullet("Objectives:", "Create social connection requests, friendship graphs, accept/reject flows, and connection status badges.")
+    doc.add_bullet("Work Completed:", "Created connections schema (V6), Connection entity, ConnectionService, and User Connect directory UI with real-time status buttons.")
+    doc.y -= 8
+
+    doc.add_h2("Phase 20: Direct Messaging Messenger")
+    doc.add_key_value("Status", "[COMPLETED] on 2026-11-25")
+    doc.add_bullet("Objectives:", "Implement 1-on-1 private messaging, conversation threads, read receipts, and real-time chat modal/page.")
+    doc.add_bullet("Work Completed:", "Created direct_messages schema (V7), DirectMessage entity, DirectMessageService, and floating messenger dialog with unread polling.")
+    doc.y -= 8
+
+    doc.add_h2("Phase 21: Business Hub & Self-Reliance")
+    doc.add_key_value("Status", "[COMPLETED] on 2026-11-25")
+    doc.add_bullet("Objectives:", "Empower beneficiaries with micro-enterprise business profiles, products/services showcases, and patron support links.")
+    doc.add_bullet("Work Completed:", "Created business_profiles and business_products schema (V8), BusinessService, BusinessHubPage, and BusinessProfileDetailPage.")
+    doc.y -= 8
+
+    doc.add_h2("Phase 22: Real-Time In-App Notification System")
+    doc.add_key_value("Status", "[COMPLETED] on 2026-11-25")
+    doc.add_bullet("Objectives:", "Implement unified in-app notification center for connections, messages, donations, and community interactions.")
+    doc.add_bullet("Work Completed:", "Created notifications schema (V9), Notification entity, NotificationService, NotificationsPage, and navbar bell dropdown with live counter.")
+    doc.y -= 8
+
+    doc.add_h2("Phase 23: Geographic Matching ('Causes Near Me')")
+    doc.add_key_value("Status", "[COMPLETED] on 2026-11-25")
+    doc.add_bullet("Objectives:", "Enable local discovery of urgent causes, community drives, and volunteer initiatives by city, state, or geolocation radius.")
+    doc.add_bullet("Work Completed:", "Enhanced AssistanceRequest queries with city/state matching and geolocation distance filters, interactive map view, and location quick-select.")
+    doc.y -= 8
+
+    doc.add_h2("Phase 24: Multimedia Short-Video Reels Feed ('HOP Reels')")
+    doc.add_key_value("Status", "[COMPLETED] on 2026-11-25")
+    doc.add_bullet("Objectives:", "Engage community with 60-second video stories of hope, impact testimonials, video upload/streaming, and interactive likes.")
+    doc.add_bullet("Work Completed:", "Created reels and reel_likes schema (V10), Reel entity, FileStorageService video streaming, ReelsFeedPage with TikTok-style swipe and like animations.")
+    doc.y -= 8
+
+    doc.add_h2("Phase 25: Community Forum & Discussion Wall")
+    doc.add_key_value("Status", "[COMPLETED] on 2026-11-26")
+    doc.add_bullet("Objectives:", "Build threaded discussion channels, Q&A support wall, upvoting, accepted answers, and cause-linked discussions.")
+    doc.add_bullet("Work Completed:", "Created forum_categories, forum_posts, forum_replies, forum_post_upvotes schema (V11), ForumService, CommunityPage (/community), and ForumPostDetailPage.")
+    doc.y -= 8
+
+    doc.add_h2("Phase 26: Podcasts & Audio Streaming Platform ('HOP Podcasts')")
+    doc.add_key_value("Status", "[COMPLETED] on 2026-11-26")
+    doc.add_bullet("Objectives:", "Provide episodic audio streaming, guest interviews, persistent global audio dock with scrubber/speed control, play counters, and episode likes.")
+    doc.add_bullet("Work Completed:", "Created podcasts and podcast_likes schema (V12), PodcastService with audio streaming, AudioPlayerContext, GlobalAudioPlayerBar, CreatePodcastModal, and PodcastsPage (/podcasts).")
+    doc.y -= 8
+
     doc.add_h2("Mobile Phone Responsiveness Enhancement")
     doc.add_key_value("Status", "[VERIFIED & ACTIVE]")
     doc.add_bullet("Mobile Navigation:", "Engineered responsive hamburger toggle menu (< 860px) with slide-down drawer, touch-friendly tap targets, and animated background dimming.")
@@ -590,10 +644,10 @@ def build_master_documentation(output_pdf_path):
     doc.add_bullet("Frontend Build Check:", "Run 'npm run build' inside frontend/ directory to execute TypeScript check and Vite bundle.")
     doc.add_bullet("Documentation Regeneration:", "Run 'python docs/project-documentation/generate_master_pdf.py' to rebuild Master PDF.")
 
-    doc.add_h2("Final Project Status: All 17 Phases Completed")
-    doc.add_bullet("Database Migrations:", "Flyway V1 schema and V2 optimization indexes fully applied and validated.")
-    doc.add_bullet("Backend API:", "55 Java classes delivering complete Auth, Users, Assistance, Documents, Admin, and Donations REST services.")
-    doc.add_bullet("Frontend SPA:", "React 18 + TypeScript + Vite modern responsive UI with client route guards and seamless proxy integration.")
+    doc.add_h2("Final Project Status: All 26 Current Phases Completed & Verified")
+    doc.add_bullet("Database Migrations:", "Flyway migrations through V12 (Podcasts) fully applied and validated in PostgreSQL.")
+    doc.add_bullet("Backend API:", "124 Java classes delivering comprehensive Auth, Community, Reels, Podcasts, Forum, Business, and Geo REST services.")
+    doc.add_bullet("Frontend SPA:", "React 18 + TypeScript + Vite modern responsive UI with persistent audio dock and zero TypeScript errors.")
     doc.add_bullet("Containerization:", "Multi-stage Dockerfiles and docker-compose orchestration ready for production deployment.")
 
     doc.finish()

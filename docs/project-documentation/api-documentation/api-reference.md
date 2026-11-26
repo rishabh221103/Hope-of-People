@@ -283,6 +283,21 @@ The following REST endpoints are fully implemented, secured via Spring Security,
 
 ---
 
+### 3.13 Podcasts & Audio Streaming Endpoints (`/api/v1/podcasts`) — *Phase 26*
+
+| Method | Endpoint | Purpose | Auth Required | Required Role | Status |
+|---|---|---|---|---|---|
+| `GET` | `/api/v1/podcasts` | Query podcasts with optional category, search & cause filters | No | Public | `[ACTIVE]` |
+| `GET` | `/api/v1/podcasts/{id}` | Retrieve podcast episode metadata and details | No | Public | `[ACTIVE]` |
+| `POST` | `/api/v1/podcasts` | Publish new podcast episode with audio link or uploaded file | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `POST` | `/api/v1/podcasts/upload` | Upload audio file directly (`.mp3`, `.wav`, `.ogg`, `.m4a`, `.aac`) | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `GET` | `/api/v1/podcasts/audio/{filename}` | Direct audio file streaming (`audio/mpeg`, etc.) | No | Public | `[ACTIVE]` |
+| `POST` | `/api/v1/podcasts/{id}/play` | Record an episode play increment | No | Public | `[ACTIVE]` |
+| `POST` | `/api/v1/podcasts/{id}/like` | Toggle like/unlike on an episode (triggers host notification) | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `DELETE` | `/api/v1/podcasts/{id}` | Delete an episode and cascade-delete likes | Yes (Bearer) | Host / Admin | `[ACTIVE]` |
+
+---
+
 ## 4. Standard HTTP Status Codes
 
 - `200 OK` — Successful operation.

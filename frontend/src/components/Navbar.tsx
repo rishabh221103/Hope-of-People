@@ -21,6 +21,7 @@ import {
   Film,
   ChevronDown,
   MessagesSquare,
+  Radio,
 } from 'lucide-react';
 import { NotificationDropdown } from './NotificationDropdown';
 import { connectionService } from '../services/connectionService';
@@ -108,8 +109,8 @@ export const Navbar: React.FC = () => {
   const isDonor = hasRole('ROLE_DONOR');
   const isAdmin = hasRole('ROLE_ADMIN');
 
-  const isFeaturesActive = ['/community', '/reels', '/business-hub', '/network', '/messages', '/notifications'].some(path => location.pathname.startsWith(path));
-  const totalFeatureBadges = pendingConnections + unreadMessages + unreadNotifications;
+  const isFeaturesActive = ['/podcasts', '/community', '/reels', '/business-hub', '/network', '/messages'].some(path => location.pathname.startsWith(path));
+  const totalFeatureBadges = pendingConnections + unreadMessages;
 
   return (
     <>
@@ -163,7 +164,7 @@ export const Navbar: React.FC = () => {
                   borderRadius: '0.5rem',
                   transition: 'all 0.15s ease',
                 }}
-                title="Community & Features: Reels, Business Hub, Network, Messages, Notifications"
+                title="Community & Features: Forum, Reels, Podcasts, Business Hub, Network, Messages"
               >
                 <span>Community Hub</span>
                 {totalFeatureBadges > 0 && (
@@ -261,6 +262,31 @@ export const Navbar: React.FC = () => {
                     </div>
                   </Link>
 
+                  {/* 3. HOP Podcasts */}
+                  <Link
+                    to="/podcasts"
+                    onClick={() => setFeaturesDropdownOpen(false)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.75rem',
+                      padding: '0.55rem 0.7rem',
+                      borderRadius: '0.5rem',
+                      textDecoration: 'none',
+                      color: isActive('/podcasts') ? '#4338ca' : '#1e293b',
+                      backgroundColor: isActive('/podcasts') ? '#e0e7ff' : 'transparent',
+                      transition: 'background-color 0.15s ease',
+                    }}
+                  >
+                    <div style={{ padding: '0.4rem', backgroundColor: '#e0e7ff', borderRadius: '0.5rem', color: '#4338ca', display: 'flex' }}>
+                      <Radio size={17} />
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 600, fontSize: '0.85rem' }}>HOP Podcasts</div>
+                      <div style={{ fontSize: '0.72rem', color: '#64748b' }}>Audio recovery stories & advice</div>
+                    </div>
+                  </Link>
+
                   {/* 2. Business Hub */}
                   <Link
                     to="/business-hub"
@@ -345,38 +371,6 @@ export const Navbar: React.FC = () => {
                       {unreadMessages > 0 && (
                         <span style={{ backgroundColor: '#2563eb', color: '#fff', borderRadius: '9999px', padding: '0.1rem 0.45rem', fontSize: '0.65rem', fontWeight: 700 }}>
                           {unreadMessages}
-                        </span>
-                      )}
-                    </div>
-                  </Link>
-
-                  {/* 5. Notifications */}
-                  <Link
-                    to="/notifications"
-                    onClick={() => setFeaturesDropdownOpen(false)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.75rem',
-                      padding: '0.55rem 0.7rem',
-                      borderRadius: '0.5rem',
-                      textDecoration: 'none',
-                      color: isActive('/notifications') ? '#ea580c' : '#1e293b',
-                      backgroundColor: isActive('/notifications') ? '#fff7ed' : 'transparent',
-                      transition: 'background-color 0.15s ease',
-                    }}
-                  >
-                    <div style={{ padding: '0.4rem', backgroundColor: '#ffedd5', borderRadius: '0.5rem', color: '#ea580c', display: 'flex' }}>
-                      <Bell size={17} />
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <div>
-                        <div style={{ fontWeight: 600, fontSize: '0.85rem' }}>Notifications</div>
-                        <div style={{ fontSize: '0.72rem', color: '#64748b' }}>Activity & donation alerts</div>
-                      </div>
-                      {unreadNotifications > 0 && (
-                        <span style={{ backgroundColor: '#ea580c', color: '#fff', borderRadius: '9999px', padding: '0.1rem 0.45rem', fontSize: '0.65rem', fontWeight: 700 }}>
-                          {unreadNotifications}
                         </span>
                       )}
                     </div>
@@ -609,6 +603,16 @@ export const Navbar: React.FC = () => {
           >
             <Film size={18} style={{ color: '#f43f5e' }} />
             <span>HOP Reels</span>
+          </Link>
+
+          <Link
+            to="/podcasts"
+            className={`nav-link ${isActive('/podcasts') ? 'active' : ''}`}
+            onClick={() => setMobileMenuOpen(false)}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+          >
+            <Radio size={18} style={{ color: '#4338ca' }} />
+            <span>HOP Podcasts</span>
           </Link>
 
           <Link

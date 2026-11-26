@@ -28,7 +28,8 @@ public class FileStorageService {
     private final Path fileStorageLocation;
     private static final List<String> ALLOWED_EXTENSIONS = Arrays.asList(
             "pdf", "jpg", "jpeg", "png", "webp", "gif", "doc", "docx",
-            "mp4", "webm", "mov", "avi", "mkv"
+            "mp4", "webm", "mov", "avi", "mkv",
+            "mp3", "wav", "ogg", "m4a", "aac"
     );
 
     public FileStorageService(@Value("${app.upload.dir:uploads/documents}") String uploadDir) {
