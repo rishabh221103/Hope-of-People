@@ -59,4 +59,9 @@ public interface ReelRepository extends JpaRepository<Reel, Long> {
     @Modifying
     @Query("UPDATE Reel r SET r.commentCount = :count WHERE r.id = :id")
     void updateCommentCount(@Param("id") Long id, @Param("count") Integer count);
+
+    @Query("SELECT r FROM Reel r WHERE r.status = :status AND " +
+           "(:search IS NULL OR LOWER(r.caption) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(r.category) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(r.sourceLocation) LIKE LOWER(CONCAT('%', :search, '%'))) " +
+           "ORDER BY r.id DESC")
+    List<Reel> searchLiveReels(@Param("status") ReelStatus status, @Param("search") String search, Pageable pageable);
 }

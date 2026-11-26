@@ -82,4 +82,10 @@ public interface AssistanceRequestRepository extends JpaRepository<AssistanceReq
             @Param("radiusKm") double radiusKm,
             @Param("category") String category
     );
+
+    @Query("SELECT a FROM AssistanceRequest a WHERE " +
+           "a.status IN :statuses AND " +
+           "(:search IS NULL OR LOWER(a.title) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(a.description) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(a.category) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(a.city) LIKE LOWER(CONCAT('%', :search, '%'))) " +
+           "ORDER BY a.createdAt DESC")
+    List<AssistanceRequest> searchRequests(@Param("statuses") List<String> statuses, @Param("search") String search, Pageable pageable);
 }

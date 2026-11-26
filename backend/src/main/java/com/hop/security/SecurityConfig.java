@@ -57,6 +57,7 @@ public class SecurityConfig {
                                 "/api/v1/reels/*/stream",
                                 "/api/reels/*/stream",
                                 "/api/v1/podcasts/audio/**",
+                                "/api/v1/search/**",
                                 "/error",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
