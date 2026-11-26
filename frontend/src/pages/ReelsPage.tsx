@@ -565,14 +565,15 @@ export const ReelsPage: React.FC = () => {
           gap: '1.5rem',
           width: '100%',
         }}>
-          {/* Vertical Reel Card (Sleek Smartphone Frame) */}
+          {/* Vertical Reel Card (9:16 Mobile Aspect Ratio) */}
           <div style={{
             position: 'relative',
-            width: '100%',
-            maxWidth: '390px',
+            aspectRatio: '9 / 16',
             height: '75vh',
             maxHeight: '690px',
-            minHeight: '520px',
+            minHeight: '480px',
+            maxWidth: '100%',
+            width: 'auto',
             backgroundColor: '#000000',
             borderRadius: '32px',
             border: '6px solid #0f172a',
