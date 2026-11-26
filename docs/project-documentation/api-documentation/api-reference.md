@@ -266,6 +266,23 @@ The following REST endpoints are fully implemented, secured via Spring Security,
 
 ---
 
+### 3.12 Community Forum Endpoints (`/api/v1/forum`) — *Phase 25*
+
+| Method | Endpoint | Purpose | Auth Required | Required Role | Status |
+|---|---|---|---|---|---|
+| `GET` | `/api/v1/forum/categories` | Retrieve list of discussion channels & categories | No | Public | `[ACTIVE]` |
+| `GET` | `/api/v1/forum/posts` | Query forum feed with category, search & sort | No | Public | `[ACTIVE]` |
+| `GET` | `/api/v1/forum/posts/{id}` | Retrieve discussion post detail & view increment | No | Public | `[ACTIVE]` |
+| `POST` | `/api/v1/forum/posts` | Create new discussion topic with optional cause link | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `DELETE` | `/api/v1/forum/posts/{id}` | Delete a discussion post and its replies/upvotes | Yes (Bearer) | Author / Admin | `[ACTIVE]` |
+| `GET` | `/api/v1/forum/posts/{id}/replies` | Retrieve threaded replies (solution first) | No | Public | `[ACTIVE]` |
+| `POST` | `/api/v1/forum/posts/{id}/replies` | Post an answer/reply (triggers notification) | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `POST` | `/api/v1/forum/posts/{id}/upvote` | Toggle upvote on a discussion post | Yes (Bearer) | Any Authenticated | `[ACTIVE]` |
+| `PATCH` | `/api/v1/forum/replies/{id}/solution` | Mark/unmark reply as accepted solution | Yes (Bearer) | Author / Admin | `[ACTIVE]` |
+| `DELETE` | `/api/v1/forum/replies/{id}` | Delete reply | Yes (Bearer) | Reply Author / Admin | `[ACTIVE]` |
+
+---
+
 ## 4. Standard HTTP Status Codes
 
 - `200 OK` — Successful operation.

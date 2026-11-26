@@ -20,6 +20,7 @@ import {
   Bell,
   Film,
   ChevronDown,
+  MessagesSquare,
 } from 'lucide-react';
 import { NotificationDropdown } from './NotificationDropdown';
 import { connectionService } from '../services/connectionService';
@@ -107,7 +108,7 @@ export const Navbar: React.FC = () => {
   const isDonor = hasRole('ROLE_DONOR');
   const isAdmin = hasRole('ROLE_ADMIN');
 
-  const isFeaturesActive = ['/reels', '/business-hub', '/network', '/messages', '/notifications'].some(path => location.pathname.startsWith(path));
+  const isFeaturesActive = ['/community', '/reels', '/business-hub', '/network', '/messages', '/notifications'].some(path => location.pathname.startsWith(path));
   const totalFeatureBadges = pendingConnections + unreadMessages + unreadNotifications;
 
   return (
@@ -210,7 +211,32 @@ export const Navbar: React.FC = () => {
                     </span>
                   </div>
 
-                  {/* 1. HOP Reels */}
+                  {/* 1. Community Forum */}
+                  <Link
+                    to="/community"
+                    onClick={() => setFeaturesDropdownOpen(false)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.75rem',
+                      padding: '0.55rem 0.7rem',
+                      borderRadius: '0.5rem',
+                      textDecoration: 'none',
+                      color: isActive('/community') ? '#0284c7' : '#1e293b',
+                      backgroundColor: isActive('/community') ? '#f0f9ff' : 'transparent',
+                      transition: 'background-color 0.15s ease',
+                    }}
+                  >
+                    <div style={{ padding: '0.4rem', backgroundColor: '#e0f2fe', borderRadius: '0.5rem', color: '#0284c7', display: 'flex' }}>
+                      <MessagesSquare size={17} />
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 600, fontSize: '0.85rem' }}>Community Forum</div>
+                      <div style={{ fontSize: '0.72rem', color: '#64748b' }}>Discussions, advice & gear sharing</div>
+                    </div>
+                  </Link>
+
+                  {/* 2. HOP Reels */}
                   <Link
                     to="/reels"
                     onClick={() => setFeaturesDropdownOpen(false)}
@@ -564,6 +590,16 @@ export const Navbar: React.FC = () => {
               Community & Hub
             </span>
           </div>
+
+          <Link
+            to="/community"
+            className={`nav-link ${isActive('/community') ? 'active' : ''}`}
+            onClick={() => setMobileMenuOpen(false)}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+          >
+            <MessagesSquare size={18} style={{ color: '#0284c7' }} />
+            <span>Community Forum</span>
+          </Link>
 
           <Link
             to="/reels"

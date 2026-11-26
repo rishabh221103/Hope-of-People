@@ -60,6 +60,7 @@ public class SecurityConfig {
                                 "/swagger-ui.html"
                         ).permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/reels", "/api/v1/reels/*", "/api/v1/reels/user/*").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/forum/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/reels/*/view").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
