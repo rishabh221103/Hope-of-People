@@ -142,6 +142,35 @@ a:hover {
   flex-shrink: 0;
 }
 
+.navbar-right-cluster {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-shrink: 0;
+}
+
+.navbar-desktop-search {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1240px) {
+  .navbar-desktop-links {
+    gap: 0.65rem;
+  }
+  .navbar-desktop-links .nav-link {
+    font-size: 0.88rem;
+    padding: 0.35rem 0.5rem;
+  }
+}
+
+@media (max-width: 1080px) {
+  .navbar-desktop-search {
+    display: none !important;
+  }
+}
+
 /* Mobile Hamburger Toggle Button */
 .navbar-mobile-toggle {
   display: none !important;
@@ -185,7 +214,9 @@ a:hover {
 /* Responsive Navigation Breakpoint (<= 960px) */
 @media (max-width: 960px) {
   .navbar-desktop-links,
-  .navbar-desktop-auth {
+  .navbar-desktop-auth,
+  .navbar-desktop-search,
+  .navbar-right-cluster {
     display: none !important;
   }
 
