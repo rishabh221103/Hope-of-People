@@ -15,5 +15,7 @@ public interface ReelLikeRepository extends JpaRepository<ReelLike, Long> {
 
     void deleteByReelIdAndUserId(Long reelId, Long userId);
 
+    void deleteByReelId(Long reelId);
+
     long countByReelId(Long reelId);
 }

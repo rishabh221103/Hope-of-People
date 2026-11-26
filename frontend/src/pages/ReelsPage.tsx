@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
   Heart, 
   Share2, 
@@ -11,49 +11,122 @@ import {
   DollarSign, 
   ExternalLink, 
   Check,
-  Film
+  Film,
+  MessageCircle,
+  MapPin,
+  Flag,
+  X,
+  Send,
+  Loader2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { reelService, ReelItem } from '../services/reelService';
+import { useNavigate } from 'react-router-dom';
+import { reelService, ReelItem, feedItemToReelItem, ReelCommentItem } from '../services/reelService';
 import { assistanceService, AssistanceRequestItem } from '../services/assistanceService';
 import { DonationModal } from '../components/DonationModal';
 import { CreateReelModal } from '../components/CreateReelModal';
-import { Link } from 'react-router-dom';
+
+const CATEGORIES = [
+  { value: '', label: 'All Categories' },
+  { value: 'HEALTHCARE', label: 'Healthcare' },
+  { value: 'EDUCATION', label: 'Education' },
+  { value: 'MICRO_ENTERPRISE', label: 'Micro-Enterprise' },
+  { value: 'HOUSING', label: 'Housing' },
+  { value: 'EMERGENCY_AID', label: 'Emergency Aid' },
+  { value: 'COMMUNITY', label: 'Community' },
+];
 
 export const ReelsPage: React.FC = () => {
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
   const [reels, setReels] = useState<ReelItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingMore, setLoadingMore] = useState<boolean>(false);
   const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
   const [copiedId, setCopiedId] = useState<number | null>(null);
   const [donationRequest, setDonationRequest] = useState<AssistanceRequestItem | null>(null);
   const [videoProgress, setVideoProgress] = useState<number>(0);
 
+  // Pagination & Filtering state
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [nextCursor, setNextCursor] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+
+  // Comments Sheet state
+  const [isCommentsOpen, setIsCommentsOpen] = useState<boolean>(false);
+  const [comments, setComments] = useState<ReelCommentItem[]>([]);
+  const [commentsLoading, setCommentsLoading] = useState<boolean>(false);
+  const [newCommentText, setNewCommentText] = useState<string>('');
+  const [commentSubmitting, setCommentSubmitting] = useState<boolean>(false);
+
+  // Report Modal state
+  const [reportModalReelId, setReportModalReelId] = useState<number | null>(null);
+  const [reportReason, setReportReason] = useState<string>('');
+  const [reportSuccess, setReportSuccess] = useState<boolean>(false);
+
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  useEffect(() => {
-    loadReels();
-  }, []);
-
-  const loadReels = async () => {
+  // Initial feed loader
+  const loadInitialFeed = useCallback(async (cat?: string) => {
     try {
       setLoading(true);
-      const data = await reelService.getReels();
-      setReels(data);
+      const page = await reelService.getFeed(10, null, cat || undefined);
+      const mapped = page.items.map(feedItemToReelItem);
+      setReels(mapped);
+      setNextCursor(page.nextCursor);
+      setHasMore(page.hasMore);
+      setCurrentIndex(0);
     } catch (err) {
-      console.error('Failed to load reels:', err);
+      console.error('Failed to load reels feed:', err);
+      try {
+        const legacy = await reelService.getReels();
+        setReels(legacy);
+        setHasMore(false);
+      } catch (e) {
+        console.error('Fallback failed:', e);
+      }
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Switch reel on keyboard up/down arrows
+  // Category switch
+  useEffect(() => {
+    loadInitialFeed(selectedCategory);
+  }, [selectedCategory, loadInitialFeed]);
+
+  // Load next keyset page
+  const loadMoreReels = useCallback(async () => {
+    if (!hasMore || loadingMore || !nextCursor) return;
+    try {
+      setLoadingMore(true);
+      const page = await reelService.getFeed(10, nextCursor, selectedCategory || undefined);
+      const mapped = page.items.map(feedItemToReelItem);
+      setReels((prev) => [...prev, ...mapped]);
+      setNextCursor(page.nextCursor);
+      setHasMore(page.hasMore);
+    } catch (err) {
+      console.error('Failed to load next page of reels:', err);
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [hasMore, loadingMore, nextCursor, selectedCategory]);
+
+  // Infinite scroll trigger: when within 3 items of the end
+  useEffect(() => {
+    if (currentIndex >= reels.length - 3 && hasMore && !loadingMore && nextCursor) {
+      loadMoreReels();
+    }
+  }, [currentIndex, reels.length, hasMore, loadingMore, nextCursor, loadMoreReels]);
+
+  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isCreateOpen || donationRequest) return;
+      if (isCreateOpen || donationRequest || isCommentsOpen || reportModalReelId) return;
       if (e.key === 'ArrowDown') {
         goToNext();
       } else if (e.key === 'ArrowUp') {
@@ -67,16 +140,15 @@ export const ReelsPage: React.FC = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, reels.length, isCreateOpen, donationRequest, isPlaying]);
+  }, [currentIndex, reels.length, isCreateOpen, donationRequest, isCommentsOpen, reportModalReelId, isPlaying]);
 
-  // Handle video playback when index changes
+  // Video playback
   useEffect(() => {
     videoRefs.current.forEach((vid, idx) => {
       if (!vid) return;
       if (idx === currentIndex) {
         vid.currentTime = 0;
         vid.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
-        // Record view in backend
         if (reels[currentIndex]) {
           reelService.incrementView(reels[currentIndex].id).catch(() => {});
         }
@@ -118,7 +190,9 @@ export const ReelsPage: React.FC = () => {
 
   const handleLike = async (reel: ReelItem) => {
     if (!isAuthenticated) {
-      alert('Please log in to like this reel.');
+      if (confirm('Please log in to like this reel. Go to login page?')) {
+        navigate('/login');
+      }
       return;
     }
     try {
@@ -147,13 +221,67 @@ export const ReelsPage: React.FC = () => {
     });
   };
 
+  const handleOpenComments = async (reelId: number) => {
+    setIsCommentsOpen(true);
+    setCommentsLoading(true);
+    try {
+      const page = await reelService.getComments(reelId, 20);
+      setComments(page.items);
+    } catch (err) {
+      console.error('Failed to load comments:', err);
+    } finally {
+      setCommentsLoading(false);
+    }
+  };
+
+  const handleAddComment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCommentText.trim() || !currentReel) return;
+    if (!isAuthenticated) {
+      if (confirm('Please log in to comment. Go to login page?')) {
+        navigate('/login');
+      }
+      return;
+    }
+    setCommentSubmitting(true);
+    try {
+      const added = await reelService.addComment(currentReel.id, newCommentText.trim());
+      setComments((prev) => [added, ...prev]);
+      setNewCommentText('');
+      setReels((prev) =>
+        prev.map((r) =>
+          r.id === currentReel.id ? { ...r, commentCount: (r.commentCount || 0) + 1 } : r
+        )
+      );
+    } catch (err) {
+      console.error('Failed to add comment:', err);
+    } finally {
+      setCommentSubmitting(false);
+    }
+  };
+
+  const handleReportSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!reportModalReelId || !reportReason.trim()) return;
+    try {
+      await reelService.reportReel(reportModalReelId, reportReason.trim());
+      setReportSuccess(true);
+      setTimeout(() => {
+        setReportSuccess(false);
+        setReportModalReelId(null);
+        setReportReason('');
+      }, 1500);
+    } catch (err: any) {
+      alert(err?.message || 'Failed to submit report.');
+    }
+  };
+
   const handleSupportCause = async (reel: ReelItem) => {
     if (reel.assistanceRequestId) {
       try {
         const req = await assistanceService.getRequestById(reel.assistanceRequestId);
         setDonationRequest(req);
-      } catch (err) {
-        // Fallback synthetic item if fetch fails
+      } catch {
         setDonationRequest({
           id: reel.assistanceRequestId,
           userId: reel.userId,
@@ -173,264 +301,953 @@ export const ReelsPage: React.FC = () => {
     }
   };
 
+  const handleUploadClick = () => {
+    if (!isAuthenticated) {
+      if (confirm('You must be logged in to upload an impact reel. Go to Login?')) {
+        navigate('/login');
+      }
+      return;
+    }
+    setIsCreateOpen(true);
+  };
+
   const currentReel = reels[currentIndex];
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-white">
-        <div className="w-10 h-10 border-4 border-rose-500/20 border-t-rose-500 rounded-full animate-spin mb-4" />
-        <p className="text-sm font-medium text-slate-400">Loading HOP Reels Feed...</p>
-      </div>
-    );
-  }
-
-  if (reels.length === 0) {
-    return (
-      <div className="min-h-[85vh] bg-slate-950 flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-20 h-20 bg-rose-500/10 border border-rose-500/20 rounded-3xl flex items-center justify-center text-rose-500 mb-6 shadow-2xl">
-          <Film className="w-10 h-10" />
-        </div>
-        <h2 className="text-2xl font-bold text-white mb-2">No Impact Reels Yet</h2>
-        <p className="text-slate-400 max-w-md text-sm mb-6">
-          Be the first beneficiary or fundraiser to upload a short vertical video showcasing recovery updates, equipment delivery, or heartfelt stories.
+      <div style={{
+        minHeight: '80vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#090d16',
+        color: '#ffffff',
+        gap: '1rem',
+      }}>
+        <div style={{
+          width: '42px',
+          height: '42px',
+          border: '4px solid rgba(244, 63, 94, 0.2)',
+          borderTopColor: '#f43f5e',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <p style={{ color: '#94a3b8', fontSize: '0.95rem', fontWeight: 500 }}>
+          Loading HOP Impact Reels Feed...
         </p>
-        {isAuthenticated ? (
-          <button
-            onClick={() => setIsCreateOpen(true)}
-            className="px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-semibold rounded-xl shadow-lg shadow-rose-500/25 flex items-center gap-2 transition"
-          >
-            <Plus className="w-5 h-5" />
-            Upload First Reel
-          </button>
-        ) : (
-          <Link
-            to="/login"
-            className="px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-xl transition"
-          >
-            Log In to Post a Reel
-          </Link>
-        )}
-        <CreateReelModal
-          isOpen={isCreateOpen}
-          onClose={() => setIsCreateOpen(false)}
-          onCreated={(newReel) => {
-            setReels([newReel]);
-            setCurrentIndex(0);
-          }}
-        />
       </div>
     );
   }
 
   return (
-    <div className="min-h-[90vh] bg-slate-950 flex items-center justify-center py-4 px-2 relative select-none">
-      {/* Top Floating Bar */}
-      <div className="absolute top-6 left-6 z-30 hidden sm:flex items-center gap-2 text-white">
-        <div className="p-2 bg-rose-600 rounded-xl shadow-lg">
-          <Film className="w-5 h-5" />
+    <div style={{
+      minHeight: 'calc(100vh - 70px)',
+      backgroundColor: '#090d16',
+      color: '#f8fafc',
+      padding: '1.25rem 1rem 2rem',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      position: 'relative',
+      userSelect: 'none',
+    }}>
+      {/* Top Header Row with Clear Upload Button */}
+      <div style={{
+        width: '100%',
+        maxWidth: '920px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: '1rem',
+        padding: '0.25rem 0.5rem',
+      }}>
+        {/* Brand Label */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{
+            background: 'linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)',
+            padding: '0.5rem',
+            borderRadius: '12px',
+            boxShadow: '0 4px 12px rgba(244, 63, 94, 0.35)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <Film size={22} color="#ffffff" />
+          </div>
+          <div>
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, margin: 0, letterSpacing: '-0.02em', color: '#ffffff' }}>
+              HOP Reels
+            </h1>
+            <p style={{ fontSize: '0.75rem', color: '#94a3b8', margin: 0 }}>
+              Authentic Stories & Source Verification
+            </p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-base font-bold leading-tight">HOP Reels</h1>
-          <p className="text-xs text-slate-400">Authentic Impact & Proof</p>
-        </div>
+
+        {/* ALWAYS-VISIBLE PROMINENT UPLOAD REEL BUTTON */}
+        <button
+          onClick={handleUploadClick}
+          style={{
+            background: 'linear-gradient(135deg, #e11d48 0%, #f43f5e 100%)',
+            color: '#ffffff',
+            border: 'none',
+            borderRadius: '12px',
+            padding: '0.65rem 1.25rem',
+            fontSize: '0.875rem',
+            fontWeight: 700,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            boxShadow: '0 4px 14px rgba(244, 63, 94, 0.45)',
+            transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+        >
+          <Plus size={18} strokeWidth={2.5} />
+          <span>Upload Reel</span>
+        </button>
       </div>
 
-      {/* Floating Create Reel Button */}
-      {isAuthenticated && (
-        <button
-          onClick={() => setIsCreateOpen(true)}
-          className="absolute top-6 right-6 z-30 px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white text-xs font-bold rounded-xl shadow-lg shadow-rose-500/30 flex items-center gap-2 transition"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Post Reel</span>
-        </button>
+      {/* Category Filter Chips Bar */}
+      <div style={{
+        width: '100%',
+        maxWidth: '920px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem',
+        overflowX: 'auto',
+        padding: '0.25rem 0.5rem 0.75rem',
+        marginBottom: '0.75rem',
+        scrollbarWidth: 'none',
+      }}>
+        {CATEGORIES.map((cat) => {
+          const isActive = selectedCategory === cat.value;
+          return (
+            <button
+              key={cat.value}
+              onClick={() => setSelectedCategory(cat.value)}
+              style={{
+                backgroundColor: isActive ? '#f43f5e' : 'rgba(30, 41, 59, 0.7)',
+                color: isActive ? '#ffffff' : '#cbd5e1',
+                border: isActive ? '1px solid #f43f5e' : '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '9999px',
+                padding: '0.35rem 0.9rem',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.15s ease',
+                boxShadow: isActive ? '0 2px 8px rgba(244, 63, 94, 0.4)' : 'none',
+              }}
+            >
+              {cat.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Main Reels Content Area */}
+      {reels.length === 0 ? (
+        <div style={{
+          maxWidth: '480px',
+          width: '100%',
+          backgroundColor: '#0f172a',
+          borderRadius: '20px',
+          padding: '3rem 2rem',
+          textAlign: 'center',
+          border: '1px solid #1e293b',
+          marginTop: '2rem',
+          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)',
+        }}>
+          <div style={{
+            width: '64px',
+            height: '64px',
+            backgroundColor: 'rgba(244, 63, 94, 0.15)',
+            borderRadius: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 1.25rem',
+            color: '#f43f5e',
+          }}>
+            <Film size={32} />
+          </div>
+          <h2 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.5rem', color: '#ffffff' }}>
+            No Reels Found
+          </h2>
+          <p style={{ color: '#94a3b8', fontSize: '0.85rem', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+            {selectedCategory
+              ? `There are no live reels under ${selectedCategory} category yet.`
+              : 'Be the first creator, beneficiary, or donor to upload a short vertical reel showcase!'}
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+            {selectedCategory && (
+              <button
+                onClick={() => setSelectedCategory('')}
+                style={{
+                  backgroundColor: '#1e293b',
+                  color: '#ffffff',
+                  border: '1px solid #334155',
+                  padding: '0.6rem 1.2rem',
+                  borderRadius: '10px',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                View All Categories
+              </button>
+            )}
+            <button
+              onClick={handleUploadClick}
+              style={{
+                background: 'linear-gradient(135deg, #e11d48 0%, #f43f5e 100%)',
+                color: '#ffffff',
+                border: 'none',
+                padding: '0.6rem 1.3rem',
+                borderRadius: '10px',
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+              }}
+            >
+              <Plus size={16} /> Upload First Reel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '1.5rem',
+          width: '100%',
+        }}>
+          {/* Vertical Reel Card (9:16 Aspect Phone Screen) */}
+          <div style={{
+            position: 'relative',
+            width: '100%',
+            maxWidth: '400px',
+            height: '76vh',
+            maxHeight: '700px',
+            minHeight: '520px',
+            backgroundColor: '#000000',
+            borderRadius: '24px',
+            overflow: 'hidden',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            {/* Active Video Player */}
+            <video
+              ref={(el) => (videoRefs.current[currentIndex] = el)}
+              src={currentReel?.videoUrl}
+              poster={currentReel?.thumbnailUrl}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                cursor: 'pointer',
+                backgroundColor: '#090d16',
+              }}
+              playsInline
+              loop
+              muted={isMuted}
+              onClick={togglePlayPause}
+              onTimeUpdate={handleTimeUpdate}
+            />
+
+            {/* Video Fallback / Animated Card Canvas if file has no video frames */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 1,
+              pointerEvents: 'none',
+              background: 'radial-gradient(circle at 50% 30%, rgba(244, 63, 94, 0.15) 0%, rgba(15, 23, 42, 0.4) 100%)',
+            }} />
+
+            {/* Top Mute / Sound Toggle */}
+            <button
+              onClick={() => setIsMuted((prev) => !prev)}
+              style={{
+                position: 'absolute',
+                top: '16px',
+                left: '16px',
+                zIndex: 20,
+                backgroundColor: 'rgba(0, 0, 0, 0.55)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                color: '#ffffff',
+                width: '38px',
+                height: '38px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}
+              title={isMuted ? 'Unmute' : 'Mute'}
+            >
+              {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} color="#10b981" />}
+            </button>
+
+            {/* Center Play / Pause Indicator */}
+            {!isPlaying && (
+              <div
+                onClick={togglePlayPause}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'rgba(0, 0, 0, 0.35)',
+                  zIndex: 15,
+                  cursor: 'pointer',
+                }}
+              >
+                <div style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.65)',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(255, 255, 255, 0.25)',
+                  borderRadius: '50%',
+                  width: '64px',
+                  height: '64px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#ffffff',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)',
+                }}>
+                  <Play size={28} style={{ marginLeft: '3px' }} />
+                </div>
+              </div>
+            )}
+
+            {/* Video Progress Bar */}
+            <div style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '3px',
+              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+              zIndex: 25,
+            }}>
+              <div style={{
+                height: '100%',
+                width: `${videoProgress}%`,
+                backgroundColor: '#f43f5e',
+                transition: 'width 0.1s linear',
+              }} />
+            </div>
+
+            {/* Right Action Icons Column */}
+            <div style={{
+              position: 'absolute',
+              right: '12px',
+              bottom: '80px',
+              zIndex: 20,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '14px',
+            }}>
+              {/* Like Button */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <button
+                  onClick={() => handleLike(currentReel)}
+                  style={{
+                    backgroundColor: currentReel.isLikedByCurrentUser ? '#f43f5e' : 'rgba(0, 0, 0, 0.55)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    color: '#ffffff',
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    boxShadow: currentReel.isLikedByCurrentUser ? '0 4px 12px rgba(244, 63, 94, 0.45)' : 'none',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <Heart size={20} fill={currentReel.isLikedByCurrentUser ? '#ffffff' : 'none'} />
+                </button>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: '#f8fafc', marginTop: '4px' }}>
+                  {currentReel.likesCount}
+                </span>
+              </div>
+
+              {/* Comment Button */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <button
+                  onClick={() => handleOpenComments(currentReel.id)}
+                  style={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.55)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    color: '#ffffff',
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <MessageCircle size={20} />
+                </button>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: '#f8fafc', marginTop: '4px' }}>
+                  {currentReel.commentCount || 0}
+                </span>
+              </div>
+
+              {/* Share Button */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <button
+                  onClick={() => handleShare(currentReel)}
+                  style={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.55)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    color: '#ffffff',
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {copiedId === currentReel.id ? <Check size={20} color="#10b981" /> : <Share2 size={20} />}
+                </button>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: '#f8fafc', marginTop: '4px' }}>
+                  {copiedId === currentReel.id ? 'Copied' : 'Share'}
+                </span>
+              </div>
+
+              {/* Report Button */}
+              <button
+                onClick={() => setReportModalReelId(currentReel.id)}
+                style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.45)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  color: '#94a3b8',
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                }}
+                title="Report reel"
+              >
+                <Flag size={15} />
+              </button>
+
+              {/* Cause Support Donate Button */}
+              {currentReel.assistanceRequestId && (
+                <button
+                  onClick={() => handleSupportCause(currentReel)}
+                  style={{
+                    backgroundColor: '#059669',
+                    color: '#ffffff',
+                    border: 'none',
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 14px rgba(5, 150, 105, 0.45)',
+                  }}
+                  title="Donate to this cause"
+                >
+                  <DollarSign size={20} />
+                </button>
+              )}
+            </div>
+
+            {/* Bottom Content Overlay */}
+            <div style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              padding: '1.25rem 1rem 1rem',
+              background: 'linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.75) 50%, transparent 100%)',
+              zIndex: 10,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.4rem',
+            }}>
+              {/* Creator & Category Badges */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <div style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 700,
+                  fontSize: '0.8rem',
+                  color: '#ffffff',
+                  border: '1.5px solid rgba(255, 255, 255, 0.3)',
+                  flexShrink: 0,
+                }}>
+                  {currentReel.creatorName ? currentReel.creatorName.charAt(0).toUpperCase() : 'U'}
+                </div>
+                <div style={{ overflow: 'hidden' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ffffff' }}>
+                      {currentReel.creatorName || 'HOP Member'}
+                    </span>
+                    {currentReel.category && (
+                      <span style={{
+                        fontSize: '0.65rem',
+                        fontWeight: 700,
+                        backgroundColor: 'rgba(244, 63, 94, 0.25)',
+                        color: '#fda4af',
+                        border: '1px solid rgba(244, 63, 94, 0.4)',
+                        padding: '0.1rem 0.5rem',
+                        borderRadius: '9999px',
+                        textTransform: 'uppercase',
+                      }}>
+                        {currentReel.category}
+                      </span>
+                    )}
+                  </div>
+                  {currentReel.sourceLocation && (
+                    <span style={{
+                      fontSize: '0.72rem',
+                      color: '#cbd5e1',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      marginTop: '1px',
+                    }}>
+                      <MapPin size={11} color="#f43f5e" />
+                      {currentReel.sourceLocation}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Caption */}
+              <p style={{
+                fontSize: '0.82rem',
+                color: '#f1f5f9',
+                margin: '0.2rem 0',
+                lineHeight: 1.4,
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              }}>
+                {currentReel.caption}
+              </p>
+
+              {/* Verified Source / Supplier Link */}
+              {currentReel.supplierLink && (
+                <a
+                  href={currentReel.supplierLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    fontSize: '0.72rem',
+                    fontWeight: 600,
+                    color: '#38bdf8',
+                    backgroundColor: 'rgba(12, 74, 110, 0.5)',
+                    border: '1px solid rgba(56, 189, 248, 0.3)',
+                    padding: '0.25rem 0.6rem',
+                    borderRadius: '8px',
+                    width: 'fit-content',
+                    textDecoration: 'none',
+                  }}
+                >
+                  <ExternalLink size={12} />
+                  <span>Verified Supplier / Source</span>
+                </a>
+              )}
+
+              {/* Linked Assistance Cause Pill */}
+              {currentReel.assistanceRequestId && (
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                  border: '1px solid rgba(244, 63, 94, 0.3)',
+                  padding: '0.4rem 0.65rem',
+                  borderRadius: '10px',
+                  gap: '0.5rem',
+                  marginTop: '0.2rem',
+                }}>
+                  <div style={{ overflow: 'hidden' }}>
+                    <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#f43f5e', textTransform: 'uppercase', display: 'block' }}>
+                      {currentReel.assistanceCategory || 'Urgent Cause'}
+                    </span>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#ffffff', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', display: 'block' }}>
+                      {currentReel.assistanceRequestTitle || 'Beneficiary Assistance'}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => handleSupportCause(currentReel)}
+                    style={{
+                      backgroundColor: '#059669',
+                      color: '#ffffff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      padding: '0.3rem 0.7rem',
+                      fontSize: '0.72rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.3rem',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Heart size={12} fill="#ffffff" />
+                    Support
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Desktop Navigation Arrows (Up / Down) */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.75rem',
+          }}>
+            <button
+              onClick={goToPrev}
+              disabled={currentIndex === 0}
+              style={{
+                backgroundColor: currentIndex === 0 ? 'rgba(30, 41, 59, 0.4)' : '#1e293b',
+                color: currentIndex === 0 ? '#475569' : '#ffffff',
+                border: '1px solid #334155',
+                width: '46px',
+                height: '46px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+              }}
+              title="Previous Reel (Up Arrow)"
+            >
+              <ChevronUp size={24} />
+            </button>
+
+            <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8' }}>
+              {currentIndex + 1} / {reels.length}
+            </span>
+
+            <button
+              onClick={goToNext}
+              disabled={currentIndex === reels.length - 1 && !hasMore}
+              style={{
+                backgroundColor: currentIndex === reels.length - 1 && !hasMore ? 'rgba(30, 41, 59, 0.4)' : '#1e293b',
+                color: currentIndex === reels.length - 1 && !hasMore ? '#475569' : '#ffffff',
+                border: '1px solid #334155',
+                width: '46px',
+                height: '46px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: currentIndex === reels.length - 1 && !hasMore ? 'not-allowed' : 'pointer',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+              }}
+              title="Next Reel (Down Arrow)"
+            >
+              {loadingMore ? <Loader2 size={22} color="#f43f5e" className="animate-spin" /> : <ChevronDown size={24} />}
+            </button>
+          </div>
+        </div>
       )}
 
-      {/* Main Reels Vertical Container */}
-      <div className="relative w-full max-w-[420px] h-[84vh] max-h-[780px] bg-black rounded-3xl overflow-hidden shadow-2xl border border-slate-800 flex items-center justify-center">
-        {/* Current Active Video */}
-        <video
-          ref={(el) => (videoRefs.current[currentIndex] = el)}
-          src={currentReel.videoUrl}
-          poster={currentReel.thumbnailUrl}
-          className="w-full h-full object-cover cursor-pointer"
-          playsInline
-          loop
-          muted={isMuted}
-          onClick={togglePlayPause}
-          onTimeUpdate={handleTimeUpdate}
-        />
-
-        {/* Video Progress Bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20 z-20">
-          <div
-            className="h-full bg-rose-500 transition-all duration-100 ease-linear"
-            style={{ width: `${videoProgress}%` }}
-          />
-        </div>
-
-        {/* Play / Pause Central Indicator */}
-        {!isPlaying && (
-          <div
-            onClick={togglePlayPause}
-            className="absolute inset-0 flex items-center justify-center bg-black/35 z-10 cursor-pointer animate-fade-in"
-          >
-            <div className="p-5 bg-black/60 backdrop-blur-md rounded-full text-white/90 border border-white/20 shadow-2xl">
-              <Play className="w-10 h-10 fill-white" />
+      {/* Slide-Up Comments Drawer */}
+      {isCommentsOpen && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 999,
+          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+          backdropFilter: 'blur(6px)',
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+        }}>
+          <div style={{
+            width: '100%',
+            maxWidth: '460px',
+            height: '65vh',
+            maxHeight: '520px',
+            backgroundColor: '#0f172a',
+            borderTopLeftRadius: '24px',
+            borderTopRightRadius: '24px',
+            border: '1px solid #1e293b',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            boxShadow: '0 -10px 30px rgba(0, 0, 0, 0.6)',
+          }}>
+            {/* Header */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '1rem 1.25rem',
+              borderBottom: '1px solid #1e293b',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, fontSize: '0.95rem' }}>
+                <MessageCircle size={18} color="#f43f5e" />
+                <span>Comments ({currentReel?.commentCount || comments.length})</span>
+              </div>
+              <button
+                onClick={() => setIsCommentsOpen(false)}
+                style={{
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  color: '#94a3b8',
+                  cursor: 'pointer',
+                  padding: '4px',
+                }}
+              >
+                <X size={20} />
+              </button>
             </div>
-          </div>
-        )}
 
-        {/* Top Sound Toggle */}
-        <button
-          onClick={() => setIsMuted((prev) => !prev)}
-          className="absolute top-4 left-4 z-20 p-2.5 bg-black/50 backdrop-blur-md text-white rounded-full hover:bg-black/70 transition"
-          title={isMuted ? 'Unmute' : 'Mute'}
-        >
-          {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
-        </button>
-
-        {/* Right Action Bar */}
-        <div className="absolute right-3 bottom-24 z-20 flex flex-col items-center gap-4 text-white">
-          {/* Like Button */}
-          <div className="flex flex-col items-center">
-            <button
-              onClick={() => handleLike(currentReel)}
-              className={`p-3 rounded-full backdrop-blur-md transition transform active:scale-125 ${
-                currentReel.isLikedByCurrentUser
-                  ? 'bg-rose-600/90 text-white shadow-lg shadow-rose-600/40'
-                  : 'bg-black/50 text-white hover:bg-black/70'
-              }`}
-            >
-              <Heart
-                className={`w-6 h-6 ${
-                  currentReel.isLikedByCurrentUser ? 'fill-white stroke-white' : ''
-                }`}
-              />
-            </button>
-            <span className="text-[11px] font-bold mt-1 text-slate-200">
-              {currentReel.likesCount}
-            </span>
-          </div>
-
-          {/* Share Button */}
-          <div className="flex flex-col items-center">
-            <button
-              onClick={() => handleShare(currentReel)}
-              className="p-3 bg-black/50 backdrop-blur-md hover:bg-black/70 rounded-full transition text-white"
-              title="Share Link"
-            >
-              {copiedId === currentReel.id ? (
-                <Check className="w-6 h-6 text-emerald-400" />
+            {/* Comments Stream */}
+            <div style={{ flex: 1, overflowY: 'auto', padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {commentsLoading ? (
+                <div style={{ textAlign: 'center', padding: '2rem', color: '#94a3b8' }}>
+                  <Loader2 size={24} color="#f43f5e" style={{ animation: 'spin 1s linear infinite', margin: '0 auto' }} />
+                </div>
+              ) : comments.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '3rem 1rem', color: '#64748b', fontSize: '0.85rem' }}>
+                  No comments yet. Be the first to share positive feedback!
+                </div>
               ) : (
-                <Share2 className="w-6 h-6" />
+                comments.map((c) => (
+                  <div key={c.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem' }}>
+                    <div style={{
+                      width: '30px',
+                      height: '30px',
+                      borderRadius: '50%',
+                      backgroundColor: '#1e293b',
+                      color: '#ffffff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      flexShrink: 0,
+                    }}>
+                      {c.user?.name ? c.user.name.charAt(0).toUpperCase() : 'U'}
+                    </div>
+                    <div style={{
+                      backgroundColor: 'rgba(30, 41, 59, 0.7)',
+                      border: '1px solid #334155',
+                      borderRadius: '12px',
+                      padding: '0.5rem 0.75rem',
+                      flex: 1,
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#f8fafc' }}>
+                          {c.user?.name || 'Community Member'}
+                        </span>
+                        <span style={{ fontSize: '0.68rem', color: '#64748b' }}>
+                          {new Date(c.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: '0.8rem', color: '#cbd5e1', margin: '0.25rem 0 0', lineHeight: 1.4 }}>
+                        {c.content}
+                      </p>
+                    </div>
+                  </div>
+                ))
               )}
-            </button>
-            <span className="text-[11px] font-bold mt-1 text-slate-200">
-              {copiedId === currentReel.id ? 'Copied' : 'Share'}
-            </span>
-          </div>
+            </div>
 
-          {/* Cause Direct CTA Link Icon */}
-          {currentReel.assistanceRequestId && (
-            <div className="flex flex-col items-center">
+            {/* Comment Form */}
+            <form onSubmit={handleAddComment} style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.75rem 1rem',
+              borderTop: '1px solid #1e293b',
+              backgroundColor: '#0b1120',
+            }}>
+              <input
+                type="text"
+                value={newCommentText}
+                onChange={(e) => setNewCommentText(e.target.value)}
+                placeholder={isAuthenticated ? "Add a kind comment..." : "Log in to post a comment"}
+                disabled={!isAuthenticated || commentSubmitting}
+                style={{
+                  flex: 1,
+                  backgroundColor: '#1e293b',
+                  border: '1px solid #334155',
+                  color: '#ffffff',
+                  borderRadius: '10px',
+                  padding: '0.6rem 0.85rem',
+                  fontSize: '0.82rem',
+                  outline: 'none',
+                }}
+              />
               <button
-                onClick={() => handleSupportCause(currentReel)}
-                className="p-3 bg-emerald-600/90 backdrop-blur-md hover:bg-emerald-500 rounded-full shadow-lg shadow-emerald-600/30 text-white transition animate-bounce"
-                title="Direct Donate"
+                type="submit"
+                disabled={!isAuthenticated || !newCommentText.trim() || commentSubmitting}
+                style={{
+                  backgroundColor: '#f43f5e',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '10px',
+                  padding: '0.6rem 0.9rem',
+                  cursor: !isAuthenticated || !newCommentText.trim() || commentSubmitting ? 'not-allowed' : 'pointer',
+                  opacity: !isAuthenticated || !newCommentText.trim() || commentSubmitting ? 0.45 : 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
               >
-                <DollarSign className="w-6 h-6" />
+                {commentSubmitting ? <Loader2 size={16} /> : <Send size={16} />}
               </button>
-              <span className="text-[10px] font-bold mt-1 text-emerald-300">Donate</span>
-            </div>
-          )}
-        </div>
-
-        {/* Bottom Content Overlay */}
-        <div className="absolute bottom-0 left-0 right-0 p-5 pt-12 bg-gradient-to-t from-black via-black/80 to-transparent z-10 flex flex-col gap-2.5">
-          {/* Creator Profile */}
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center font-bold text-white text-xs border border-white/20">
-              {currentReel.creatorName.charAt(0).toUpperCase()}
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-sm font-bold text-white leading-tight">
-                  {currentReel.creatorName}
-                </span>
-              </div>
-              <span className="text-[10px] text-slate-400">Verified Impact Creator</span>
-            </div>
+            </form>
           </div>
+        </div>
+      )}
 
-          {/* Caption */}
-          <p className="text-xs text-slate-200 line-clamp-2 leading-relaxed">
-            {currentReel.caption}
-          </p>
-
-          {/* Linked Cause Pill & Direct Donate CTA */}
-          {currentReel.assistanceRequestId && (
-            <div className="mt-1 flex items-center justify-between gap-2 p-2 bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-xl">
-              <div className="truncate flex-1">
-                <span className="text-[10px] uppercase font-bold text-rose-400 tracking-wider block">
-                  {currentReel.assistanceCategory || 'Urgent Cause'}
-                </span>
-                <span className="text-xs font-semibold text-white truncate block">
-                  {currentReel.assistanceRequestTitle || 'Beneficiary Assistance Request'}
-                </span>
+      {/* Report Modal */}
+      {reportModalReelId && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 1000,
+          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+          backdropFilter: 'blur(6px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '1rem',
+        }}>
+          <div style={{
+            backgroundColor: '#0f172a',
+            border: '1px solid #1e293b',
+            borderRadius: '18px',
+            width: '100%',
+            maxWidth: '400px',
+            padding: '1.5rem',
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.6)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#f43f5e', fontWeight: 700, fontSize: '0.95rem' }}>
+                <Flag size={18} />
+                <span>Report Reel #{reportModalReelId}</span>
               </div>
-              <button
-                onClick={() => handleSupportCause(currentReel)}
-                className="px-3.5 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-xs font-bold rounded-lg shadow-md flex items-center gap-1 shrink-0 transition"
-              >
-                <Heart className="w-3.5 h-3.5 fill-white" />
-                Support
+              <button onClick={() => setReportModalReelId(null)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>
+                <X size={18} />
               </button>
             </div>
-          )}
-
-          {/* Linked Business Campaign Pill */}
-          {currentReel.businessCampaignId && (
-            <Link
-              to="/business-hub"
-              className="mt-1 flex items-center justify-between gap-2 p-2 bg-slate-900/90 backdrop-blur-md border border-blue-700/80 rounded-xl text-white hover:bg-slate-800 transition"
-            >
-              <div className="truncate flex-1">
-                <span className="text-[10px] uppercase font-bold text-blue-400 tracking-wider block">
-                  Micro-Enterprise
-                </span>
-                <span className="text-xs font-semibold text-white truncate block">
-                  {currentReel.businessName}
-                </span>
+            {reportSuccess ? (
+              <div style={{
+                backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                border: '1px solid rgba(16, 185, 129, 0.3)',
+                color: '#34d399',
+                borderRadius: '10px',
+                padding: '0.75rem',
+                fontSize: '0.85rem',
+                textAlign: 'center',
+              }}>
+                Report submitted for admin review. Thank you for keeping HOP safe!
               </div>
-              <ExternalLink className="w-4 h-4 text-blue-400 shrink-0" />
-            </Link>
-          )}
+            ) : (
+              <form onSubmit={handleReportSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                <p style={{ color: '#94a3b8', fontSize: '0.8rem', lineHeight: 1.4, margin: 0 }}>
+                  Help maintain community standards. Please describe why this video should be reviewed:
+                </p>
+                <textarea
+                  value={reportReason}
+                  onChange={(e) => setReportReason(e.target.value)}
+                  placeholder="e.g. Beneficiary privacy exposed without consent, misleading claims..."
+                  rows={3}
+                  required
+                  style={{
+                    backgroundColor: '#1e293b',
+                    border: '1px solid #334155',
+                    color: '#ffffff',
+                    borderRadius: '10px',
+                    padding: '0.65rem',
+                    fontSize: '0.82rem',
+                    resize: 'none',
+                    outline: 'none',
+                  }}
+                />
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
+                  <button
+                    type="button"
+                    onClick={() => setReportModalReelId(null)}
+                    style={{
+                      backgroundColor: 'transparent',
+                      border: '1px solid #334155',
+                      color: '#94a3b8',
+                      borderRadius: '8px',
+                      padding: '0.45rem 0.9rem',
+                      fontSize: '0.8rem',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    style={{
+                      backgroundColor: '#f43f5e',
+                      color: '#ffffff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      padding: '0.45rem 1rem',
+                      fontSize: '0.8rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Submit Report
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
         </div>
-      </div>
-
-      {/* Floating Vertical Up/Down Controls (Desktop) */}
-      <div className="hidden lg:flex flex-col gap-3 ml-6 z-20">
-        <button
-          onClick={goToPrev}
-          disabled={currentIndex === 0}
-          className="p-3 bg-slate-900 border border-slate-800 text-white rounded-full hover:bg-slate-800 disabled:opacity-30 disabled:hover:bg-slate-900 transition shadow-xl"
-          title="Previous Reel (Up Arrow)"
-        >
-          <ChevronUp className="w-6 h-6" />
-        </button>
-        <div className="text-center text-xs font-bold text-slate-400">
-          {currentIndex + 1} / {reels.length}
-        </div>
-        <button
-          onClick={goToNext}
-          disabled={currentIndex === reels.length - 1}
-          className="p-3 bg-slate-900 border border-slate-800 text-white rounded-full hover:bg-slate-800 disabled:opacity-30 disabled:hover:bg-slate-900 transition shadow-xl"
-          title="Next Reel (Down Arrow)"
-        >
-          <ChevronDown className="w-6 h-6" />
-        </button>
-      </div>
+      )}
 
       {/* Create Reel Modal */}
       <CreateReelModal

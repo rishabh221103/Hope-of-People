@@ -34,10 +34,12 @@ services:
       SPRING_FLYWAY_ENABLED: "true"
       APP_JWT_SECRET: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
       APP_UPLOAD_DIR: /app/uploads/documents
+      HOP_VIDEO_LOCAL_DIR: /app/uploads/reels
     ports:
       - "8080:8080"
     volumes:
       - hop-uploads:/app/uploads/documents
+      - hop-reels:/app/uploads/reels
 
   frontend:
     build:
@@ -53,3 +55,4 @@ services:
 volumes:
   pgdata:
   hop-uploads:
+  hop-reels:

@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { adminService, AdminMetrics } from '../services/adminService';
 import { AssistanceRequestItem } from '../services/assistanceService';
 import { UserProfile } from '../services/userService';
-import { Shield, CheckCircle, Users, DollarSign, FileText, RefreshCw } from 'lucide-react';
+import { reelService, ReelFeedItem } from '../services/reelService';
+import { Shield, CheckCircle, Users, DollarSign, FileText, RefreshCw, Film, ThumbsUp, ThumbsDown, ExternalLink } from 'lucide-react';
 
 export const AdminDashboardPage: React.FC = () => {
   const [metrics, setMetrics] = useState<AdminMetrics | null>(null);
   const [queue, setQueue] = useState<AssistanceRequestItem[]>([]);
   const [users, setUsers] = useState<UserProfile[]>([]);
-  const [activeTab, setActiveTab] = useState<'METRICS' | 'QUEUE' | 'USERS'>('QUEUE');
+  const [pendingReels, setPendingReels] = useState<ReelFeedItem[]>([]);
+  const [activeTab, setActiveTab] = useState<'METRICS' | 'QUEUE' | 'USERS' | 'REELS'>('QUEUE');
 
   const [isLoading, setIsLoading] = useState(true);
   const [reviewModalRequest, setReviewModalRequest] = useState<AssistanceRequestItem | null>(null);
@@ -23,15 +25,17 @@ export const AdminDashboardPage: React.FC = () => {
   const loadAllAdminData = async () => {
     setIsLoading(true);
     try {
-      const [m, q, u] = await Promise.all([
+      const [m, q, u, r] = await Promise.all([
         adminService.getMetrics(),
         adminService.getReviewQueue(),
         adminService.getAllUsers(0, 50),
+        reelService.getAdminQueue('PENDING_REVIEW').catch(() => []),
       ]);
       setMetrics(m);
       setQueue(q);
       const userList = Array.isArray(u) ? u : (u as any).content || [];
       setUsers(userList);
+      setPendingReels(r || []);
     } catch (err: any) {
       console.error('Failed to load admin dashboard data', err);
     } finally {
@@ -80,6 +84,41 @@ export const AdminDashboardPage: React.FC = () => {
     }
   };
 
+  const handleApproveReel = async (id: number) => {
+    try {
+      await reelService.approveReel(id);
+      setActionMessage({
+        text: `Reel #${id} approved! It is now LIVE in the public feed.`,
+        type: 'success',
+      });
+      loadAllAdminData();
+    } catch (err: any) {
+      setActionMessage({
+        text: err?.message || 'Failed to approve reel.',
+        type: 'error',
+      });
+    }
+  };
+
+  const handleRejectReel = async (id: number) => {
+    const reason = prompt('Please enter a rejection reason (e.g. Dignity violation, Unverified content):');
+    if (!reason || !reason.trim()) return;
+
+    try {
+      await reelService.rejectReel(id, reason.trim());
+      setActionMessage({
+        text: `Reel #${id} has been rejected.`,
+        type: 'success',
+      });
+      loadAllAdminData();
+    } catch (err: any) {
+      setActionMessage({
+        text: err?.message || 'Failed to reject reel.',
+        type: 'error',
+      });
+    }
+  };
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
@@ -88,7 +127,7 @@ export const AdminDashboardPage: React.FC = () => {
             <Shield size={28} color="var(--primary)" /> Administrative Control Center
           </h1>
           <p style={{ color: 'var(--text-muted)' }}>
-            Oversee assistance requests, moderate platform users, and monitor financial transparency
+            Oversee assistance requests, moderate platform users, review video reels, and monitor financial transparency
           </p>
         </div>
         <button onClick={loadAllAdminData} className="btn btn-outline btn-sm">
@@ -131,23 +170,23 @@ export const AdminDashboardPage: React.FC = () => {
 
           <div className="card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>FULFILLED / APPROVED</span>
-              <CheckCircle size={20} color="var(--accent)" />
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>PENDING REELS</span>
+              <Film size={20} color="var(--primary)" />
             </div>
-            <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--accent)' }}>
-              {metrics.fulfilledRequests} / {metrics.approvedRequests}
+            <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--primary)' }}>
+              {pendingReels.length}
             </div>
             <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-              {metrics.rejectedRequests} Rejected
+              Reels to moderate
             </div>
           </div>
 
           <div className="card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
               <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>FUNDS MOBILIZED</span>
-              <DollarSign size={20} color="var(--primary)" />
+              <DollarSign size={20} color="var(--accent)" />
             </div>
-            <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--primary)' }}>
+            <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--accent)' }}>
               ${(metrics.totalRaisedAmount || 0).toLocaleString()}
             </div>
             <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
@@ -165,6 +204,13 @@ export const AdminDashboardPage: React.FC = () => {
           style={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
         >
           Verification Queue ({queue.length})
+        </button>
+        <button
+          onClick={() => setActiveTab('REELS')}
+          className={`btn ${activeTab === 'REELS' ? 'btn-primary' : 'btn-outline'}`}
+          style={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
+        >
+          Reels Moderation ({pendingReels.length})
         </button>
         <button
           onClick={() => setActiveTab('USERS')}
@@ -235,6 +281,96 @@ export const AdminDashboardPage: React.FC = () => {
                         >
                           Review
                         </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Reels Moderation Tab */}
+      {activeTab === 'REELS' && (
+        <div>
+          {isLoading ? (
+            <div style={{ textAlign: 'center', padding: '3rem' }}>Loading pending reels...</div>
+          ) : pendingReels.length === 0 ? (
+            <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
+              <CheckCircle size={40} color="var(--accent)" style={{ margin: '0 auto 1rem' }} />
+              <h3>No Pending Reels</h3>
+              <p style={{ color: 'var(--text-muted)' }}>All uploaded reels have been moderated.</p>
+            </div>
+          ) : (
+            <div className="table-container">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Preview / Video</th>
+                    <th>Caption & Details</th>
+                    <th>Creator</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pendingReels.map((reel) => (
+                    <tr key={reel.id}>
+                      <td>#{reel.id}</td>
+                      <td style={{ width: '120px' }}>
+                        <video
+                          src={reel.playbackUrl}
+                          className="rounded-lg bg-black"
+                          style={{ width: '100px', height: '60px', objectFit: 'cover' }}
+                          controls
+                        />
+                      </td>
+                      <td>
+                        <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{reel.caption}</div>
+                        {reel.sourceLocation && (
+                          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                            Location: {reel.sourceLocation}
+                          </div>
+                        )}
+                        {reel.supplierLink && (
+                          <a
+                            href={reel.supplierLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ fontSize: '0.8rem', color: 'var(--primary)', display: 'inline-flex', alignItems: 'center', gap: '3px' }}
+                          >
+                            Supplier Link <ExternalLink size={12} />
+                          </a>
+                        )}
+                      </td>
+                      <td>
+                        <div>{reel.user.name}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>ID #{reel.user.id}</div>
+                      </td>
+                      <td>
+                        <span className="badge badge-pending">{reel.category}</span>
+                      </td>
+                      <td>
+                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                          <button
+                            onClick={() => handleApproveReel(reel.id)}
+                            className="btn btn-success btn-sm"
+                            style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                            title="Approve Reel"
+                          >
+                            <ThumbsUp size={14} /> Approve
+                          </button>
+                          <button
+                            onClick={() => handleRejectReel(reel.id)}
+                            className="btn btn-danger btn-sm"
+                            style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                            title="Reject Reel"
+                          >
+                            <ThumbsDown size={14} /> Reject
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}

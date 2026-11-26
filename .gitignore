@@ -122,7 +122,10 @@ out/
 .settings/
 .springBeans
 
-# --- NetBeans ---
+# --- Uploads & Media ---
+uploads/reels/
+backend/uploads/reels/
+
 nbproject/private/
 nbbuild/
 nbdist/

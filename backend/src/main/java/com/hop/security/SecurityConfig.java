@@ -54,18 +54,23 @@ public class SecurityConfig {
                                 "/api/v1/documents/request/**",
                                 "/api/v1/donations/request/**",
                                 "/api/v1/reels/video/**",
+                                "/api/v1/reels/*/stream",
+                                "/api/reels/*/stream",
                                 "/api/v1/podcasts/audio/**",
                                 "/error",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/reels", "/api/v1/reels/*", "/api/v1/reels/user/*").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET,
+                                "/api/v1/reels", "/api/v1/reels/*", "/api/v1/reels/user/*", "/api/v1/reels/feed", "/api/v1/reels/*/comments",
+                                "/api/reels", "/api/reels/*", "/api/reels/feed", "/api/reels/*/comments"
+                        ).permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/forum/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/podcasts", "/api/v1/podcasts/*").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/reels/*/view").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/reels/*/view", "/api/reels/*/view").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/v1/podcasts/*/play").permitAll()
-                        .requestMatchers("/api/v1/admin/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/v1/admin/**", "/api/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
