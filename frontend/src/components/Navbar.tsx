@@ -22,11 +22,15 @@ import {
   ChevronDown,
   MessagesSquare,
   Radio,
+  Search,
+  Loader2,
+  ArrowRight,
 } from 'lucide-react';
 import { NotificationDropdown } from './NotificationDropdown';
 import { connectionService } from '../services/connectionService';
 import { messageService } from '../services/messageService';
 import { notificationService } from '../services/notificationService';
+import { searchService, SearchResultItem } from '../services/searchService';
 
 export const Navbar: React.FC = () => {
   const { user, isAuthenticated, logout, hasRole } = useAuth();
@@ -39,6 +43,61 @@ export const Navbar: React.FC = () => {
   const [unreadMessages, setUnreadMessages] = useState<number>(0);
   const [unreadNotifications, setUnreadNotifications] = useState<number>(0);
   const featuresDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Global search state
+  const [navSearchQuery, setNavSearchQuery] = useState('');
+  const [navSearchResults, setNavSearchResults] = useState<SearchResultItem[]>([]);
+  const [navSearchLoading, setNavSearchLoading] = useState(false);
+  const [navSearchOpen, setNavSearchOpen] = useState(false);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+
+  // Debounced quick search
+  useEffect(() => {
+    if (!navSearchQuery.trim() || navSearchQuery.trim().length < 2) {
+      setNavSearchResults([]);
+      setNavSearchLoading(false);
+      return;
+    }
+
+    setNavSearchLoading(true);
+    const handler = setTimeout(() => {
+      searchService
+        .quickSearch(navSearchQuery.trim())
+        .then((res) => {
+          setNavSearchResults(res.allResults || []);
+          setNavSearchLoading(false);
+        })
+        .catch(() => {
+          setNavSearchLoading(false);
+        });
+    }, 250);
+
+    return () => clearTimeout(handler);
+  }, [navSearchQuery]);
+
+  // Close search dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setNavSearchOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleNavSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!navSearchQuery.trim()) return;
+    setNavSearchOpen(false);
+    navigate(`/search?q=${encodeURIComponent(navSearchQuery.trim())}`);
+  };
+
+  const handleSelectSearchResult = (url: string) => {
+    setNavSearchOpen(false);
+    setNavSearchQuery('');
+    navigate(url);
+  };
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -455,6 +514,208 @@ export const Navbar: React.FC = () => {
             )}
           </div>
 
+          {/* Desktop Global Search Bar */}
+          <div ref={searchContainerRef} style={{ position: 'relative', margin: '0 0.5rem', display: 'flex', alignItems: 'center' }}>
+            <form onSubmit={handleNavSearchSubmit} style={{ position: 'relative', width: '220px', transition: 'width 0.2s ease' }}>
+              <input
+                type="text"
+                placeholder="Search HOP..."
+                value={navSearchQuery}
+                onFocus={() => setNavSearchOpen(true)}
+                onChange={(e) => {
+                  setNavSearchQuery(e.target.value);
+                  setNavSearchOpen(true);
+                }}
+                style={{
+                  width: '100%',
+                  padding: '0.4rem 2rem 0.4rem 2.1rem',
+                  fontSize: '0.82rem',
+                  borderRadius: '9999px',
+                  border: '1px solid #e2e8f0',
+                  backgroundColor: '#f8fafc',
+                  color: '#0f172a',
+                  outline: 'none',
+                  transition: 'all 0.2s ease',
+                }}
+                onFocusCapture={(e) => {
+                  e.currentTarget.style.backgroundColor = '#ffffff';
+                  e.currentTarget.style.borderColor = '#93c5fd';
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.1)';
+                  e.currentTarget.parentElement!.style.width = '280px';
+                }}
+                onBlurCapture={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f8fafc';
+                  e.currentTarget.style.borderColor = '#e2e8f0';
+                  e.currentTarget.style.boxShadow = 'none';
+                  if (!navSearchQuery) {
+                    e.currentTarget.parentElement!.style.width = '220px';
+                  }
+                }}
+              />
+              <Search
+                size={14}
+                color="#94a3b8"
+                style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}
+              />
+              {navSearchLoading ? (
+                <Loader2
+                  size={14}
+                  color="#2563eb"
+                  className="animate-spin"
+                  style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)' }}
+                />
+              ) : navSearchQuery ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNavSearchQuery('');
+                    setNavSearchResults([]);
+                  }}
+                  style={{
+                    position: 'absolute',
+                    right: '0.65rem',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: '#94a3b8',
+                    padding: 0,
+                    display: 'flex',
+                  }}
+                >
+                  <X size={13} />
+                </button>
+              ) : null}
+            </form>
+
+            {/* Quick Autocomplete Dropdown */}
+            {navSearchOpen && navSearchQuery.trim().length >= 2 && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 0.5rem)',
+                  left: 0,
+                  width: '320px',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '0.75rem',
+                  border: '1px solid #e2e8f0',
+                  boxShadow: '0 12px 30px -4px rgba(15, 23, 42, 0.15)',
+                  padding: '0.5rem',
+                  zIndex: 1100,
+                  maxHeight: '380px',
+                  overflowY: 'auto',
+                }}
+              >
+                {navSearchResults.length === 0 ? (
+                  <div style={{ padding: '1rem', textAlign: 'center', color: '#64748b', fontSize: '0.82rem' }}>
+                    {navSearchLoading ? 'Searching...' : `No quick matches for "${navSearchQuery}"`}
+                  </div>
+                ) : (
+                  <>
+                    <div style={{ padding: '0.3rem 0.6rem', fontSize: '0.7rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
+                      Top Matches
+                    </div>
+                    {navSearchResults.slice(0, 6).map((item) => (
+                      <button
+                        key={`${item.type}-${item.id}`}
+                        type="button"
+                        onClick={() => handleSelectSearchResult(item.url)}
+                        style={{
+                          width: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.6rem',
+                          padding: '0.5rem 0.6rem',
+                          borderRadius: '0.5rem',
+                          border: 'none',
+                          backgroundColor: 'transparent',
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                          transition: 'background-color 0.15s ease',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
+                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                      >
+                        <span
+                          style={{
+                            fontSize: '0.65rem',
+                            fontWeight: 700,
+                            padding: '0.15rem 0.45rem',
+                            borderRadius: '9999px',
+                            backgroundColor:
+                              item.type === 'CAUSE'
+                                ? '#ecfdf5'
+                                : item.type === 'REEL'
+                                ? '#fff1f2'
+                                : item.type === 'PODCAST'
+                                ? '#eef2ff'
+                                : item.type === 'FORUM_POST'
+                                ? '#f0f9ff'
+                                : '#eff6ff',
+                            color:
+                              item.type === 'CAUSE'
+                                ? '#059669'
+                                : item.type === 'REEL'
+                                ? '#e11d48'
+                                : item.type === 'PODCAST'
+                                ? '#4f46e5'
+                                : item.type === 'FORUM_POST'
+                                ? '#0284c7'
+                                : '#2563eb',
+                            flexShrink: 0,
+                          }}
+                        >
+                          {item.type === 'CAUSE'
+                            ? 'CAUSE'
+                            : item.type === 'REEL'
+                            ? 'REEL'
+                            : item.type === 'PODCAST'
+                            ? 'AUDIO'
+                            : item.type === 'FORUM_POST'
+                            ? 'FORUM'
+                            : 'BIZ'}
+                        </span>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0f172a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                            {item.title}
+                          </div>
+                          {item.category && (
+                            <div style={{ fontSize: '0.68rem', color: '#64748b' }}>{item.category}</div>
+                          )}
+                        </div>
+                      </button>
+                    ))}
+                    <div style={{ borderTop: '1px solid #f1f5f9', marginTop: '0.35rem', paddingTop: '0.35rem' }}>
+                      <button
+                        type="button"
+                        onClick={handleNavSearchSubmit}
+                        style={{
+                          width: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.4rem',
+                          padding: '0.5rem',
+                          backgroundColor: '#eff6ff',
+                          color: '#2563eb',
+                          border: 'none',
+                          borderRadius: '0.5rem',
+                          fontSize: '0.78rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <span>See all results for &ldquo;{navSearchQuery}&rdquo;</span>
+                        <ArrowRight size={13} />
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+
           {/* Desktop Auth Controls */}
           <div className="navbar-desktop-auth">
             {isAuthenticated ? (
@@ -500,6 +761,50 @@ export const Navbar: React.FC = () => {
         aria-hidden={!mobileMenuOpen}
       >
         <div className="navbar-drawer-links">
+          {/* Mobile Global Search Input */}
+          <form
+            onSubmit={(e) => {
+              handleNavSearchSubmit(e);
+              setMobileMenuOpen(false);
+            }}
+            style={{ padding: '0.5rem 0.75rem 0.75rem' }}
+          >
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              backgroundColor: '#f1f5f9',
+              borderRadius: '9999px',
+              padding: '0.45rem 0.85rem',
+              gap: '0.5rem',
+              border: '1px solid #e2e8f0',
+            }}>
+              <Search size={16} color="#64748b" />
+              <input
+                type="text"
+                placeholder="Search causes, reels, podcasts..."
+                value={navSearchQuery}
+                onChange={(e) => setNavSearchQuery(e.target.value)}
+                style={{
+                  border: 'none',
+                  background: 'transparent',
+                  outline: 'none',
+                  fontSize: '0.85rem',
+                  color: '#0f172a',
+                  width: '100%',
+                }}
+              />
+              {navSearchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setNavSearchQuery('')}
+                  style={{ border: 'none', background: 'transparent', color: '#94a3b8', cursor: 'pointer', padding: 0 }}
+                >
+                  <X size={15} />
+                </button>
+              )}
+            </div>
+          </form>
+
           <Link
             to="/"
             className={`nav-link ${isActive('/') ? 'active' : ''}`}

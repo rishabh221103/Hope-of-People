@@ -19,6 +19,7 @@ import { ReelsPage } from '../pages/ReelsPage';
 import { CommunityPage } from '../pages/CommunityPage';
 import { ForumPostDetailPage } from '../pages/ForumPostDetailPage';
 import { PodcastsPage } from '../pages/PodcastsPage';
+import { SearchPage } from '../pages/SearchPage';
 import { AdminDashboardPage } from '../pages/AdminDashboardPage';
 import { ProtectedRoute } from './ProtectedRoute';
 import { AdminRoute } from './AdminRoute';
@@ -36,6 +37,7 @@ export const AppRoutes: React.FC = () => {
         <Route path="community" element={<CommunityPage />} />
         <Route path="community/posts/:id" element={<ForumPostDetailPage />} />
         <Route path="business-hub" element={<BusinessHubPage />} />
+        <Route path="search" element={<SearchPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
 
