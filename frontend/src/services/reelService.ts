@@ -175,8 +175,8 @@ export const reelService = {
     });
     return {
       id,
-      likesCount: res.likesCount ?? res.likeCount ?? 0,
-      isLikedByCurrentUser: res.likedByCurrentUser ?? res.isLikedByCurrentUser ?? res.liked ?? false,
+      likesCount: res.likeCount ?? res.likesCount ?? 0,
+      isLikedByCurrentUser: res.likedByMe ?? res.likedByCurrentUser ?? res.isLikedByCurrentUser ?? res.liked ?? false,
     };
   },
 

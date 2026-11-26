@@ -69,6 +69,7 @@ export const ReelsPage: React.FC = () => {
   const [reportSuccess, setReportSuccess] = useState<boolean>(false);
 
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const activeReelIdRef = useRef<number | null>(null);
 
   // Initial feed loader
   const loadInitialFeed = useCallback(async (cat?: string) => {
@@ -144,13 +145,19 @@ export const ReelsPage: React.FC = () => {
 
   // Video playback
   useEffect(() => {
+    const activeReel = reels[currentIndex];
+    if (!activeReel) return;
+
     videoRefs.current.forEach((vid, idx) => {
       if (!vid) return;
       if (idx === currentIndex) {
-        vid.currentTime = 0;
-        vid.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
-        if (reels[currentIndex]) {
-          reelService.incrementView(reels[currentIndex].id).catch(() => {});
+        if (activeReelIdRef.current !== activeReel.id) {
+          activeReelIdRef.current = activeReel.id;
+          vid.currentTime = 0;
+          vid.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
+          reelService.incrementView(activeReel.id).catch(() => {});
+        } else if (vid.paused && isPlaying) {
+          vid.play().catch(() => {});
         }
       } else {
         vid.pause();
@@ -195,6 +202,23 @@ export const ReelsPage: React.FC = () => {
       }
       return;
     }
+
+    const wasLiked = !!reel.isLikedByCurrentUser;
+    const optimisticCount = wasLiked ? Math.max(0, reel.likesCount - 1) : reel.likesCount + 1;
+
+    // Instant optimistic update for immediate feedback
+    setReels((prev) =>
+      prev.map((r) =>
+        r.id === reel.id
+          ? {
+              ...r,
+              likesCount: optimisticCount,
+              isLikedByCurrentUser: !wasLiked,
+            }
+          : r
+      )
+    );
+
     try {
       const updated = await reelService.toggleLike(reel.id);
       setReels((prev) =>
@@ -209,6 +233,18 @@ export const ReelsPage: React.FC = () => {
         )
       );
     } catch (err) {
+      // Revert if network call failed
+      setReels((prev) =>
+        prev.map((r) =>
+          r.id === reel.id
+            ? {
+                ...r,
+                likesCount: reel.likesCount,
+                isLikedByCurrentUser: wasLiked,
+              }
+            : r
+        )
+      );
       console.error('Failed to toggle like:', err);
     }
   };
@@ -343,8 +379,8 @@ export const ReelsPage: React.FC = () => {
   return (
     <div style={{
       minHeight: 'calc(100vh - 70px)',
-      backgroundColor: '#090d16',
-      color: '#f8fafc',
+      backgroundColor: '#f8fafc',
+      color: '#0f172a',
       padding: '1.25rem 1rem 2rem',
       display: 'flex',
       flexDirection: 'column',
@@ -376,10 +412,10 @@ export const ReelsPage: React.FC = () => {
             <Film size={22} color="#ffffff" />
           </div>
           <div>
-            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, margin: 0, letterSpacing: '-0.02em', color: '#ffffff' }}>
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, margin: 0, letterSpacing: '-0.02em', color: '#0f172a' }}>
               HOP Reels
             </h1>
-            <p style={{ fontSize: '0.75rem', color: '#94a3b8', margin: 0 }}>
+            <p style={{ fontSize: '0.75rem', color: '#64748b', margin: 0 }}>
               Authentic Stories & Source Verification
             </p>
           </div>
@@ -430,9 +466,9 @@ export const ReelsPage: React.FC = () => {
               key={cat.value}
               onClick={() => setSelectedCategory(cat.value)}
               style={{
-                backgroundColor: isActive ? '#f43f5e' : 'rgba(30, 41, 59, 0.7)',
-                color: isActive ? '#ffffff' : '#cbd5e1',
-                border: isActive ? '1px solid #f43f5e' : '1px solid rgba(255, 255, 255, 0.1)',
+                backgroundColor: isActive ? '#f43f5e' : '#ffffff',
+                color: isActive ? '#ffffff' : '#475569',
+                border: isActive ? '1px solid #f43f5e' : '1px solid #e2e8f0',
                 borderRadius: '9999px',
                 padding: '0.35rem 0.9rem',
                 fontSize: '0.75rem',
@@ -440,7 +476,7 @@ export const ReelsPage: React.FC = () => {
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
                 transition: 'all 0.15s ease',
-                boxShadow: isActive ? '0 2px 8px rgba(244, 63, 94, 0.4)' : 'none',
+                boxShadow: isActive ? '0 2px 8px rgba(244, 63, 94, 0.35)' : '0 1px 3px rgba(0, 0, 0, 0.04)',
               }}
             >
               {cat.label}
@@ -454,18 +490,18 @@ export const ReelsPage: React.FC = () => {
         <div style={{
           maxWidth: '480px',
           width: '100%',
-          backgroundColor: '#0f172a',
+          backgroundColor: '#ffffff',
           borderRadius: '20px',
           padding: '3rem 2rem',
           textAlign: 'center',
-          border: '1px solid #1e293b',
+          border: '1px solid #e2e8f0',
           marginTop: '2rem',
-          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)',
+          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.06)',
         }}>
           <div style={{
             width: '64px',
             height: '64px',
-            backgroundColor: 'rgba(244, 63, 94, 0.15)',
+            backgroundColor: 'rgba(244, 63, 94, 0.12)',
             borderRadius: '20px',
             display: 'flex',
             alignItems: 'center',
@@ -475,10 +511,10 @@ export const ReelsPage: React.FC = () => {
           }}>
             <Film size={32} />
           </div>
-          <h2 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.5rem', color: '#ffffff' }}>
+          <h2 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.5rem', color: '#0f172a' }}>
             No Reels Found
           </h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+          <p style={{ color: '#64748b', fontSize: '0.85rem', lineHeight: 1.5, marginBottom: '1.5rem' }}>
             {selectedCategory
               ? `There are no live reels under ${selectedCategory} category yet.`
               : 'Be the first creator, beneficiary, or donor to upload a short vertical reel showcase!'}
@@ -488,9 +524,9 @@ export const ReelsPage: React.FC = () => {
               <button
                 onClick={() => setSelectedCategory('')}
                 style={{
-                  backgroundColor: '#1e293b',
-                  color: '#ffffff',
-                  border: '1px solid #334155',
+                  backgroundColor: '#f1f5f9',
+                  color: '#0f172a',
+                  border: '1px solid #e2e8f0',
                   padding: '0.6rem 1.2rem',
                   borderRadius: '10px',
                   fontSize: '0.85rem',
@@ -529,18 +565,19 @@ export const ReelsPage: React.FC = () => {
           gap: '1.5rem',
           width: '100%',
         }}>
-          {/* Vertical Reel Card (9:16 Aspect Phone Screen) */}
+          {/* Vertical Reel Card (Sleek Smartphone Frame) */}
           <div style={{
             position: 'relative',
             width: '100%',
-            maxWidth: '400px',
-            height: '76vh',
-            maxHeight: '700px',
+            maxWidth: '390px',
+            height: '75vh',
+            maxHeight: '690px',
             minHeight: '520px',
             backgroundColor: '#000000',
-            borderRadius: '24px',
+            borderRadius: '32px',
+            border: '6px solid #0f172a',
             overflow: 'hidden',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 25px 50px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.08)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -555,7 +592,7 @@ export const ReelsPage: React.FC = () => {
                 height: '100%',
                 objectFit: 'cover',
                 cursor: 'pointer',
-                backgroundColor: '#090d16',
+                backgroundColor: '#000000',
               }}
               playsInline
               loop
@@ -948,9 +985,9 @@ export const ReelsPage: React.FC = () => {
               onClick={goToPrev}
               disabled={currentIndex === 0}
               style={{
-                backgroundColor: currentIndex === 0 ? 'rgba(30, 41, 59, 0.4)' : '#1e293b',
-                color: currentIndex === 0 ? '#475569' : '#ffffff',
-                border: '1px solid #334155',
+                backgroundColor: currentIndex === 0 ? '#f1f5f9' : '#ffffff',
+                color: currentIndex === 0 ? '#94a3b8' : '#0f172a',
+                border: '1px solid #e2e8f0',
                 width: '46px',
                 height: '46px',
                 borderRadius: '50%',
@@ -958,24 +995,21 @@ export const ReelsPage: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                boxShadow: currentIndex === 0 ? 'none' : '0 4px 12px rgba(15, 23, 42, 0.08)',
+                transition: 'all 0.15s ease',
               }}
               title="Previous Reel (Up Arrow)"
             >
               <ChevronUp size={24} />
             </button>
 
-            <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#94a3b8' }}>
-              {currentIndex + 1} / {reels.length}
-            </span>
-
             <button
               onClick={goToNext}
               disabled={currentIndex === reels.length - 1 && !hasMore}
               style={{
-                backgroundColor: currentIndex === reels.length - 1 && !hasMore ? 'rgba(30, 41, 59, 0.4)' : '#1e293b',
-                color: currentIndex === reels.length - 1 && !hasMore ? '#475569' : '#ffffff',
-                border: '1px solid #334155',
+                backgroundColor: currentIndex === reels.length - 1 && !hasMore ? '#f1f5f9' : '#ffffff',
+                color: currentIndex === reels.length - 1 && !hasMore ? '#94a3b8' : '#0f172a',
+                border: '1px solid #e2e8f0',
                 width: '46px',
                 height: '46px',
                 borderRadius: '50%',
@@ -983,7 +1017,8 @@ export const ReelsPage: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: currentIndex === reels.length - 1 && !hasMore ? 'not-allowed' : 'pointer',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                boxShadow: currentIndex === reels.length - 1 && !hasMore ? 'none' : '0 4px 12px rgba(15, 23, 42, 0.08)',
+                transition: 'all 0.15s ease',
               }}
               title="Next Reel (Down Arrow)"
             >
@@ -1010,14 +1045,14 @@ export const ReelsPage: React.FC = () => {
             maxWidth: '460px',
             height: '65vh',
             maxHeight: '520px',
-            backgroundColor: '#0f172a',
+            backgroundColor: '#ffffff',
             borderTopLeftRadius: '24px',
             borderTopRightRadius: '24px',
-            border: '1px solid #1e293b',
+            border: '1px solid #e2e8f0',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
-            boxShadow: '0 -10px 30px rgba(0, 0, 0, 0.6)',
+            boxShadow: '0 -10px 30px rgba(0, 0, 0, 0.15)',
           }}>
             {/* Header */}
             <div style={{
@@ -1025,9 +1060,9 @@ export const ReelsPage: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '1rem 1.25rem',
-              borderBottom: '1px solid #1e293b',
+              borderBottom: '1px solid #f1f5f9',
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, fontSize: '0.95rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, fontSize: '0.95rem', color: '#0f172a' }}>
                 <MessageCircle size={18} color="#f43f5e" />
                 <span>Comments ({currentReel?.commentCount || comments.length})</span>
               </div>
@@ -1036,7 +1071,7 @@ export const ReelsPage: React.FC = () => {
                 style={{
                   backgroundColor: 'transparent',
                   border: 'none',
-                  color: '#94a3b8',
+                  color: '#64748b',
                   cursor: 'pointer',
                   padding: '4px',
                 }}
@@ -1062,8 +1097,8 @@ export const ReelsPage: React.FC = () => {
                       width: '30px',
                       height: '30px',
                       borderRadius: '50%',
-                      backgroundColor: '#1e293b',
-                      color: '#ffffff',
+                      backgroundColor: '#e2e8f0',
+                      color: '#0f172a',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -1074,21 +1109,21 @@ export const ReelsPage: React.FC = () => {
                       {c.user?.name ? c.user.name.charAt(0).toUpperCase() : 'U'}
                     </div>
                     <div style={{
-                      backgroundColor: 'rgba(30, 41, 59, 0.7)',
-                      border: '1px solid #334155',
+                      backgroundColor: '#f8fafc',
+                      border: '1px solid #e2e8f0',
                       borderRadius: '12px',
                       padding: '0.5rem 0.75rem',
                       flex: 1,
                     }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
-                        <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#f8fafc' }}>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0f172a' }}>
                           {c.user?.name || 'Community Member'}
                         </span>
-                        <span style={{ fontSize: '0.68rem', color: '#64748b' }}>
+                        <span style={{ fontSize: '0.68rem', color: '#94a3b8' }}>
                           {new Date(c.createdAt).toLocaleDateString()}
                         </span>
                       </div>
-                      <p style={{ fontSize: '0.8rem', color: '#cbd5e1', margin: '0.25rem 0 0', lineHeight: 1.4 }}>
+                      <p style={{ fontSize: '0.8rem', color: '#334155', margin: '0.25rem 0 0', lineHeight: 1.4 }}>
                         {c.content}
                       </p>
                     </div>
@@ -1103,8 +1138,8 @@ export const ReelsPage: React.FC = () => {
               alignItems: 'center',
               gap: '0.5rem',
               padding: '0.75rem 1rem',
-              borderTop: '1px solid #1e293b',
-              backgroundColor: '#0b1120',
+              borderTop: '1px solid #e2e8f0',
+              backgroundColor: '#f8fafc',
             }}>
               <input
                 type="text"
@@ -1114,9 +1149,9 @@ export const ReelsPage: React.FC = () => {
                 disabled={!isAuthenticated || commentSubmitting}
                 style={{
                   flex: 1,
-                  backgroundColor: '#1e293b',
-                  border: '1px solid #334155',
-                  color: '#ffffff',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #cbd5e1',
+                  color: '#0f172a',
                   borderRadius: '10px',
                   padding: '0.6rem 0.85rem',
                   fontSize: '0.82rem',
