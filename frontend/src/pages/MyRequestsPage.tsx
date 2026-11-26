@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { assistanceService, AssistanceRequestItem } from '../services/assistanceService';
 import { documentService } from '../services/documentService';
 import { storyService, StoryItem } from '../services/storyService';
-import { PlusCircle, FileText, Upload, Clock, Sparkles, Shield } from 'lucide-react';
+import { PlusCircle, FileText, Upload, Clock, Shield } from 'lucide-react';
 import { isImageDocument } from '../utils/mediaUtils';
 import { CreateStoryModal } from '../components/CreateStoryModal';
 
@@ -122,7 +122,7 @@ export const MyRequestsPage: React.FC = () => {
               borderRadius: '12px',
             }}
           >
-            <Sparkles size={32} color="#f97316" style={{ margin: '0 auto 0.5rem' }} />
+            <Clock size={32} color="#f97316" style={{ margin: '0 auto 0.5rem' }} />
             <h3 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 0.35rem' }}>
               No Active 48-Hour Stories
             </h3>

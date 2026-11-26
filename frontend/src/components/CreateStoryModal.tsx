@@ -4,7 +4,6 @@ import {
   X,
   Clock,
   AlertCircle,
-  Sparkles,
 } from 'lucide-react';
 
 interface Props {
@@ -180,7 +179,6 @@ export const CreateStoryModal: React.FC<Props> = ({ isOpen, onClose, onStoryCrea
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#991b1b', fontWeight: 700, fontSize: '0.85rem' }}>
-              <Sparkles size={16} />
               <span>48-Hour Community Showcase Guidelines</span>
             </div>
             <div style={{ fontSize: '0.785rem', color: '#7f1d1d', lineHeight: 1.45 }}>

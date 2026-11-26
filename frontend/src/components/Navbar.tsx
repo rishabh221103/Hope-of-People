@@ -20,7 +20,6 @@ import {
   Bell,
   Film,
   ChevronDown,
-  Sparkles,
 } from 'lucide-react';
 import { NotificationDropdown } from './NotificationDropdown';
 import { connectionService } from '../services/connectionService';
@@ -165,7 +164,6 @@ export const Navbar: React.FC = () => {
                 }}
                 title="Community & Features: Reels, Business Hub, Network, Messages, Notifications"
               >
-                <Sparkles size={16} style={{ color: '#f43f5e' }} />
                 <span>Community Hub</span>
                 {totalFeatureBadges > 0 && (
                   <span

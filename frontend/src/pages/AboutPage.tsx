@@ -14,7 +14,6 @@ import {
   ArrowRight,
   Eye,
   FileCheck,
-  Sparkles,
 } from 'lucide-react';
 
 export const AboutPage: React.FC = () => {
@@ -89,7 +88,7 @@ export const AboutPage: React.FC = () => {
             </Link>
           ) : isAuthenticated && !isDonor ? (
             <Link to="/request-aid" className="btn btn-primary btn-lg">
-              <Sparkles size={18} /> Apply for Assistance
+              <Heart size={18} /> Apply for Assistance
             </Link>
           ) : (
             <>
@@ -430,7 +429,7 @@ export const AboutPage: React.FC = () => {
 
           <div className="card" style={{ display: 'flex', gap: '1rem', padding: '1.5rem' }}>
             <div style={{ width: 44, height: 44, borderRadius: '10px', background: 'var(--secondary-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--secondary)', flexShrink: 0 }}>
-              <Sparkles size={22} />
+              <ShieldCheck size={22} />
             </div>
             <div>
               <h4 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.25rem' }}>Urgent Community Crises</h4>

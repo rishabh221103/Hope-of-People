@@ -10,7 +10,6 @@ import {
   ChevronDown, 
   DollarSign, 
   ExternalLink, 
-  Sparkles,
   Check,
   Film
 } from 'lucide-react';
@@ -359,7 +358,6 @@ export const ReelsPage: React.FC = () => {
                 <span className="text-sm font-bold text-white leading-tight">
                   {currentReel.creatorName}
                 </span>
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               </div>
               <span className="text-[10px] text-slate-400">Verified Impact Creator</span>
             </div>

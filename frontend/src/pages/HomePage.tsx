@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { assistanceService, AssistanceRequestItem } from '../services/assistanceService';
-import { Heart, ShieldCheck, ArrowRight, DollarSign, Award, LayoutDashboard, Sparkles, Shield } from 'lucide-react';
+import { Heart, ShieldCheck, ArrowRight, DollarSign, Award, LayoutDashboard, Shield } from 'lucide-react';
 import { DonationModal } from '../components/DonationModal';
 import { HumanitarianStoryCarousel } from '../components/HumanitarianStoryCarousel';
 import { getInitiativeCoverUrl, getCategoryFallbackPhoto } from '../utils/mediaUtils';
@@ -88,7 +88,7 @@ export const HomePage: React.FC = () => {
               marginBottom: '0.5rem',
             }}
           >
-            <Sparkles size={16} /> Urgent Community Needs
+            <Heart size={16} /> Urgent Community Needs
           </span>
           <h2 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.15rem)', fontWeight: 800, color: 'var(--secondary)', margin: 0 }}>
             People Seeking Critical Support

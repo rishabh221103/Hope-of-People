@@ -15,7 +15,6 @@ import {
   Filter,
   CheckCircle,
   Clock,
-  Sparkles,
   ArrowRight,
   Image as ImageIcon,
   Video as VideoIcon,
@@ -119,7 +118,7 @@ export const DonorDashboardPage: React.FC = () => {
                 backdropFilter: 'blur(4px)',
               }}
             >
-              <Sparkles size={14} /> Donor Giving Dashboard
+              <Heart size={14} /> Donor Giving Dashboard
             </span>
             <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', fontWeight: 800, margin: '0 0 0.5rem 0', color: '#ffffff' }}>
               Welcome back, {user?.firstName || 'Generous Donor'}!
@@ -283,7 +282,7 @@ export const DonorDashboardPage: React.FC = () => {
           {/* Urgent Humanitarian Visual Spotlight */}
           <div style={{ marginBottom: '2rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.75rem' }}>
-              <Sparkles size={18} color="var(--primary)" />
+              <Heart size={18} color="var(--primary)" />
               <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 800, color: 'var(--secondary)' }}>
                 Urgent Beneficiary Stories Needing Immediate Aid
               </h3>

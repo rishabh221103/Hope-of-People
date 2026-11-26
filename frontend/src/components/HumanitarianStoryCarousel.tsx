@@ -7,7 +7,6 @@ import {
   ChevronRight,
   ShieldCheck,
   Clock,
-  Sparkles,
   Activity,
   Apple,
   BookOpen,
@@ -53,7 +52,7 @@ const getCategoryMeta = (cat: string) => {
     case 'ELDER_CARE':
       return { tagColor: '#7c3aed', icon: <Users size={16} /> };
     default:
-      return { tagColor: '#dc2626', icon: <Sparkles size={16} /> };
+      return { tagColor: '#dc2626', icon: <Heart size={16} /> };
   }
 };
 
@@ -758,7 +757,6 @@ export const HumanitarianStoryCarousel: React.FC<Props> = ({ onDonateClick, comp
                           gap: '6px',
                         }}
                       >
-                        <Sparkles size={16} />
                         <span>Full Aid Application</span>
                       </Link>
                     </div>
