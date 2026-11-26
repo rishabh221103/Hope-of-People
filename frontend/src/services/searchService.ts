@@ -1,4 +1,4 @@
-import api from './api';
+import { request } from './api';
 
 export type SearchResultType = 'CAUSE' | 'REEL' | 'PODCAST' | 'FORUM_POST' | 'BUSINESS';
 
@@ -26,14 +26,6 @@ export interface GlobalSearchData {
   allResults: SearchResultItem[];
 }
 
-export interface GlobalSearchResponse {
-  success: boolean;
-  statusCode: number;
-  message: string;
-  data: GlobalSearchData;
-  timestamp: string;
-}
-
 export const searchService = {
   /**
    * Full search query across all or a specific category.
@@ -46,15 +38,13 @@ export const searchService = {
     }
     params.set('limit', limit.toString());
 
-    const res = await api.get<GlobalSearchResponse>(`/search?${params.toString()}`);
-    return res.data.data;
+    return request<GlobalSearchData>(`/search?${params.toString()}`);
   },
 
   /**
    * Fast debounced quick search for autocomplete dropdowns.
    */
   async quickSearch(query: string): Promise<GlobalSearchData> {
-    const res = await api.get<GlobalSearchResponse>(`/search/quick?q=${encodeURIComponent(query)}`);
-    return res.data.data;
+    return request<GlobalSearchData>(`/search/quick?q=${encodeURIComponent(query)}`);
   },
 };

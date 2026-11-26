@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate, Link } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import {
   Search,
   Heart,
@@ -23,7 +23,6 @@ type FilterType = 'ALL' | 'CAUSE' | 'REEL' | 'PODCAST' | 'FORUM_POST' | 'BUSINES
 
 export const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   const queryParam = searchParams.get('q') || '';
   const typeParam = (searchParams.get('type') as FilterType) || 'ALL';
