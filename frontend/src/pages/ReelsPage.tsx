@@ -17,7 +17,8 @@ import {
   Flag,
   X,
   Send,
-  Loader2
+  Loader2,
+  Trash2,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -37,7 +38,7 @@ const CATEGORIES = [
 ];
 
 export const ReelsPage: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user, hasRole } = useAuth();
   const navigate = useNavigate();
 
   const [reels, setReels] = useState<ReelItem[]>([]);
@@ -67,6 +68,12 @@ export const ReelsPage: React.FC = () => {
   const [reportModalReelId, setReportModalReelId] = useState<number | null>(null);
   const [reportReason, setReportReason] = useState<string>('');
   const [reportSuccess, setReportSuccess] = useState<boolean>(false);
+
+  // Delete Reel Confirmation Modal state
+  const [reelToDelete, setReelToDelete] = useState<ReelItem | null>(null);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [deleteSuccessMsg, setDeleteSuccessMsg] = useState<string | null>(null);
 
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const activeReelIdRef = useRef<number | null>(null);
@@ -309,6 +316,37 @@ export const ReelsPage: React.FC = () => {
       }, 1500);
     } catch (err: any) {
       alert(err?.message || 'Failed to submit report.');
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!reelToDelete) return;
+    try {
+      setIsDeleting(true);
+      setDeleteError(null);
+      await reelService.deleteReel(reelToDelete.id);
+
+      const deletedId = reelToDelete.id;
+      setReels((prev) => {
+        const nextList = prev.filter((r) => r.id !== deletedId);
+        return nextList;
+      });
+
+      setCurrentIndex((prev) => {
+        if (prev >= reels.length - 1 && reels.length > 1) {
+          return Math.max(0, reels.length - 2);
+        }
+        return prev;
+      });
+
+      setReelToDelete(null);
+      setDeleteSuccessMsg('Your reel has been permanently deleted.');
+      setTimeout(() => setDeleteSuccessMsg(null), 3500);
+    } catch (err: any) {
+      console.error('Failed to delete reel:', err);
+      setDeleteError(err?.message || 'Failed to delete reel. You can only delete reels you uploaded.');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -778,25 +816,60 @@ export const ReelsPage: React.FC = () => {
                 </span>
               </div>
 
-              {/* Report Button */}
-              <button
-                onClick={() => setReportModalReelId(currentReel.id)}
-                style={{
-                  backgroundColor: 'rgba(0, 0, 0, 0.45)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  color: '#94a3b8',
-                  width: '34px',
-                  height: '34px',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                }}
-                title="Report reel"
-              >
-                <Flag size={15} />
-              </button>
+              {/* Owner Delete Button - ONLY visible if current user uploaded this reel (or is admin) */}
+              {user && (user.userId === currentReel.userId || hasRole('ROLE_ADMIN')) && (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <button
+                    onClick={() => {
+                      setDeleteError(null);
+                      setReelToDelete(currentReel);
+                    }}
+                    style={{
+                      backgroundColor: 'rgba(239, 68, 68, 0.35)',
+                      backdropFilter: 'blur(8px)',
+                      border: '1px solid rgba(239, 68, 68, 0.6)',
+                      color: '#ffffff',
+                      width: '42px',
+                      height: '42px',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(239, 68, 68, 0.35)',
+                      transition: 'all 0.15s ease',
+                    }}
+                    title="Delete your uploaded reel"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#fca5a5', marginTop: '4px' }}>
+                    Delete
+                  </span>
+                </div>
+              )}
+
+              {/* Report Button (Only shown if NOT the creator) */}
+              {(!user || user.userId !== currentReel.userId) && (
+                <button
+                  onClick={() => setReportModalReelId(currentReel.id)}
+                  style={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    color: '#94a3b8',
+                    width: '34px',
+                    height: '34px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                  }}
+                  title="Report reel"
+                >
+                  <Flag size={15} />
+                </button>
+              )}
 
               {/* Cause Support Donate Button */}
               {currentReel.assistanceRequestId && (
@@ -854,10 +927,23 @@ export const ReelsPage: React.FC = () => {
                   {currentReel.creatorName ? currentReel.creatorName.charAt(0).toUpperCase() : 'U'}
                 </div>
                 <div style={{ overflow: 'hidden' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
                     <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ffffff' }}>
                       {currentReel.creatorName || 'HOP Member'}
                     </span>
+                    {user && user.userId === currentReel.userId && (
+                      <span style={{
+                        fontSize: '0.62rem',
+                        fontWeight: 700,
+                        backgroundColor: 'rgba(16, 185, 129, 0.3)',
+                        color: '#6ee7b7',
+                        border: '1px solid rgba(16, 185, 129, 0.5)',
+                        padding: '0.08rem 0.45rem',
+                        borderRadius: '9999px',
+                      }}>
+                        Your Reel
+                      </span>
+                    )}
                     {currentReel.category && (
                       <span style={{
                         fontSize: '0.65rem',
@@ -1282,6 +1368,136 @@ export const ReelsPage: React.FC = () => {
               </form>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Delete Reel Confirmation Modal (STRICTLY ONLY for Owner / Admin) */}
+      {reelToDelete && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 1000,
+          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+          backdropFilter: 'blur(6px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '1rem',
+        }}>
+          <div style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '16px',
+            maxWidth: '420px',
+            width: '100%',
+            padding: '1.75rem',
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)',
+            textAlign: 'center',
+          }}>
+            <div style={{
+              width: '52px',
+              height: '52px',
+              borderRadius: '50%',
+              backgroundColor: '#fee2e2',
+              color: '#ef4444',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 1rem',
+            }}>
+              <Trash2 size={26} />
+            </div>
+
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem' }}>
+              Delete Your Reel?
+            </h3>
+            <p style={{ color: '#64748b', fontSize: '0.88rem', lineHeight: 1.5, margin: '0 0 1.25rem' }}>
+              Are you sure you want to permanently delete this reel? The video file, likes, and comments will be completely erased. <strong>This action cannot be undone.</strong>
+            </p>
+
+            {deleteError && (
+              <div style={{
+                backgroundColor: '#fef2f2',
+                color: '#dc2626',
+                border: '1px solid #fecaca',
+                padding: '0.65rem',
+                borderRadius: '8px',
+                fontSize: '0.82rem',
+                marginBottom: '1rem',
+                textAlign: 'left',
+              }}>
+                {deleteError}
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+              <button
+                type="button"
+                onClick={() => setReelToDelete(null)}
+                disabled={isDeleting}
+                style={{
+                  flex: 1,
+                  padding: '0.65rem 1rem',
+                  borderRadius: '10px',
+                  border: '1px solid #cbd5e1',
+                  backgroundColor: '#f8fafc',
+                  color: '#475569',
+                  fontWeight: 600,
+                  fontSize: '0.88rem',
+                  cursor: isDeleting ? 'not-allowed' : 'pointer',
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmDelete}
+                disabled={isDeleting}
+                style={{
+                  flex: 1,
+                  padding: '0.65rem 1rem',
+                  borderRadius: '10px',
+                  border: 'none',
+                  backgroundColor: '#ef4444',
+                  color: '#ffffff',
+                  fontWeight: 700,
+                  fontSize: '0.88rem',
+                  cursor: isDeleting ? 'not-allowed' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.4rem',
+                }}
+              >
+                {isDeleting ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
+                <span>{isDeleting ? 'Deleting...' : 'Delete Reel'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Success Notification */}
+      {deleteSuccessMsg && (
+        <div style={{
+          position: 'fixed',
+          bottom: '2rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          backgroundColor: '#0f172a',
+          color: '#ffffff',
+          padding: '0.75rem 1.25rem',
+          borderRadius: '9999px',
+          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          zIndex: 1100,
+          fontSize: '0.88rem',
+          fontWeight: 600,
+          border: '1px solid #334155',
+        }}>
+          <Check size={18} color="#10b981" />
+          <span>{deleteSuccessMsg}</span>
         </div>
       )}
 

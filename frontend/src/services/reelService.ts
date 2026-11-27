@@ -74,8 +74,8 @@ export interface ReelItem {
 export function feedItemToReelItem(item: ReelFeedItem): ReelItem {
   return {
     id: item.id,
-    userId: item.user.id,
-    creatorName: item.user.name,
+    userId: item.user?.id || 0,
+    creatorName: item.user?.name || 'HOP Member',
     creatorEmail: '',
     videoUrl: item.playbackUrl,
     thumbnailUrl: item.thumbnailUrl,
@@ -85,7 +85,7 @@ export function feedItemToReelItem(item: ReelFeedItem): ReelItem {
     likesCount: item.likeCount,
     sharesCount: 0,
     isLikedByCurrentUser: item.likedByMe,
-    createdAt: new Date().toISOString(),
+    createdAt: (item as any).createdAt || new Date().toISOString(),
     category: item.category,
     sourceLocation: item.sourceLocation,
     supplierLink: item.supplierLink,

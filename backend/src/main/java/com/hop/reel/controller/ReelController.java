@@ -1,5 +1,6 @@
 package com.hop.reel.controller;
 
+import com.hop.common.exception.UnauthorizedException;
 import com.hop.common.pagination.CursorPage;
 import com.hop.common.response.ApiResponse;
 import com.hop.reel.dto.ReelCommentRequest;
@@ -257,6 +258,10 @@ public class ReelController {
     public ResponseEntity<ApiResponse<Void>> deleteReel(
             @PathVariable Long id,
             @AuthenticationPrincipal UserPrincipal currentUser) {
+
+        if (currentUser == null) {
+            throw new UnauthorizedException("You must be authenticated to delete a reel.");
+        }
 
         boolean isAdmin = currentUser.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
