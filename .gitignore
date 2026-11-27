@@ -1,20 +1,23 @@
 # =============================================================================
-# HOP Project - .gitignore
-# Covers Java, Maven, Spring Boot, React, Node.js, Scratch, IDEs, OS, and Secrets
+# HOP (Humanitarian Operations Platform) - Comprehensive .gitignore
+# Covers Java, Spring Boot, Maven, React, Node.js, Vite, Databases, Secrets, & OS
 # =============================================================================
 
-# --- Temporary & Scratch Workspace ---
-scratch/
-/scratch/
-*.tmp
-*.bak
-*.swp
-*~
-
-# --- Environment & Credentials (NEVER commit secrets, keys, or passwords) ---
+# -----------------------------------------------------------------------------
+# 1. Environment Variables & Secrets (CRITICAL: NEVER COMMIT SECRETS)
+# -----------------------------------------------------------------------------
 .env
 .env.*
+**/.env
+**/.env.*
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
 !.env.example
+!**/.env.example
+
+# Secrets, Keys & Certificates
 *.pem
 *.key
 *.pkcs12
@@ -24,11 +27,51 @@ scratch/
 *.crt
 *.jks
 credentials.json
+**/credentials.json
 secrets.properties
 secrets.yaml
 secrets.yml
+**/secrets.properties
+**/secrets.yaml
+**/secrets.yml
+application-local.properties
+application-local.yml
+application-local.yaml
+application-secret.properties
+application-secret.yml
+application-secret.yaml
 
-# --- Compiled Java & Build Artifacts ---
+# -----------------------------------------------------------------------------
+# 2. Uploaded Media, Documents & Local Storage (User data)
+# -----------------------------------------------------------------------------
+uploads/
+**/uploads/
+backend/uploads/
+uploads/**
+backend/uploads/**
+uploads/documents/
+uploads/reels/
+
+# Database Local Storage & Dumps
+database/pg_data/
+**/pg_data/
+pg_data/
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.sql.bak
+
+# Scratch Workspace & Temporary Verification Scripts
+scratch/
+/scratch/
+**/scratch/
+
+# -----------------------------------------------------------------------------
+# 3. Java & Maven Build Artifacts (Backend)
+# -----------------------------------------------------------------------------
+target/
+**/target/
 *.class
 *.war
 *.nar
@@ -37,9 +80,7 @@ secrets.yml
 *.tar.gz
 *.rar
 
-# --- Maven ---
-target/
-/backend/target/
+# Maven specific
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -51,69 +92,73 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 .locks/
 *.lock
+!package-lock.json
 
-# --- Gradle (if used) ---
+# Gradle (if used)
 .gradle/
-build/
+**/build/
 !src/**/build/
 
-# --- Database Data Directories & Local Storage ---
-database/pg_data/
-*.db
-*.sqlite
-*.sqlite3
-*.dump
-*.sql.bak
-
-# --- Spring Boot & Application Outputs ---
-*.log
-logs/
-application-local.properties
-application-local.yml
-application-local.yaml
-application-secret.properties
-application-secret.yml
-application-secret.yaml
-
-# --- Uploaded User Documents, Avatars & Media ---
-uploads/
-/backend/uploads/
-backend/uploads/**
-
-# --- Node.js & React Dependencies & Build Output ---
+# -----------------------------------------------------------------------------
+# 4. Node.js & React Build Artifacts (Frontend)
+# -----------------------------------------------------------------------------
 node_modules/
-/frontend/node_modules/
+**/node_modules/
 dist/
-/frontend/dist/
+**/dist/
 .vite/
-/frontend/.vite/
+**/.vite/
 .npm/
+.pnpm-store/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+
+# Node debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-.pnpm-store/
-.eslintcache
-.stylelintcache
 
-# --- Test Coverage & Verification ---
+# Test coverage outputs
 coverage/
+**/coverage/
 *.lcov
 .nyc_output/
 
-# --- IntelliJ IDEA ---
+# -----------------------------------------------------------------------------
+# 5. Application & System Logs
+# -----------------------------------------------------------------------------
+*.log
+**/*.log
+logs/
+**/logs/
+
+# Temporary & Swap files
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# -----------------------------------------------------------------------------
+# 6. IDEs & Editors
+# -----------------------------------------------------------------------------
+# IntelliJ IDEA
 .idea/
+**/.idea/
 *.iml
 *.iws
 *.ipr
 out/
 
-# --- Visual Studio Code ---
+# Visual Studio Code
 .vscode/
+**/.vscode/
 *.code-workspace
 
-# --- Eclipse ---
+# Eclipse / Spring Tool Suite (STS)
 .apt_generated
 .apt_generated_tests
 .classpath
@@ -121,26 +166,29 @@ out/
 .project
 .settings/
 .springBeans
+.sts4-cache
 
-# --- Uploads & Media ---
-uploads/reels/
-backend/uploads/reels/
-
+# NetBeans
 nbproject/private/
 nbbuild/
 nbdist/
 .nb-gradle/
 
-# --- Operating System Files ---
+# -----------------------------------------------------------------------------
+# 7. Operating System Metadata
+# -----------------------------------------------------------------------------
+# macOS
 .DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
-Thumbs.db
-Desktop.ini
+
+# Windows
 [Dd]esktop.ini
+Desktop.ini
+Thumbs.db
+thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
 $RECYCLE.BIN/
-
-

@@ -485,57 +485,102 @@ export const ReelsPage: React.FC = () => {
         </button>
       </div>
 
-      {/* Category Filter Chips Bar */}
-      <div style={{
-        width: '100%',
-        maxWidth: '920px',
+      {/* Main Content: Left Vertical Categories + Center Reel Card + Right Arrows */}
+      <div className="reels-main-layout" style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '0.5rem',
-        overflowX: 'auto',
-        padding: '0.25rem 0.5rem 0.75rem',
-        marginBottom: '0.75rem',
-        scrollbarWidth: 'none',
+        justifyContent: 'center',
+        gap: '2rem',
+        width: '100%',
+        maxWidth: '1100px',
+        marginTop: '0.25rem',
       }}>
-        {CATEGORIES.map((cat) => {
-          const isActive = selectedCategory === cat.value;
-          return (
-            <button
-              key={cat.value}
-              onClick={() => setSelectedCategory(cat.value)}
-              style={{
-                backgroundColor: isActive ? '#f43f5e' : '#ffffff',
-                color: isActive ? '#ffffff' : '#475569',
-                border: isActive ? '1px solid #f43f5e' : '1px solid #e2e8f0',
-                borderRadius: '9999px',
-                padding: '0.35rem 0.9rem',
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
-                transition: 'all 0.15s ease',
-                boxShadow: isActive ? '0 2px 8px rgba(244, 63, 94, 0.35)' : '0 1px 3px rgba(0, 0, 0, 0.04)',
-              }}
-            >
-              {cat.label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Main Reels Content Area */}
-      {reels.length === 0 ? (
-        <div style={{
-          maxWidth: '480px',
-          width: '100%',
-          backgroundColor: '#ffffff',
-          borderRadius: '20px',
-          padding: '3rem 2rem',
-          textAlign: 'center',
-          border: '1px solid #e2e8f0',
-          marginTop: '2rem',
-          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.06)',
+        {/* Left Side: Vertical Categories Panel */}
+        <div className="reels-category-sidebar" style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.5rem',
+          width: '175px',
+          flexShrink: 0,
         }}>
+          <div style={{
+            fontSize: '0.72rem',
+            fontWeight: 800,
+            textTransform: 'uppercase',
+            letterSpacing: '0.07em',
+            color: '#94a3b8',
+            padding: '0.2rem 0.5rem 0.35rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+          }}>
+            <span>Categories</span>
+          </div>
+
+          {CATEGORIES.map((cat) => {
+            const isActive = selectedCategory === cat.value;
+            return (
+              <button
+                key={cat.value}
+                onClick={() => setSelectedCategory(cat.value)}
+                style={{
+                  backgroundColor: isActive ? '#f43f5e' : '#ffffff',
+                  color: isActive ? '#ffffff' : '#475569',
+                  border: isActive ? '1px solid #f43f5e' : '1px solid #e2e8f0',
+                  borderRadius: '12px',
+                  padding: '0.65rem 0.95rem',
+                  fontSize: '0.82rem',
+                  fontWeight: isActive ? 700 : 600,
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'all 0.15s ease',
+                  boxShadow: isActive ? '0 4px 12px rgba(244, 63, 94, 0.3)' : '0 1px 3px rgba(0, 0, 0, 0.03)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.backgroundColor = '#f1f5f9';
+                    e.currentTarget.style.borderColor = '#cbd5e1';
+                    e.currentTarget.style.color = '#0f172a';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.backgroundColor = '#ffffff';
+                    e.currentTarget.style.borderColor = '#e2e8f0';
+                    e.currentTarget.style.color = '#475569';
+                  }
+                }}
+              >
+                <span>{cat.label}</span>
+                {isActive && (
+                  <span style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    backgroundColor: '#ffffff',
+                    flexShrink: 0,
+                  }} />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Center: Reel Card OR Empty State */}
+        {reels.length === 0 ? (
+          <div style={{
+            maxWidth: '480px',
+            width: '100%',
+            backgroundColor: '#ffffff',
+            borderRadius: '20px',
+            padding: '3rem 2rem',
+            textAlign: 'center',
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.06)',
+          }}>
           <div style={{
             width: '64px',
             height: '64px',
@@ -596,13 +641,7 @@ export const ReelsPage: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '1.5rem',
-          width: '100%',
-        }}>
+        <>
           {/* Vertical Reel Card (9:16 Mobile Aspect Ratio) */}
           <div style={{
             position: 'relative',
@@ -1112,8 +1151,9 @@ export const ReelsPage: React.FC = () => {
               {loadingMore ? <Loader2 size={22} color="#f43f5e" className="animate-spin" /> : <ChevronDown size={24} />}
             </button>
           </div>
-        </div>
+        </>
       )}
+    </div>
 
       {/* Slide-Up Comments Drawer */}
       {isCommentsOpen && (
