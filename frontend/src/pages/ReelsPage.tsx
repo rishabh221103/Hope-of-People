@@ -426,13 +426,13 @@ export const ReelsPage: React.FC = () => {
       position: 'relative',
       userSelect: 'none',
     }}>
-      {/* Top Header Row with Clear Upload Button */}
+      {/* Top Header Row (Brand & Slogan - Upload Button moved to Right Actions Panel) */}
       <div style={{
         width: '100%',
-        maxWidth: '920px',
+        maxWidth: '1240px',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         marginBottom: '1rem',
         padding: '0.25rem 0.5rem',
       }}>
@@ -458,56 +458,31 @@ export const ReelsPage: React.FC = () => {
             </p>
           </div>
         </div>
-
-        {/* ALWAYS-VISIBLE PROMINENT UPLOAD REEL BUTTON */}
-        <button
-          onClick={handleUploadClick}
-          style={{
-            background: 'linear-gradient(135deg, #e11d48 0%, #f43f5e 100%)',
-            color: '#ffffff',
-            border: 'none',
-            borderRadius: '12px',
-            padding: '0.65rem 1.25rem',
-            fontSize: '0.875rem',
-            fontWeight: 700,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            boxShadow: '0 4px 14px rgba(244, 63, 94, 0.45)',
-            transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
-          onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
-        >
-          <Plus size={18} strokeWidth={2.5} />
-          <span>Upload Reel</span>
-        </button>
       </div>
 
-      {/* Main Content: Left Vertical Categories + Center Reel Card + Right Arrows */}
+      {/* Main Content: Left Vertical Categories + Center 9:16 Reel Card + Right Actions */}
       <div className="reels-main-layout" style={{
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
-        gap: '2rem',
+        justifyContent: 'space-between',
+        gap: '2.5rem',
         width: '100%',
-        maxWidth: '1100px',
+        maxWidth: '1240px',
         marginTop: '0.25rem',
       }}>
         {/* Left Side: Vertical Categories Panel */}
         <div className="reels-category-sidebar" style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '0.5rem',
-          width: '175px',
+          gap: '0.55rem',
+          width: '210px',
           flexShrink: 0,
         }}>
           <div style={{
-            fontSize: '0.72rem',
+            fontSize: '0.74rem',
             fontWeight: 800,
             textTransform: 'uppercase',
-            letterSpacing: '0.07em',
+            letterSpacing: '0.08em',
             color: '#94a3b8',
             padding: '0.2rem 0.5rem 0.35rem',
             display: 'flex',
@@ -641,14 +616,13 @@ export const ReelsPage: React.FC = () => {
           </div>
         </div>
       ) : (
-        <>
-          {/* Vertical Reel Card (9:16 Mobile Aspect Ratio) */}
-          <div style={{
+        /* Vertical Reel Card (Enlarged 9:16 Fixed Aspect Ratio) */
+        <div style={{
             position: 'relative',
             aspectRatio: '9 / 16',
-            height: '75vh',
-            maxHeight: '690px',
-            minHeight: '480px',
+            height: 'min(82vh, 820px)',
+            maxHeight: '820px',
+            minHeight: '520px',
             maxWidth: '100%',
             width: 'auto',
             backgroundColor: '#000000',
@@ -659,6 +633,7 @@ export const ReelsPage: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            flexShrink: 0,
           }}>
             {/* Active Video Player */}
             <video
@@ -1099,60 +1074,105 @@ export const ReelsPage: React.FC = () => {
               )}
             </div>
           </div>
+        )}
+
+        {/* Right Side: Upload Reel Action + Navigation Controls */}
+        <div className="reels-right-actions" style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '1.5rem',
+          width: '210px',
+          flexShrink: 0,
+        }}>
+          {/* Prominent Upload Reel Button (Moved from Top to Right Side) */}
+          <button
+            onClick={handleUploadClick}
+            style={{
+              background: 'linear-gradient(135deg, #e11d48 0%, #f43f5e 100%)',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '14px',
+              padding: '0.8rem 1.35rem',
+              fontSize: '0.92rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.55rem',
+              boxShadow: '0 8px 20px rgba(244, 63, 94, 0.4)',
+              transition: 'all 0.15s ease',
+              width: '100%',
+              maxWidth: '190px',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 10px 24px rgba(244, 63, 94, 0.5)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 8px 20px rgba(244, 63, 94, 0.4)';
+            }}
+          >
+            <Plus size={20} strokeWidth={2.5} />
+            <span>Upload Reel</span>
+          </button>
 
           {/* Desktop Navigation Arrows (Up / Down) */}
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '0.75rem',
-          }}>
-            <button
-              onClick={goToPrev}
-              disabled={currentIndex === 0}
-              style={{
-                backgroundColor: currentIndex === 0 ? '#f1f5f9' : '#ffffff',
-                color: currentIndex === 0 ? '#94a3b8' : '#0f172a',
-                border: '1px solid #e2e8f0',
-                width: '46px',
-                height: '46px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
-                boxShadow: currentIndex === 0 ? 'none' : '0 4px 12px rgba(15, 23, 42, 0.08)',
-                transition: 'all 0.15s ease',
-              }}
-              title="Previous Reel (Up Arrow)"
-            >
-              <ChevronUp size={24} />
-            </button>
+          {reels.length > 0 && (
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.75rem',
+            }}>
+              <button
+                onClick={goToPrev}
+                disabled={currentIndex === 0}
+                style={{
+                  backgroundColor: currentIndex === 0 ? '#f1f5f9' : '#ffffff',
+                  color: currentIndex === 0 ? '#94a3b8' : '#0f172a',
+                  border: '1px solid #e2e8f0',
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
+                  boxShadow: currentIndex === 0 ? 'none' : '0 4px 12px rgba(15, 23, 42, 0.08)',
+                  transition: 'all 0.15s ease',
+                }}
+                title="Previous Reel (Up Arrow)"
+              >
+                <ChevronUp size={26} />
+              </button>
 
-            <button
-              onClick={goToNext}
-              disabled={currentIndex === reels.length - 1 && !hasMore}
-              style={{
-                backgroundColor: currentIndex === reels.length - 1 && !hasMore ? '#f1f5f9' : '#ffffff',
-                color: currentIndex === reels.length - 1 && !hasMore ? '#94a3b8' : '#0f172a',
-                border: '1px solid #e2e8f0',
-                width: '46px',
-                height: '46px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: currentIndex === reels.length - 1 && !hasMore ? 'not-allowed' : 'pointer',
-                boxShadow: currentIndex === reels.length - 1 && !hasMore ? 'none' : '0 4px 12px rgba(15, 23, 42, 0.08)',
-                transition: 'all 0.15s ease',
-              }}
-              title="Next Reel (Down Arrow)"
-            >
-              {loadingMore ? <Loader2 size={22} color="#f43f5e" className="animate-spin" /> : <ChevronDown size={24} />}
-            </button>
-          </div>
-        </>
-      )}
+              <button
+                onClick={goToNext}
+                disabled={currentIndex === reels.length - 1 && !hasMore}
+                style={{
+                  backgroundColor: currentIndex === reels.length - 1 && !hasMore ? '#f1f5f9' : '#ffffff',
+                  color: currentIndex === reels.length - 1 && !hasMore ? '#94a3b8' : '#0f172a',
+                  border: '1px solid #e2e8f0',
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: currentIndex === reels.length - 1 && !hasMore ? 'not-allowed' : 'pointer',
+                  boxShadow: currentIndex === reels.length - 1 && !hasMore ? 'none' : '0 4px 12px rgba(15, 23, 42, 0.08)',
+                  transition: 'all 0.15s ease',
+                }}
+                title="Next Reel (Down Arrow)"
+              >
+                {loadingMore ? <Loader2 size={24} color="#f43f5e" className="animate-spin" /> : <ChevronDown size={26} />}
+              </button>
+            </div>
+          )}
+        </div>
     </div>
 
       {/* Slide-Up Comments Drawer */}
